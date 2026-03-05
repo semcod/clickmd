@@ -1,8 +1,4 @@
 flowchart TD
-    clickmd["clickmd<br/>4 funcs"]
-    devtools["devtools<br/>7 funcs"]
-    devtools_ClickmdHandler["devtools.ClickmdHandler<br/>3 funcs"]
-    devtools_PrettyExceptionFormatter["devtools.PrettyExceptionFormatter<br/>5 funcs"]
     examples_api_response["examples.api_response<br/>1 funcs"]
     examples_colored_logging["examples.colored_logging<br/>1 funcs"]
     examples_config_viewer["examples.config_viewer<br/>6 funcs"]
@@ -13,56 +9,16 @@ flowchart TD
     examples_phase4_themes["examples.phase4_themes<br/>7 funcs"]
     examples_phase5_devtools["examples.phase5_devtools<br/>7 funcs"]
     examples_simple_cli["examples.simple_cli<br/>5 funcs"]
-    help["help<br/>9 funcs"]
-    logger_Logger["logger.Logger<br/>23 funcs"]
-    progress["progress<br/>7 funcs"]
-    progress_LiveUpdate["progress.LiveUpdate<br/>5 funcs"]
-    progress_ProgressBar["progress.ProgressBar<br/>7 funcs"]
-    progress_Spinner["progress.Spinner<br/>6 funcs"]
-    progress_StatusIndicator["progress.StatusIndicator<br/>5 funcs"]
-    renderer["renderer<br/>8 funcs"]
-    renderer_MarkdownRenderer["renderer.MarkdownRenderer<br/>35 funcs"]
-    rich_backend["rich_backend<br/>10 funcs"]
-    rich_backend__FallbackConsole["rich_backend._FallbackConsole<br/>3 funcs"]
-    devtools ==>|32| rich_backend__FallbackConsole
-    examples_phase1_features ==>|29| clickmd
-    examples_phase5_devtools ==>|18| clickmd
-    examples_custom_renderer ==>|16| rich_backend__FallbackConsole
-    examples_phase3_progress ==>|16| clickmd
-    examples_phase4_themes ==>|14| clickmd
-    rich_backend ==>|11| rich_backend__FallbackConsole
-    examples_config_viewer ==>|10| clickmd
-    examples_logger_usage ==>|9| clickmd
-    help ==>|8| rich_backend__FallbackConsole
-    progress_StatusIndicator ==>|6| progress
-    renderer_MarkdownRenderer ==>|5| renderer
-    progress_ProgressBar ==>|4| progress
-    progress_Spinner ==>|4| progress
-    progress_StatusIndicator ==>|4| rich_backend__FallbackConsole
-    help ==>|4| renderer
-    devtools ==>|4| renderer
-    progress -->|3| rich_backend__FallbackConsole
-    progress_Spinner -->|3| rich_backend__FallbackConsole
-    progress_LiveUpdate -->|3| progress
-    clickmd -->|2| renderer
-    clickmd -->|2| rich_backend__FallbackConsole
-    progress_LiveUpdate -->|2| rich_backend__FallbackConsole
-    renderer_MarkdownRenderer -->|2| logger_Logger
-    examples_simple_cli -->|2| clickmd
-    progress_ProgressBar -->|1| renderer
-    progress_ProgressBar -->|1| rich_backend__FallbackConsole
-    progress_Spinner -->|1| renderer
-    progress_LiveUpdate -->|1| renderer
-    progress_StatusIndicator -->|1| renderer
-    progress -->|1| renderer
-    renderer_MarkdownRenderer -->|1| rich_backend__FallbackConsole
-    logger_Logger -->|1| renderer
-    logger_Logger -->|1| rich_backend__FallbackConsole
-    examples_api_response -->|1| clickmd
-    examples_colored_logging -->|1| clickmd
-    examples_custom_renderer -->|1| renderer
-    examples_phase4_themes -->|1| rich_backend__FallbackConsole
-    devtools_PrettyExceptionFormatter -->|1| renderer
-    devtools_ClickmdHandler -->|1| renderer
-    devtools_ClickmdHandler -->|1| rich_backend__FallbackConsole
-    examples_phase5_devtools -->|1| rich_backend__FallbackConsole
+    scripts_bump_version["scripts.bump_version<br/>1 funcs"]
+    src_clickmd["src.clickmd<br/>158 funcs"]
+    examples_phase1_features ==>|29| src_clickmd
+    examples_phase5_devtools ==>|19| src_clickmd
+    examples_custom_renderer ==>|17| src_clickmd
+    examples_phase3_progress ==>|16| src_clickmd
+    examples_phase4_themes ==>|15| src_clickmd
+    examples_config_viewer ==>|10| src_clickmd
+    examples_logger_usage ==>|9| src_clickmd
+    scripts_bump_version ==>|6| src_clickmd
+    examples_simple_cli -->|2| src_clickmd
+    examples_colored_logging -->|1| src_clickmd
+    examples_api_response -->|1| src_clickmd

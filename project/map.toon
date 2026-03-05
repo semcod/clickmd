@@ -1,9 +1,6 @@
-# clickmd | 26f 6944L | python:26
+# clickmd | 27f 7021L | python:27
 # Keys: M=modules, D=details, i=imports, c=classes, f=functions, m=methods
-M[26]:
-  __init__.py,445
-  decorators.py,286
-  devtools.py,574
+M[27]:
   examples/api_response.py,130
   examples/basic.py,93
   examples/cli_app.py,146
@@ -20,15 +17,19 @@ M[26]:
   examples/phase5_devtools.py,225
   examples/quickstart.py,77
   examples/simple_cli.py,126
-  help.py,522
-  logger.py,302
-  progress.py,511
-  renderer.py,900
-  rich_backend.py,306
-  themes.py,482
+  scripts/bump_version.py,77
+  src/clickmd/__init__.py,445
+  src/clickmd/decorators.py,286
+  src/clickmd/devtools.py,574
+  src/clickmd/help.py,522
+  src/clickmd/logger.py,302
+  src/clickmd/progress.py,511
+  src/clickmd/renderer.py,900
+  src/clickmd/rich_backend.py,306
+  src/clickmd/themes.py,482
   tools/md_to_html.py,248
 D:
-  renderer.py:
+  src/clickmd/renderer.py:
     e: MarkdownRenderer,strip_ansi,get_renderer,render_markdown,table,panel,blockquote,hr,checklist
     MarkdownRenderer: __init__(2),_c(4),_get_terminal_width(0),_writeln(1),heading(2),codeblock(2),render_markdown_with_fences(2),_highlight_line(2),_highlight_log(1),_highlight_markdown(1),_highlight_yaml(1),_highlight_json(1),_highlight_bash(1),_highlight_js(1),_highlight_python(1),_highlight_html(1),_highlight_css(1),_highlight_sql(1),_highlight_toml(1),_highlight_go(1),_highlight_rust(1),_highlight_java(1),_highlight_c(1),_highlight_ruby(1),_highlight_php(1),_highlight_dockerfile(1),_highlight_diff(1),table(5),_get_table_chars(1),panel(5),blockquote(1),horizontal_rule(2),checklist(1),list_item(3),numbered_list(2)
     strip_ansi(text)
@@ -39,7 +40,7 @@ D:
     blockquote(content)
     hr(char;width)
     checklist(items)
-  devtools.py:
+  src/clickmd/devtools.py:
     e: PrettyExceptionFormatter,ClickmdHandler,install_excepthook,uninstall_excepthook,debug,_format_debug_value,inspect_obj,diff,tree
     PrettyExceptionFormatter: __init__(4),format_exception(3),_format_frame(2),_shorten_path(1),_highlight_python(1)  # Format exceptions with syntax highlighting and context.
 
@@ -61,13 +62,13 @@ Usa...
     markdown_to_html(markdown_text;title)
     convert_directory(md_dir)
     main()
-  __init__.py:
+  src/clickmd/__init__.py:
     e: menu,select,echo,md
     menu(title;items;default;prompt_text;exit_option)
     select(prompt_text;items;default)
     echo(message;file;nl;err;color)
     md(text)
-  rich_backend.py:
+  src/clickmd/rich_backend.py:
     e: _FallbackConsole,is_rich_available,get_console,render_md,render_panel,render_syntax,render_table,print_md,print_panel,print_syntax,print_table
     _FallbackConsole: __init__(1),print(0),rule(1)  # Simple console wrapper when Rich is not available...
     is_rich_available()
@@ -80,7 +81,7 @@ Usa...
     print_panel(content)
     print_syntax(code;language)
     print_table(headers;rows)
-  progress.py:
+  src/clickmd/progress.py:
     e: ProgressBar,Spinner,LiveUpdate,StatusIndicator,_is_tty,_clear_line,_write_inline,progress,spinner,live,countdown
     ProgressBar: __init__(9),update(1),set(1),_render(0),finish(1),__enter__(0),__exit__(0)  # A customizable progress bar.
 
@@ -104,7 +105,16 @@ Exampl...
     spinner(message;style)
     live(initial)
     countdown(seconds;message;on_complete)
-  themes.py:
+  scripts/bump_version.py:
+    e: bump_version
+    bump_version(version_type)
+  examples/markdown_help.py:
+    e: cli,process,config,version
+    cli()
+    process(input;output;format;verbose;dry_run)
+    config(action;key;value)
+    version()
+  src/clickmd/themes.py:
     e: Theme,_rgb_to_ansi,_color_256,_ansi_color,_check_no_color,_detect_color_support,get_theme,set_theme,register_theme,list_themes,is_no_color,get_color_support,color,init_theme_from_env
     Theme: get_color(1)  # Color theme definition...
     _rgb_to_ansi(r;g;b)
@@ -120,12 +130,6 @@ Exampl...
     get_color_support()
     color(name;text;bold;dim;use_theme)
     init_theme_from_env()
-  examples/markdown_help.py:
-    e: cli,process,config,version
-    cli()
-    process(input;output;format;verbose;dry_run)
-    config(action;key;value)
-    version()
   examples/simple_cli.py:
     e: greet,cli,hello,info,status
     greet(name;loud)
@@ -133,7 +137,26 @@ Exampl...
     hello(name)
     info()
     status(format)
-  logger.py:
+  examples/phase3_progress.py:
+    e: demo_progress_bar,demo_spinners,demo_status_indicator,demo_live_update,demo_countdown,demo_combined
+    demo_progress_bar()
+    demo_spinners()
+    demo_status_indicator()
+    demo_live_update()
+    demo_countdown()
+    demo_combined()
+  src/clickmd/help.py:
+    e: _is_tty,_render_markdown_help,_strip_markdown_to_plain,_format_option_help,success,warning,error,info,echo_md
+    _is_tty()
+    _render_markdown_help(text;use_colors)
+    _strip_markdown_to_plain(text)
+    _format_option_help(help_text;use_colors)
+    success(message)
+    warning(message)
+    error(message)
+    info(message)
+    echo_md(text;err)
+  src/clickmd/logger.py:
     e: Logger,get_logger,set_logger,log_info,log_success,log_warning,log_error,log_action
     Logger: __init__(4),_emit(1),_render_log_block(1),flush(0),debug(1),info(1),warning(1),error(1),success(1),action(2),start(1),done(1),fail(1),progress(3),step(3),exception(2),key_value(2),llm(2),attempt(3),section(1),heading(2),md(1),raw(1)  # Markdown-aware logger that wraps output in codeblocks.
 
@@ -145,28 +168,6 @@ All ...
     log_warning(message)
     log_error(message)
     log_action(action;message)
-  help.py:
-    e: _is_tty,_render_markdown_help,_strip_markdown_to_plain,_format_option_help,success,warning,error,info,echo_md
-    _is_tty()
-    _render_markdown_help(text;use_colors)
-    _strip_markdown_to_plain(text)
-    _format_option_help(help_text;use_colors)
-    success(message)
-    warning(message)
-    error(message)
-    info(message)
-    echo_md(text;err)
-  examples/phase3_progress.py:
-    e: demo_progress_bar,demo_spinners,demo_status_indicator,demo_live_update,demo_countdown,demo_combined
-    demo_progress_bar()
-    demo_spinners()
-    demo_status_indicator()
-    demo_live_update()
-    demo_countdown()
-    demo_combined()
-  examples/api_response.py:
-    e: handle_api_error
-    handle_api_error(response)
   examples/logger_usage.py:
     e: basic_usage,action_logging,progress_and_steps,exception_handling,grouped_output,llm_logging,mixed_output,real_world_example
     basic_usage()
@@ -177,6 +178,9 @@ All ...
     llm_logging()
     mixed_output()
     real_world_example()
+  examples/api_response.py:
+    e: handle_api_error
+    handle_api_error(response)
   examples/config_viewer.py:
     e: show_yaml_config,show_json_config,show_toml_config,show_env_config,show_config_diff,show_config_tree
     show_yaml_config()
@@ -225,8 +229,8 @@ All ...
     demo_checklists()
     demo_nested_lists()
     demo_combined()
-  decorators.py:
   examples/one_liners.py:
-  examples/quickstart.py:
   examples/basic.py:
+  examples/quickstart.py:
   examples/cli_colors.py:
+  src/clickmd/decorators.py:

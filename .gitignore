@@ -40,6 +40,8 @@ venv/
 env/
 ENV/
 .venv/
+publish-env/
+publish-test-env/
 
 # IDE
 .vscode/

@@ -9,7 +9,6 @@ description = "Markdown rendering for CLI applications with syntax highlighting"
 readme = "README.md"
 license = "Apache-2.0"
 authors = [
-    { name = "Reclapp Team", email = "contact@reclapp.io" },
     { name = "Tom Sapletta", email = "tom@sapletta.com" },
 ]
 keywords = ["cli", "markdown", "terminal", "ansi", "colors", "syntax-highlighting"]
@@ -49,7 +48,10 @@ Repository = "https://github.com/wronai/clickmd"
 Issues = "https://github.com/wronai/clickmd/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["."]
+packages = ["src/clickmd"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/clickmd"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -75,7 +77,7 @@ line-length = 100
 target-version = ["py310", "py311", "py312"]
 
 [tool.coverage.run]
-source = ["."]
+source = ["src/clickmd"]
 omit = ["tests/*", "*/__pycache__/*"]
 
 [tool.coverage.report]

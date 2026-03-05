@@ -1,7 +1,7 @@
-# clickmd/flow | 220 func | 12 pipelines | 3 hub-types | 2026-03-05
+# clickmd/flow | 221 func | 12 pipelines | 3 hub-types | 2026-03-05
 
-PIPELINES[12] (Export:7, IO:3, Unknown:2):
-  Clickmd [Export]: str → MarkdownRenderer
+PIPELINES[12] (Export:12):
+  Src [Export]: str → MarkdownRenderer
               → select(prompt_text:str, items:list, default:int) → int CC=1    pure ▶
               → menu(title:str, items:list, default:int, prompt_text:str, exit_option:Optional[str]) → int CC=15   IO  !!
               → md(text:str) → None                     CC=1    pure
@@ -9,7 +9,7 @@ PIPELINES[12] (Export:7, IO:3, Unknown:2):
               → get_renderer(stream, use_colors:bool) → MarkdownRenderer CC=2    pure ■
               PURITY: 4/5 pure  BOTTLENECK: menu(CC=15)
 
-  Renderer [Export]: str → str
+  Src [Export]: str → str
               → render_markdown_with_fences(markdown_text:str, text_lang:str) → None CC=8    IO ▶
               → codeblock(lang:str, content:str) → None CC=5    pure
               → _highlight_line(lang:str, line:str) → str CC=21   pure  !!
@@ -17,71 +17,71 @@ PIPELINES[12] (Export:7, IO:3, Unknown:2):
               → _c(color:str, text:str, bold:bool, dim:bool) → str CC=4    pure ■
               PURITY: 4/5 pure  BOTTLENECK: _highlight_line(CC=21)
 
-  Progress [Export]: int → None
-              → update(advance:int) → None              CC=1    mutation ▶
-              → _render() → None                        CC=10   mutation
-              → _write_inline(text:str) → None          CC=2    IO
-              → print(*args:Any, **kwargs:Any) → None   CC=2    IO ■
-              PURITY: 0/4 pure  BOTTLENECK: _render(CC=10)
-
-  Progress [Export]: int → None
-              → set(value:int) → None                   CC=1    mutation ▶
-              → _render() → None                        CC=10   mutation
-              → _write_inline(text:str) → None          CC=2    IO
-              → print(*args:Any, **kwargs:Any) → None   CC=2    IO ■
-              PURITY: 0/4 pure  BOTTLENECK: _render(CC=10)
-
-  Progress [Unknown]: Any → bool
-              → __exit__(*args:Any) → None              CC=1    pure ▶
-              → finish(message:str) → None              CC=5    IO
-              → _clear_line() → None                    CC=2    IO
-              → _is_tty() → bool                        CC=2    pure ■
-              PURITY: 2/4 pure  BOTTLENECK: finish(CC=5)
-
-  Progress [Unknown]: Any → bool
-              → __exit__(exc_type:Any, exc_val:Any, exc_tb:Any) → None CC=1    pure ▶
-              → stop(success:bool) → None               CC=5    IO
-              → _clear_line() → None                    CC=2    IO
-              → _is_tty() → bool                        CC=2    pure ■
-              PURITY: 2/4 pure  BOTTLENECK: stop(CC=5)
-
-  Logger [IO]: str → None
-              → start(message:str) → None               CC=1    pure ▶
-              → action(action:str, message:str) → None  CC=1    pure
-              → _emit(message:str) → None               CC=4    mutation
-              → _render_log_block(lines:list[str]) → None CC=2    pure ■
-              PURITY: 3/4 pure  BOTTLENECK: _emit(CC=4)
-
-  Logger [IO]: str → None
-              → done(message:str) → None                CC=1    pure ▶
-              → action(action:str, message:str) → None  CC=1    pure
-              → _emit(message:str) → None               CC=4    mutation
-              → _render_log_block(lines:list[str]) → None CC=2    pure ■
-              PURITY: 3/4 pure  BOTTLENECK: _emit(CC=4)
-
-  Logger [IO]: str → None
-              → fail(message:str) → None                CC=1    pure ▶
-              → action(action:str, message:str) → None  CC=1    pure
-              → _emit(message:str) → None               CC=4    mutation
-              → _render_log_block(lines:list[str]) → None CC=2    pure ■
-              PURITY: 3/4 pure  BOTTLENECK: _emit(CC=4)
-
-  Renderer [Export]: response → MarkdownRenderer
-              → handle_api_error(response)              CC=3    IO ▶
-              → md(text:str) → None                     CC=1    pure
-              → render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None CC=1    pure
-              → get_renderer(stream, use_colors:bool) → MarkdownRenderer CC=2    pure ■
-              PURITY: 3/4 pure  BOTTLENECK: handle_api_error(CC=3)
-
-  Renderer [Export]: ? → MarkdownRenderer
+  Src [Export]: ? → MarkdownRenderer
               → basic_usage()                           CC=1    pure ▶
               → md(text:str) → None                     CC=1    pure
               → render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None CC=1    pure
               → get_renderer(stream, use_colors:bool) → MarkdownRenderer CC=2    pure ■
               PURITY: 4/4 pure  BOTTLENECK: get_renderer(CC=2)
 
-  Renderer [Export]: ? → MarkdownRenderer
+  Src [Export]: ? → MarkdownRenderer
               → action_logging()                        CC=1    pure ▶
+              → md(text:str) → None                     CC=1    pure
+              → render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None CC=1    pure
+              → get_renderer(stream, use_colors:bool) → MarkdownRenderer CC=2    pure ■
+              PURITY: 4/4 pure  BOTTLENECK: get_renderer(CC=2)
+
+  Src [Export]: ? → MarkdownRenderer
+              → progress_and_steps()                    CC=1    pure ▶
+              → md(text:str) → None                     CC=1    pure
+              → render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None CC=1    pure
+              → get_renderer(stream, use_colors:bool) → MarkdownRenderer CC=2    pure ■
+              PURITY: 4/4 pure  BOTTLENECK: get_renderer(CC=2)
+
+  Src [Export]: ? → MarkdownRenderer
+              → exception_handling()                    CC=3    pure ▶
+              → md(text:str) → None                     CC=1    pure
+              → render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None CC=1    pure
+              → get_renderer(stream, use_colors:bool) → MarkdownRenderer CC=2    pure ■
+              PURITY: 4/4 pure  BOTTLENECK: exception_handling(CC=3)
+
+  Src [Export]: ? → MarkdownRenderer
+              → grouped_output()                        CC=1    pure ▶
+              → md(text:str) → None                     CC=1    pure
+              → render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None CC=1    pure
+              → get_renderer(stream, use_colors:bool) → MarkdownRenderer CC=2    pure ■
+              PURITY: 4/4 pure  BOTTLENECK: get_renderer(CC=2)
+
+  Src [Export]: ? → MarkdownRenderer
+              → llm_logging()                           CC=1    pure ▶
+              → md(text:str) → None                     CC=1    pure
+              → render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None CC=1    pure
+              → get_renderer(stream, use_colors:bool) → MarkdownRenderer CC=2    pure ■
+              PURITY: 4/4 pure  BOTTLENECK: get_renderer(CC=2)
+
+  Src [Export]: ? → MarkdownRenderer
+              → mixed_output()                          CC=1    pure ▶
+              → md(text:str) → None                     CC=1    pure
+              → render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None CC=1    pure
+              → get_renderer(stream, use_colors:bool) → MarkdownRenderer CC=2    pure ■
+              PURITY: 4/4 pure  BOTTLENECK: get_renderer(CC=2)
+
+  Src [Export]: ? → MarkdownRenderer
+              → real_world_example()                    CC=1    pure ▶
+              → md(text:str) → None                     CC=1    pure
+              → render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None CC=1    pure
+              → get_renderer(stream, use_colors:bool) → MarkdownRenderer CC=2    pure ■
+              PURITY: 4/4 pure  BOTTLENECK: get_renderer(CC=2)
+
+  Src [Export]: ? → MarkdownRenderer
+              → main()                                  CC=1    pure ▶
+              → md(text:str) → None                     CC=1    pure
+              → render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None CC=1    pure
+              → get_renderer(stream, use_colors:bool) → MarkdownRenderer CC=2    pure ■
+              PURITY: 4/4 pure  BOTTLENECK: get_renderer(CC=2)
+
+  Src [Export]: ? → MarkdownRenderer
+              → show_yaml_config()                      CC=1    pure ▶
               → md(text:str) → None                     CC=1    pure
               → render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None CC=1    pure
               → get_renderer(stream, use_colors:bool) → MarkdownRenderer CC=2    pure ■
@@ -94,19 +94,19 @@ TRANSFORMS (fan-out ≥10):
   main()                                                  fan=18   !! script-in-disguise
   _format_debug_value(obj:Any, renderer:MarkdownRenderer, depth:int, max_depth:int, max_items:int) → str fan=16   fan=16
   render_table(headers:list[str], rows:list[list[str]], title:Optional[str], stream:Optional[TextIO]) → None fan=14   fan=14
+  bump_version(version_type)                              fan=13   fan=13
   menu(title:str, items:list, default:int, prompt_text:str, exit_option:Optional[str]) → int fan=13   fan=13
   table(headers:list[str], rows:list[list[str]], style:Literal[ascii, unicode, minimal, none], align:Optional[list[Literal[left, center, right]]], markdown_safe:bool) → None fan=13   PIPELINE:MarkdownRenderer.entry
-  render_markdown_with_fences(markdown_text:str, text_lang:str) → None fan=12   PIPELINE:MarkdownRenderer.entry
   demo_combined()                                         fan=12   fan=12
-  countdown(seconds:int, message:str, on_complete:Optional[Callable[[], None]]) → None fan=11   fan=11
+  render_markdown_with_fences(markdown_text:str, text_lang:str) → None fan=12   PIPELINE:MarkdownRenderer.entry
   real_world_example()                                    fan=11   fan=11
+  countdown(seconds:int, message:str, on_complete:Optional[Callable[[], None]]) → None fan=11   fan=11
   inspect_obj(obj:Any, markdown_safe:bool) → None         fan=11   fan=11
   tree(data:Dict[str, Any], prefix:str, is_last:bool, name:str, _is_root:bool) → None fan=11   fan=11
   render_panel(content:str, title:Optional[str], style:str, stream:Optional[TextIO]) → None fan=10   fan=10
-  demo_logging()                                          fan=10   fan=10
 
 CONTRACTS:
-  Pipeline: Clickmd
+  Pipeline: Src
     select(prompt_text:str, items:list, default:int) → int
       IN:  prompt_text:str, items:list, default:int
       OUT: int
@@ -129,7 +129,7 @@ CONTRACTS:
       IN:  stream, use_colors:bool
       OUT: MarkdownRenderer
 
-  Pipeline: Renderer
+  Pipeline: Src
     render_markdown_with_fences(markdown_text:str, text_lang:str) → None
       IN:  markdown_text:str, text_lang:str
       OUT: None
@@ -152,159 +152,7 @@ CONTRACTS:
       IN:  color:str, text:str, bold:bool, dim:bool
       OUT: str
 
-  Pipeline: Progress
-    update(advance:int) → None
-      IN:  advance:int
-      OUT: None
-      SIDE-EFFECT: mutates self.current
-
-    _render() → None
-      IN:  ()
-      OUT: None
-      SIDE-EFFECT: pure
-
-    _write_inline(text:str) → None
-      IN:  text:str
-      OUT: None
-      SIDE-EFFECT: IO(write, sys.stdout.flush, print)
-
-    print(*args:Any, **kwargs:Any) → None
-      IN:  *args:Any, **kwargs:Any
-      OUT: None
-      SIDE-EFFECT: IO(print)
-
-  Pipeline: Progress
-    set(value:int) → None
-      IN:  value:int
-      OUT: None
-      SIDE-EFFECT: mutates self.current
-
-    _render() → None
-      IN:  ()
-      OUT: None
-      SIDE-EFFECT: pure
-
-    _write_inline(text:str) → None
-      IN:  text:str
-      OUT: None
-      SIDE-EFFECT: IO(write, sys.stdout.flush, print)
-
-    print(*args:Any, **kwargs:Any) → None
-      IN:  *args:Any, **kwargs:Any
-      OUT: None
-      SIDE-EFFECT: IO(print)
-
-  Pipeline: Progress
-    __exit__(*args:Any) → None
-      IN:  *args:Any
-      OUT: None
-
-    finish(message:str) → None
-      IN:  message:str
-      OUT: None
-      SIDE-EFFECT: IO(print); mutates self._finished
-
-    _clear_line() → None
-      IN:  ()
-      OUT: None
-      SIDE-EFFECT: IO(write, sys.stdout.flush)
-
-    _is_tty() → bool
-      IN:  ()
-      OUT: bool
-
-  Pipeline: Progress
-    __exit__(exc_type:Any, exc_val:Any, exc_tb:Any) → None
-      IN:  exc_type:Any, exc_val:Any, exc_tb:Any
-      OUT: None
-
-    stop(success:bool) → None
-      IN:  success:bool
-      OUT: None
-      SIDE-EFFECT: IO(print, print); mutates self._running, self._success
-
-    _clear_line() → None
-      IN:  ()
-      OUT: None
-      SIDE-EFFECT: IO(write, sys.stdout.flush)
-
-    _is_tty() → bool
-      IN:  ()
-      OUT: bool
-
-  Pipeline: Logger
-    start(message:str) → None
-      IN:  message:str
-      OUT: None
-
-    action(action:str, message:str) → None
-      IN:  action:str, message:str
-      OUT: None
-
-    _emit(message:str) → None
-      IN:  message:str
-      OUT: None
-      SIDE-EFFECT: pure
-
-    _render_log_block(lines:list[str]) → None
-      IN:  lines:list[str]
-      OUT: None
-
-  Pipeline: Logger
-    done(message:str) → None
-      IN:  message:str
-      OUT: None
-
-    action(action:str, message:str) → None
-      IN:  action:str, message:str
-      OUT: None
-
-    _emit(message:str) → None
-      IN:  message:str
-      OUT: None
-      SIDE-EFFECT: pure
-
-    _render_log_block(lines:list[str]) → None
-      IN:  lines:list[str]
-      OUT: None
-
-  Pipeline: Logger
-    fail(message:str) → None
-      IN:  message:str
-      OUT: None
-
-    action(action:str, message:str) → None
-      IN:  action:str, message:str
-      OUT: None
-
-    _emit(message:str) → None
-      IN:  message:str
-      OUT: None
-      SIDE-EFFECT: pure
-
-    _render_log_block(lines:list[str]) → None
-      IN:  lines:list[str]
-      OUT: None
-
-  Pipeline: Renderer
-    handle_api_error(response)
-      IN:  response
-      OUT: None
-      SIDE-EFFECT: IO(response.get, response.get, dumps)
-
-    md(text:str) → None
-      IN:  text:str
-      OUT: None
-
-    render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None
-      IN:  text:str, text_lang:str, stream, use_colors:bool
-      OUT: None
-
-    get_renderer(stream, use_colors:bool) → MarkdownRenderer
-      IN:  stream, use_colors:bool
-      OUT: MarkdownRenderer
-
-  Pipeline: Renderer
+  Pipeline: Src
     basic_usage()
       IN:  ()
       OUT: None
@@ -321,7 +169,7 @@ CONTRACTS:
       IN:  stream, use_colors:bool
       OUT: MarkdownRenderer
 
-  Pipeline: Renderer
+  Pipeline: Src
     action_logging()
       IN:  ()
       OUT: None
@@ -338,28 +186,164 @@ CONTRACTS:
       IN:  stream, use_colors:bool
       OUT: MarkdownRenderer
 
+  Pipeline: Src
+    progress_and_steps()
+      IN:  ()
+      OUT: None
 
-DATA_TYPES (by cross-function usage) [168 annotated, 0 inferred / 220 functions]:
+    md(text:str) → None
+      IN:  text:str
+      OUT: None
+
+    render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None
+      IN:  text:str, text_lang:str, stream, use_colors:bool
+      OUT: None
+
+    get_renderer(stream, use_colors:bool) → MarkdownRenderer
+      IN:  stream, use_colors:bool
+      OUT: MarkdownRenderer
+
+  Pipeline: Src
+    exception_handling()
+      IN:  ()
+      OUT: None
+
+    md(text:str) → None
+      IN:  text:str
+      OUT: None
+
+    render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None
+      IN:  text:str, text_lang:str, stream, use_colors:bool
+      OUT: None
+
+    get_renderer(stream, use_colors:bool) → MarkdownRenderer
+      IN:  stream, use_colors:bool
+      OUT: MarkdownRenderer
+
+  Pipeline: Src
+    grouped_output()
+      IN:  ()
+      OUT: None
+
+    md(text:str) → None
+      IN:  text:str
+      OUT: None
+
+    render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None
+      IN:  text:str, text_lang:str, stream, use_colors:bool
+      OUT: None
+
+    get_renderer(stream, use_colors:bool) → MarkdownRenderer
+      IN:  stream, use_colors:bool
+      OUT: MarkdownRenderer
+
+  Pipeline: Src
+    llm_logging()
+      IN:  ()
+      OUT: None
+
+    md(text:str) → None
+      IN:  text:str
+      OUT: None
+
+    render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None
+      IN:  text:str, text_lang:str, stream, use_colors:bool
+      OUT: None
+
+    get_renderer(stream, use_colors:bool) → MarkdownRenderer
+      IN:  stream, use_colors:bool
+      OUT: MarkdownRenderer
+
+  Pipeline: Src
+    mixed_output()
+      IN:  ()
+      OUT: None
+
+    md(text:str) → None
+      IN:  text:str
+      OUT: None
+
+    render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None
+      IN:  text:str, text_lang:str, stream, use_colors:bool
+      OUT: None
+
+    get_renderer(stream, use_colors:bool) → MarkdownRenderer
+      IN:  stream, use_colors:bool
+      OUT: MarkdownRenderer
+
+  Pipeline: Src
+    real_world_example()
+      IN:  ()
+      OUT: None
+
+    md(text:str) → None
+      IN:  text:str
+      OUT: None
+
+    render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None
+      IN:  text:str, text_lang:str, stream, use_colors:bool
+      OUT: None
+
+    get_renderer(stream, use_colors:bool) → MarkdownRenderer
+      IN:  stream, use_colors:bool
+      OUT: MarkdownRenderer
+
+  Pipeline: Src
+    main()
+      IN:  ()
+      OUT: None
+
+    md(text:str) → None
+      IN:  text:str
+      OUT: None
+
+    render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None
+      IN:  text:str, text_lang:str, stream, use_colors:bool
+      OUT: None
+
+    get_renderer(stream, use_colors:bool) → MarkdownRenderer
+      IN:  stream, use_colors:bool
+      OUT: MarkdownRenderer
+
+  Pipeline: Src
+    show_yaml_config()
+      IN:  ()
+      OUT: None
+
+    md(text:str) → None
+      IN:  text:str
+      OUT: None
+
+    render_markdown(text:str, text_lang:str, stream, use_colors:bool) → None
+      IN:  text:str, text_lang:str, stream, use_colors:bool
+      OUT: None
+
+    get_renderer(stream, use_colors:bool) → MarkdownRenderer
+      IN:  stream, use_colors:bool
+      OUT: MarkdownRenderer
+
+
+DATA_TYPES (by cross-function usage) [168 annotated, 0 inferred / 221 functions]:
   str                  consumed:142 produced:39   !! HUB-TYPE → split interface
   bool                 consumed:44  produced:5    !! HUB-TYPE → split interface
   int                  consumed:33  produced:4    !! HUB-TYPE → split interface
   TextIO               consumed:9   produced:0    input-heavy (read-only flow)
   list[str]            consumed:6   produced:1    input-heavy (read-only flow)
   list[list[str]]      consumed:4   produced:0    narrow scope
-  Union[str, List[str]] consumed:2   produced:0    narrow scope
-  list                 consumed:2   produced:0    narrow scope
-  list[tuple[bool, str]] consumed:2   produced:0    narrow scope
-  MarkdownRenderer     consumed:1   produced:1    narrow scope
-  Logger               consumed:1   produced:1    narrow scope
-  Literal[none, basic, 256, truecolor] consumed:0   produced:2    narrow scope
-  logging.LogRecord    consumed:2   produced:0    narrow scope
   Theme                consumed:1   produced:1    narrow scope
-  Path                 consumed:1   produced:0    narrow scope
-  ProgressBar          consumed:0   produced:1    narrow scope
+  logging.LogRecord    consumed:2   produced:0    narrow scope
+  list[tuple[bool, str]] consumed:2   produced:0    narrow scope
+  list                 consumed:2   produced:0    narrow scope
+  Literal[none, basic, 256, truecolor] consumed:0   produced:2    narrow scope
+  Union[str, List[str]] consumed:2   produced:0    narrow scope
+  Logger               consumed:1   produced:1    narrow scope
+  MarkdownRenderer     consumed:1   produced:1    narrow scope
+  list[Literal[left, center, right]] consumed:1   produced:0    narrow scope
+  Literal[ascii, unicode, minimal, none] consumed:1   produced:0    narrow scope
+  BaseException        consumed:1   produced:0    narrow scope
+  LiveUpdate           consumed:0   produced:1    narrow scope
+  Generator[Spinner, None, None] consumed:0   produced:1    narrow scope
   Exception            consumed:1   produced:0    narrow scope
-  Literal[default, info, warning, error, success] consumed:1   produced:0    narrow scope
-  traceback.FrameSummary consumed:1   produced:0    narrow scope
-  Callable[[], None]   consumed:1   produced:0    narrow scope
 
   HUB TYPES (consumed ≥10):
     str → 142 consumers → split into:
@@ -370,20 +354,20 @@ DATA_TYPES (by cross-function usage) [168 annotated, 0 inferred / 220 functions]
       - (analyze consumers to suggest sub-interfaces)
 
 SIDE_EFFECTS:
-  IO:        menu, echo, _FallbackConsole.print, _FallbackConsole.rule, render_md, render_panel, render_syntax, render_table, _clear_line, _write_inline
-  Mutation:  get_console, _FallbackConsole.__init__, ProgressBar.__init__, ProgressBar.update, ProgressBar.set, ProgressBar._render, progress, Spinner.__init__, Spinner._animate, LiveUpdate.__init__
-  Pure:      select, md, is_rich_available, print_md, print_panel, print_syntax, print_table, _is_tty, ProgressBar.__enter__, ProgressBar.__exit__
+  IO:        handle_api_error, main, status, demo_theme_colors, bump_version, convert_directory, menu, echo, _FallbackConsole.print, _FallbackConsole.rule
+  Mutation:  demo_progress_bar, demo_live_update, demo_combined, markdown_to_html, get_console, _FallbackConsole.__init__, ProgressBar.__init__, ProgressBar.update, ProgressBar.set, ProgressBar._render
+  Pure:      basic_usage, action_logging, progress_and_steps, exception_handling, grouped_output, llm_logging, mixed_output, real_world_example, main, show_yaml_config
 
   PIPELINE PURITY:
-    Clickmd         ███░ 80% pure
-    Renderer        ███░ 80% pure
-    Progress        ░░░░ 0% pure
-    Progress        ░░░░ 0% pure
-    Progress        ██░░ 50% pure
-    Progress        ██░░ 50% pure
-    Logger          ███░ 75% pure
-    Logger          ███░ 75% pure
-    Logger          ███░ 75% pure
-    Renderer        ███░ 75% pure
-    Renderer        ████ 100% pure
-    Renderer        ████ 100% pure
+    Src             ███░ 80% pure
+    Src             ███░ 80% pure
+    Src             ████ 100% pure
+    Src             ████ 100% pure
+    Src             ████ 100% pure
+    Src             ████ 100% pure
+    Src             ████ 100% pure
+    Src             ████ 100% pure
+    Src             ████ 100% pure
+    Src             ████ 100% pure
+    Src             ████ 100% pure
+    Src             ████ 100% pure

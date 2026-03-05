@@ -60,12 +60,12 @@
 </p>
 
 <div class="grid">
-  <div class="card"><div class="value">3.4</div><div class="label">Avg CC</div></div>
+  <div class="card"><div class="value">3.5</div><div class="label">Avg CC</div></div>
   <div class="card"><div class="value">13</div><div class="label">Critical (CC≥10)</div></div>
-  <div class="card"><div class="value">163</div><div class="label">Functions</div></div>
+  <div class="card"><div class="value">164</div><div class="label">Functions</div></div>
   <div class="card"><div class="value">10</div><div class="label">Classes</div></div>
-  <div class="card"><div class="value">9</div><div class="label">Files</div></div>
-  <div class="card"><div class="value">5292</div><div class="label">Lines</div></div>
+  <div class="card"><div class="value">10</div><div class="label">Files</div></div>
+  <div class="card"><div class="value">5369</div><div class="label">Lines</div></div>
   <div class="card"><div class="value">0</div><div class="label">Duplicates</div></div>
   <div class="card"><div class="value">3</div><div class="label">Cycles</div></div>
 </div>
@@ -74,9 +74,9 @@
   <div class="chart-container">
     <h2 style="border:none;margin:0 0 .5rem;">Evolution (2026-03-05)</h2>
     <div class="evo-cards">
-      <div class="card"><div class="value">3.4</div><div class="label">CC̄ →</div></div>
+      <div class="card"><div class="value">3.5</div><div class="label">CC̄ →</div></div>
       <div class="card"><div class="value">13</div><div class="label">Critical →</div></div>
-      <div class="card"><div class="value">5292</div><div class="label">Lines</div></div>
+      <div class="card"><div class="value">5369</div><div class="label">Lines</div></div>
     </div>
     <p class="trend" style="margin-top:.5rem;">Run analysis multiple times to build a trend chart (≥3 data points needed).</p>
   </div>
@@ -86,7 +86,7 @@
   </div>
 </div>
 
-<h2>Alerts (17)</h2>
+<h2>Alerts (18)</h2>
 <div class="card"><div class="table-wrap">
 <table>
   <thead><tr><th>Severity</th><th>Target</th><th>Type</th><th>Value</th><th>Limit</th></tr></thead>
@@ -121,14 +121,14 @@
             </tr>
             <tr class="error">
                 <td><span class="badge error">error</span></td>
-                <td>MarkdownRenderer._highlight_line</td>
+                <td>markdown_to_html</td>
                 <td>cc_exceeded</td>
                 <td>21</td>
                 <td>15</td>
             </tr>
             <tr class="error">
                 <td><span class="badge error">error</span></td>
-                <td>markdown_to_html</td>
+                <td>MarkdownRenderer._highlight_line</td>
                 <td>cc_exceeded</td>
                 <td>21</td>
                 <td>15</td>
@@ -163,6 +163,13 @@
             </tr>
             <tr class="warning">
                 <td><span class="badge warning">warning</span></td>
+                <td>bump_version</td>
+                <td>high_fan_out</td>
+                <td>13</td>
+                <td>10</td>
+            </tr>
+            <tr class="warning">
+                <td><span class="badge warning">warning</span></td>
                 <td>menu</td>
                 <td>high_fan_out</td>
                 <td>13</td>
@@ -185,13 +192,6 @@
             <tr class="warning">
                 <td><span class="badge warning">warning</span></td>
                 <td>countdown</td>
-                <td>high_fan_out</td>
-                <td>11</td>
-                <td>10</td>
-            </tr>
-            <tr class="warning">
-                <td><span class="badge warning">warning</span></td>
-                <td>inspect_obj</td>
                 <td>high_fan_out</td>
                 <td>11</td>
                 <td>10</td>
@@ -231,6 +231,11 @@ Args:
     rows: Table row</td>
             </tr>
             <tr>
+                <td><strong>bump_version</strong></td>
+                <td>13</td>
+                <td>Bump version in pyproject.toml</td>
+            </tr>
+            <tr>
                 <td><strong>menu</strong></td>
                 <td>13</td>
                 <td>Display a numbered markdown menu and prompt for selection.
@@ -268,14 +273,6 @@ Args:
 
 Args:
     obj: Obj</td>
-            </tr>
-            <tr>
-                <td><strong>tree</strong></td>
-                <td>11</td>
-                <td>Display data in a tree structure.
-
-Args:
-    data: Dictionary to display as tree</td>
             </tr></tbody>
 </table>
 </div></div>
@@ -295,49 +292,49 @@ Args:
             </tr>
             <tr>
                 <td>2</td>
-                <td>Split god module renderer.py (900L, 1 classes)</td>
+                <td>Split god module src/clickmd/renderer.py (900L, 1 classes)</td>
                 <td><span class="badge high">high</span></td>
                 <td>high</td>
             </tr>
             <tr>
                 <td>3</td>
-                <td>Split god module devtools.py (574L, 2 classes)</td>
+                <td>Split god module src/clickmd/devtools.py (574L, 2 classes)</td>
                 <td><span class="badge high">high</span></td>
                 <td>high</td>
             </tr>
             <tr>
                 <td>4</td>
-                <td>Split god module progress.py (511L, 4 classes)</td>
+                <td>Split god module src/clickmd/progress.py (511L, 4 classes)</td>
                 <td><span class="badge high">high</span></td>
                 <td>high</td>
             </tr>
             <tr>
                 <td>5</td>
-                <td>Split god module help.py (522L, 0 classes)</td>
+                <td>Split god module src/clickmd/help.py (522L, 0 classes)</td>
                 <td><span class="badge high">high</span></td>
                 <td>high</td>
             </tr>
             <tr>
                 <td>6</td>
-                <td>Split menu (CC=15 → target CC<10)</td>
+                <td>Split markdown_to_html (CC=21 → target CC<10)</td>
                 <td><span class="badge medium">medium</span></td>
                 <td>low</td>
             </tr>
             <tr>
                 <td>7</td>
-                <td>Split MarkdownRenderer._highlight_line (CC=21 → target CC<10)</td>
+                <td>Split menu (CC=15 → target CC<10)</td>
                 <td><span class="badge medium">medium</span></td>
                 <td>low</td>
             </tr>
             <tr>
                 <td>8</td>
-                <td>Split MarkdownRenderer._highlight_log (CC=20 → target CC<10)</td>
+                <td>Split MarkdownRenderer._highlight_line (CC=21 → target CC<10)</td>
                 <td><span class="badge medium">medium</span></td>
                 <td>low</td>
             </tr>
             <tr>
                 <td>9</td>
-                <td>Split markdown_to_html (CC=21 → target CC<10)</td>
+                <td>Split MarkdownRenderer._highlight_log (CC=20 → target CC<10)</td>
                 <td><span class="badge medium">medium</span></td>
                 <td>low</td>
             </tr>
@@ -352,7 +349,7 @@ Args:
 </div>
 </div>
 
-<footer>Generated by code2llm on 2026-03-05 21:07</footer>
+<footer>Generated by code2llm on 2026-03-05 21:30</footer>
 
 <script>
 // Evolution chart disabled — fewer than 3 data points
@@ -361,9 +358,9 @@ const modCtx = document.getElementById('modChart').getContext('2d');
 new Chart(modCtx, {
   type: 'bar',
   data: {
-    labels: ['renderer.py', 'devtools.py', 'md_to_html.py', '__init__.py', 'rich_backend.py', 'progress.py', 'themes.py', 'help.py', 'logger.py', 'decorators.py'],
-    datasets: [{ label: 'Max CC', data: [28, 24, 21, 15, 14, 10, 8, 4, 4, 0],
-      backgroundColor: [28, 24, 21, 15, 14, 10, 8, 4, 4, 0].map(v => v >= 15 ? '#ef4444' : v >= 10 ? '#eab308' : '#22c55e')
+    labels: ['renderer.py', 'devtools.py', 'md_to_html.py', '__init__.py', 'rich_backend.py', 'progress.py', 'bump_version.py', 'themes.py', 'help.py', 'logger.py', 'decorators.py'],
+    datasets: [{ label: 'Max CC', data: [28, 24, 21, 15, 14, 10, 9, 8, 4, 4, 0],
+      backgroundColor: [28, 24, 21, 15, 14, 10, 9, 8, 4, 4, 0].map(v => v >= 15 ? '#ef4444' : v >= 10 ? '#eab308' : '#22c55e')
     }]
   },
   options: {

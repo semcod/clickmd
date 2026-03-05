@@ -59,6 +59,12 @@ def bump_version(version_type):
     )
     
     pyproject_path.write_text(new_content)
+    
+    # Also update VERSION file if it exists
+    version_file = Path("VERSION")
+    if version_file.exists():
+        version_file.write_text(f"{new_version}\n")
+    
     print(f"✓ Bumped version from {current_version} to {new_version}")
     return 0
 

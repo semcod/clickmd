@@ -1,31 +1,4 @@
 flowchart TD
-    subgraph clickmd
-        clickmd__menu{{menu CC=15}}
-        clickmd__select["select"]
-        clickmd__echo("echo CC=12")
-        clickmd__md["md"]
-    end
-    subgraph devtools
-        devtools__install_excepthook["install_excepthook"]
-        devtools__uninstall_excepthook["uninstall_excepthook"]
-        devtools__debug["debug"]
-        devtools___format_debug_value{{_format_debug_value CC=24}}
-        devtools__inspect_obj("inspect_obj CC=11")
-        devtools__diff("diff CC=11")
-        devtools__tree("tree CC=13")
-    end
-    subgraph devtools_ClickmdHandler
-        devtools__ClickmdHandler____init__["__init__"]
-        devtools__ClickmdHandler__emit["emit"]
-        devtools__ClickmdHandler__format_record["format_record"]
-    end
-    subgraph devtools_PrettyExceptionFormatter
-        devtools__PrettyExceptionFormatter____init__["__init__"]
-        devtools__format_exception["format_exception"]
-        devtools__PrettyExceptionFormatter___format_frame["_format_frame"]
-        devtools__PrettyExceptionFormatter___shorten_path["_shorten_path"]
-        devtools___highlight_python["_highlight_python"]
-    end
     subgraph examples_api_response
         examples__api_response__handle_api_error["handle_api_error"]
     end
@@ -107,172 +80,70 @@ flowchart TD
         examples__simple_cli__info["info"]
         examples__simple_cli__status["status"]
     end
-    subgraph help
-        help___is_tty["_is_tty"]
-        help___render_markdown_help["_render_markdown_help"]
-        help___strip_markdown_to_plain["_strip_markdown_to_plain"]
-        help___format_option_help["_format_option_help"]
-        help__success["success"]
-        help__warning["warning"]
-        help__error["error"]
-        help__info["info"]
-        help__echo_md["echo_md"]
+    subgraph scripts_bump_version
+        scripts__bump_version__bump_version("bump_version CC=9")
     end
-    subgraph logger
-        logger__get_logger["get_logger"]
-        logger__set_logger["set_logger"]
-        logger__log_info["log_info"]
-        logger__log_success["log_success"]
-        logger__log_warning["log_warning"]
-        logger__log_error["log_error"]
-        logger__log_action["log_action"]
-    end
-    subgraph logger_Logger
-        logger__Logger____init__["__init__"]
-        logger__Logger___emit["_emit"]
-        logger__Logger___render_log_block["_render_log_block"]
-        logger__Logger__flush["flush"]
-        logger__Logger__debug["debug"]
-        logger__Logger__info["info"]
-        logger__Logger__warning["warning"]
-        logger__Logger__error["error"]
-        logger__Logger__success["success"]
-        logger__Logger__action["action"]
-        logger__Logger__start["start"]
-        logger__Logger__done["done"]
-        logger__Logger__fail["fail"]
-        logger__Logger__progress["progress"]
-        logger__Logger__step["step"]
-        logger__Logger__exception["exception"]
-        logger__Logger__key_value["key_value"]
-        logger__Logger__llm["llm"]
-        logger__Logger__attempt["attempt"]
-        logger__Logger__section["section"]
-        logger__Logger__heading["heading"]
-        logger__Logger__md["md"]
-        logger__Logger__raw["raw"]
-    end
-    subgraph progress
-        progress___is_tty["_is_tty"]
-        progress___clear_line["_clear_line"]
-        progress___write_inline["_write_inline"]
-        progress__progress["progress"]
-        progress__spinner["spinner"]
-        progress__live["live"]
-        progress__countdown["countdown"]
-    end
-    subgraph progress_LiveUpdate
-        progress__LiveUpdate____init__["__init__"]
-        progress__LiveUpdate__update["update"]
-        progress__LiveUpdate__clear["clear"]
-        progress__LiveUpdate____enter__["__enter__"]
-        progress__LiveUpdate____exit__["__exit__"]
-    end
-    subgraph progress_ProgressBar
-        progress__ProgressBar____init__["__init__"]
-        progress__ProgressBar__update["update"]
-        progress__ProgressBar__set["set"]
-        progress__ProgressBar___render("_render CC=10")
-        progress__ProgressBar__finish["finish"]
-        progress__ProgressBar____enter__["__enter__"]
-        progress__ProgressBar____exit__["__exit__"]
-    end
-    subgraph progress_Spinner
-        progress__Spinner____init__["__init__"]
-        progress__Spinner__start["start"]
-        progress__Spinner___animate["_animate"]
-        progress__Spinner__stop["stop"]
-        progress__Spinner____enter__["__enter__"]
-        progress__Spinner____exit__["__exit__"]
-    end
-    subgraph progress_StatusIndicator
-        progress__StatusIndicator____init__["__init__"]
-        progress__StatusIndicator__start["start"]
-        progress__StatusIndicator__done["done"]
-        progress__StatusIndicator__fail["fail"]
-        progress__StatusIndicator__skip["skip"]
-    end
-    subgraph renderer
-        renderer__strip_ansi["strip_ansi"]
-        renderer__get_renderer["get_renderer"]
-        renderer__render_markdown["render_markdown"]
-        renderer__table["table"]
-        renderer__panel["panel"]
-        renderer__blockquote["blockquote"]
-        renderer__hr["hr"]
-        renderer__checklist["checklist"]
-    end
-    subgraph renderer_MarkdownRenderer
-        renderer__MarkdownRenderer____init__["__init__"]
-        renderer__MarkdownRenderer___c["_c"]
-        renderer__MarkdownRenderer___get_terminal_width["_get_terminal_width"]
-        renderer__MarkdownRenderer___writeln["_writeln"]
-        renderer__MarkdownRenderer__heading["heading"]
-        renderer__MarkdownRenderer__codeblock["codeblock"]
-        renderer__render_markdown_with_fences("render_markdown_with_fences CC=8")
-        renderer__MarkdownRenderer___highlight_line{{_highlight_line CC=21}}
-        renderer__MarkdownRenderer___highlight_log{{_highlight_log CC=20}}
-        renderer__MarkdownRenderer___highlight_markdown["_highlight_markdown"]
-        renderer__MarkdownRenderer___highlight_yaml("_highlight_yaml CC=11")
-        renderer__MarkdownRenderer___highlight_json["_highlight_json"]
-        renderer__MarkdownRenderer___highlight_bash["_highlight_bash"]
-        renderer__MarkdownRenderer___highlight_js["_highlight_js"]
-        renderer__MarkdownRenderer___highlight_python["_highlight_python"]
-        renderer__MarkdownRenderer___highlight_html["_highlight_html"]
-        renderer__MarkdownRenderer___highlight_css["_highlight_css"]
-        renderer__MarkdownRenderer___highlight_sql["_highlight_sql"]
-        renderer__MarkdownRenderer___highlight_toml["_highlight_toml"]
-        renderer__MarkdownRenderer___highlight_go["_highlight_go"]
-        renderer__MarkdownRenderer___highlight_rust["_highlight_rust"]
-        renderer__MarkdownRenderer___highlight_java["_highlight_java"]
-        renderer__MarkdownRenderer___highlight_c["_highlight_c"]
-        renderer__MarkdownRenderer___highlight_ruby["_highlight_ruby"]
-        renderer__MarkdownRenderer___highlight_php["_highlight_php"]
-        renderer__MarkdownRenderer___highlight_dockerfile["_highlight_dockerfile"]
-        renderer__MarkdownRenderer___highlight_diff["_highlight_diff"]
-        renderer__MarkdownRenderer__table{{table CC=28}}
-        renderer__MarkdownRenderer___get_table_chars["_get_table_chars"]
-        renderer__MarkdownRenderer__panel("panel CC=8")
-        renderer__MarkdownRenderer__blockquote["blockquote"]
-        renderer__MarkdownRenderer__horizontal_rule["horizontal_rule"]
-        renderer__MarkdownRenderer__checklist["checklist"]
-        renderer__MarkdownRenderer__list_item["list_item"]
-        renderer__MarkdownRenderer__numbered_list["numbered_list"]
-    end
-    subgraph rich_backend
-        rich_backend__is_rich_available["is_rich_available"]
-        rich_backend__get_console("get_console CC=8")
-        rich_backend__render_md["render_md"]
-        rich_backend__render_panel["render_panel"]
-        rich_backend__render_syntax["render_syntax"]
-        rich_backend__render_table("render_table CC=14")
-        rich_backend__print_md["print_md"]
-        rich_backend__print_panel["print_panel"]
-        rich_backend__print_syntax["print_syntax"]
-        rich_backend__print_table["print_table"]
-    end
-    subgraph rich_backend__FallbackConsole
-        rich_backend___FallbackConsole____init__["__init__"]
-        rich_backend___FallbackConsole__print["print"]
-        rich_backend___FallbackConsole__rule["rule"]
-    end
-    subgraph themes
-        themes___rgb_to_ansi["_rgb_to_ansi"]
-        themes___color_256["_color_256"]
-        themes___ansi_color["_ansi_color"]
-        themes___check_no_color["_check_no_color"]
-        themes___detect_color_support("_detect_color_support CC=8")
-        themes__get_theme["get_theme"]
-        themes__set_theme["set_theme"]
-        themes__register_theme["register_theme"]
-        themes__list_themes["list_themes"]
-        themes__is_no_color["is_no_color"]
-        themes__get_color_support["get_color_support"]
-        themes__color["color"]
-        themes__init_theme_from_env["init_theme_from_env"]
-    end
-    subgraph themes_Theme
-        themes__Theme__get_color["get_color"]
+    subgraph src_clickmd
+        src__clickmd__menu{{menu CC=15}}
+        src__clickmd__select["select"]
+        src__clickmd__echo("echo CC=12")
+        src__clickmd__md["md"]
+        src__clickmd__rich_backend__is_rich_available["is_rich_available"]
+        src__clickmd__rich_backend__get_console("get_console CC=8")
+        src____init__["__init__"]
+        src__print["print"]
+        src__clickmd__rich_backend___FallbackConsole__rule["rule"]
+        src__clickmd__rich_backend__render_md["render_md"]
+        src__clickmd__rich_backend__render_panel["render_panel"]
+        src__clickmd__rich_backend__render_syntax["render_syntax"]
+        src__clickmd__rich_backend__render_table("render_table CC=14")
+        src__clickmd__rich_backend__print_md["print_md"]
+        src__clickmd__rich_backend__print_panel["print_panel"]
+        src__clickmd__rich_backend__print_syntax["print_syntax"]
+        src__clickmd__rich_backend__print_table["print_table"]
+        src__clickmd__progress___is_tty["_is_tty"]
+        src__clickmd__progress___clear_line["_clear_line"]
+        src__clickmd__progress___write_inline["_write_inline"]
+        src__clickmd__progress__ProgressBar____init__["__init__"]
+        src__clickmd__progress__ProgressBar__update["update"]
+        src__clickmd__progress__ProgressBar__set["set"]
+        src__clickmd__progress__ProgressBar___render("_render CC=10")
+        src__clickmd__progress__ProgressBar__finish["finish"]
+        src__clickmd__progress__ProgressBar____enter__["__enter__"]
+        src__clickmd__progress__ProgressBar____exit__["__exit__"]
+        src__clickmd__progress__progress["progress"]
+        src__clickmd__progress__Spinner____init__["__init__"]
+        src__clickmd__progress__Spinner__start["start"]
+        src__clickmd__progress__Spinner___animate["_animate"]
+        src__clickmd__progress__Spinner__stop["stop"]
+        src__clickmd__progress__Spinner____enter__["__enter__"]
+        src__clickmd__progress__Spinner____exit__["__exit__"]
+        src__clickmd__progress__spinner["spinner"]
+        src__clickmd__progress__LiveUpdate____init__["__init__"]
+        src__clickmd__progress__LiveUpdate__update["update"]
+        src__clickmd__progress__LiveUpdate__clear["clear"]
+        src__clickmd__progress__LiveUpdate____enter__["__enter__"]
+        src__clickmd__progress__LiveUpdate____exit__["__exit__"]
+        src__clickmd__progress__live["live"]
+        src__clickmd__progress__StatusIndicator____init__["__init__"]
+        src__clickmd__progress__StatusIndicator__start["start"]
+        src__clickmd__progress__StatusIndicator__done["done"]
+        src__clickmd__progress__StatusIndicator__fail["fail"]
+        src__clickmd__progress__StatusIndicator__skip["skip"]
+        src__clickmd__progress__countdown["countdown"]
+        src__clickmd__renderer__strip_ansi["strip_ansi"]
+        src__clickmd__renderer__MarkdownRenderer____init__["__init__"]
+        src__clickmd__renderer__MarkdownRenderer___c["_c"]
+        src___get_terminal_width["_get_terminal_width"]
+        src__clickmd__renderer__MarkdownRenderer___writeln["_writeln"]
+        src__clickmd__renderer__MarkdownRenderer__heading["heading"]
+        src__codeblock["codeblock"]
+        src__render_markdown_with_fences("render_markdown_with_fences CC=8")
+        src___highlight_line{{_highlight_line CC=21}}
+        src___highlight_log{{_highlight_log CC=20}}
+        src___highlight_markdown["_highlight_markdown"]
+        src___highlight_yaml("_highlight_yaml CC=11")
+        src___highlight_json["_highlight_json"]
     end
     subgraph tools_md_to_html
         tools__md_to_html___inline_md_to_html["_inline_md_to_html"]
@@ -281,160 +152,161 @@ flowchart TD
         tools__md_to_html__convert_directory["convert_directory"]
         tools__md_to_html__main["main"]
     end
-    clickmd__menu --> clickmd__md
-    clickmd__select --> clickmd__menu
-    clickmd__echo --> renderer__get_renderer
-    clickmd__echo --> rich_backend___FallbackConsole__print
-    clickmd__md --> renderer__render_markdown
-    rich_backend___FallbackConsole__rule --> rich_backend___FallbackConsole__print
-    rich_backend__render_md --> rich_backend__get_console
-    rich_backend__render_panel --> rich_backend__get_console
-    rich_backend__render_panel --> rich_backend___FallbackConsole__print
-    rich_backend__render_syntax --> rich_backend__get_console
-    rich_backend__render_table --> rich_backend__get_console
-    rich_backend__render_table --> rich_backend___FallbackConsole__print
-    rich_backend__print_md --> rich_backend__render_md
-    rich_backend__print_panel --> rich_backend__render_panel
-    rich_backend__print_syntax --> rich_backend__render_syntax
-    rich_backend__print_table --> rich_backend__render_table
-    progress___clear_line --> progress___is_tty
-    progress___write_inline --> progress___is_tty
-    progress___write_inline --> rich_backend___FallbackConsole__print
-    progress__ProgressBar____init__ --> renderer__get_renderer
-    progress__ProgressBar____init__ --> progress___is_tty
-    progress__ProgressBar___render --> progress___write_inline
-    progress__ProgressBar___render --> progress___is_tty
-    progress__ProgressBar__finish --> progress___clear_line
-    progress__ProgressBar__finish --> rich_backend___FallbackConsole__print
-    progress__Spinner____init__ --> renderer__get_renderer
-    progress__Spinner____init__ --> progress___is_tty
-    progress__Spinner__start --> progress___is_tty
-    progress__Spinner__start --> rich_backend___FallbackConsole__print
-    progress__Spinner___animate --> progress___write_inline
-    progress__Spinner__stop --> progress___clear_line
-    progress__Spinner__stop --> rich_backend___FallbackConsole__print
-    progress__LiveUpdate____init__ --> renderer__get_renderer
-    progress__LiveUpdate____init__ --> progress___is_tty
-    progress__LiveUpdate__update --> rich_backend___FallbackConsole__print
-    progress__LiveUpdate__update --> progress___is_tty
-    progress__LiveUpdate__clear --> progress___is_tty
-    progress__StatusIndicator____init__ --> renderer__get_renderer
-    progress__StatusIndicator____init__ --> progress___is_tty
-    progress__StatusIndicator__start --> progress___is_tty
-    progress__StatusIndicator__start --> progress___write_inline
-    progress__StatusIndicator__start --> rich_backend___FallbackConsole__print
-    progress__StatusIndicator__done --> progress___clear_line
-    progress__StatusIndicator__done --> rich_backend___FallbackConsole__print
-    progress__StatusIndicator__fail --> progress___clear_line
-    progress__StatusIndicator__fail --> rich_backend___FallbackConsole__print
-    progress__StatusIndicator__skip --> progress___clear_line
-    progress__StatusIndicator__skip --> rich_backend___FallbackConsole__print
-    progress__countdown --> renderer__get_renderer
-    progress__countdown --> progress___clear_line
-    progress__countdown --> rich_backend___FallbackConsole__print
-    progress__countdown --> progress___is_tty
-    progress__countdown --> progress___write_inline
-    renderer__MarkdownRenderer___writeln --> rich_backend___FallbackConsole__print
-    renderer__render_markdown_with_fences --> logger__Logger__flush
-    renderer__render_markdown --> renderer__get_renderer
-    renderer__table --> renderer__get_renderer
-    renderer__panel --> renderer__get_renderer
-    renderer__blockquote --> renderer__get_renderer
-    renderer__hr --> renderer__get_renderer
-    renderer__checklist --> renderer__get_renderer
-    logger__Logger____init__ --> renderer__get_renderer
-    logger__Logger__raw --> rich_backend___FallbackConsole__print
-    logger__log_info --> logger__get_logger
-    logger__log_success --> logger__get_logger
-    logger__log_warning --> logger__get_logger
-    logger__log_error --> logger__get_logger
-    logger__log_action --> logger__get_logger
-    help___render_markdown_help --> help___strip_markdown_to_plain
-    help___render_markdown_help --> help___is_tty
-    help___format_option_help --> help___is_tty
-    help__success --> renderer__get_renderer
-    help__success --> help___is_tty
-    help__success --> rich_backend___FallbackConsole__print
-    help__warning --> renderer__get_renderer
-    help__warning --> help___is_tty
-    help__warning --> rich_backend___FallbackConsole__print
-    help__error --> renderer__get_renderer
-    help__error --> help___is_tty
-    help__error --> rich_backend___FallbackConsole__print
-    help__info --> renderer__get_renderer
-    help__info --> help___is_tty
-    help__info --> rich_backend___FallbackConsole__print
-    examples__api_response__handle_api_error --> clickmd__md
-    examples__logger_usage__basic_usage --> clickmd__md
-    examples__logger_usage__action_logging --> clickmd__md
-    examples__logger_usage__progress_and_steps --> clickmd__md
-    examples__logger_usage__exception_handling --> clickmd__md
-    examples__logger_usage__grouped_output --> clickmd__md
-    examples__logger_usage__llm_logging --> clickmd__md
-    examples__logger_usage__mixed_output --> clickmd__md
-    examples__logger_usage__real_world_example --> clickmd__md
-    examples__colored_logging__main --> clickmd__md
-    themes___detect_color_support --> themes___check_no_color
-    themes__is_no_color --> themes___check_no_color
-    themes__get_color_support --> themes___detect_color_support
-    themes__color --> themes___check_no_color
-    themes__color --> themes__get_theme
-    themes__init_theme_from_env --> themes___check_no_color
-    themes__init_theme_from_env --> themes__set_theme
-    examples__config_viewer__show_yaml_config --> clickmd__md
-    examples__config_viewer__show_json_config --> clickmd__md
-    examples__config_viewer__show_toml_config --> clickmd__md
-    examples__config_viewer__show_env_config --> clickmd__md
-    examples__config_viewer__show_config_diff --> clickmd__md
-    examples__config_viewer__show_config_tree --> clickmd__md
-    examples__custom_renderer__main --> rich_backend___FallbackConsole__print
-    examples__phase3_progress__demo_progress_bar --> clickmd__md
-    examples__phase3_progress__demo_spinners --> clickmd__md
-    examples__phase3_progress__demo_status_indicator --> clickmd__md
-    examples__phase3_progress__demo_live_update --> clickmd__md
-    examples__phase3_progress__demo_countdown --> clickmd__md
-    examples__phase3_progress__demo_combined --> clickmd__md
-    examples__phase1_features__demo_tables --> clickmd__md
-    examples__phase1_features__demo_panels --> clickmd__md
-    examples__phase1_features__demo_blockquotes --> clickmd__md
-    examples__phase1_features__demo_horizontal_rules --> clickmd__md
-    examples__phase1_features__demo_checklists --> clickmd__md
-    examples__phase1_features__demo_nested_lists --> clickmd__md
-    examples__phase1_features__demo_combined --> clickmd__md
-    examples__simple_cli__status --> clickmd__md
-    examples__phase4_themes__demo_available_themes --> clickmd__md
-    examples__phase4_themes__demo_theme_switching --> clickmd__md
-    examples__phase4_themes__demo_theme_colors --> clickmd__md
-    examples__phase4_themes__demo_theme_colors --> rich_backend___FallbackConsole__print
-    examples__phase4_themes__demo_color_support --> clickmd__md
-    examples__phase4_themes__demo_custom_theme --> clickmd__md
-    examples__phase4_themes__demo_no_color --> clickmd__md
-    examples__phase4_themes__demo_styled_output --> clickmd__md
+    examples__logger_usage__basic_usage --> src__clickmd__md
+    examples__logger_usage__action_logging --> src__clickmd__md
+    examples__logger_usage__progress_and_steps --> src__clickmd__md
+    examples__logger_usage__exception_handling --> src__clickmd__md
+    examples__logger_usage__grouped_output --> src__clickmd__md
+    examples__logger_usage__llm_logging --> src__clickmd__md
+    examples__logger_usage__mixed_output --> src__clickmd__md
+    examples__logger_usage__real_world_example --> src__clickmd__md
+    examples__colored_logging__main --> src__clickmd__md
+    examples__config_viewer__show_yaml_config --> src__clickmd__md
+    examples__config_viewer__show_json_config --> src__clickmd__md
+    examples__config_viewer__show_toml_config --> src__clickmd__md
+    examples__config_viewer__show_env_config --> src__clickmd__md
+    examples__config_viewer__show_config_diff --> src__clickmd__md
+    examples__config_viewer__show_config_tree --> src__clickmd__md
+    examples__api_response__handle_api_error --> src__clickmd__md
+    examples__custom_renderer__main --> src__print
+    examples__phase3_progress__demo_progress_bar --> src__clickmd__md
+    examples__phase3_progress__demo_spinners --> src__clickmd__md
+    examples__phase3_progress__demo_status_indicator --> src__clickmd__md
+    examples__phase3_progress__demo_live_update --> src__clickmd__md
+    examples__phase3_progress__demo_countdown --> src__clickmd__md
+    examples__phase3_progress__demo_combined --> src__clickmd__md
+    examples__phase1_features__demo_tables --> src__clickmd__md
+    examples__phase1_features__demo_panels --> src__clickmd__md
+    examples__phase1_features__demo_blockquotes --> src__clickmd__md
+    examples__phase1_features__demo_horizontal_rules --> src__clickmd__md
+    examples__phase1_features__demo_checklists --> src__clickmd__md
+    examples__phase1_features__demo_nested_lists --> src__clickmd__md
+    examples__phase1_features__demo_combined --> src__clickmd__md
+    examples__simple_cli__status --> src__clickmd__md
+    examples__phase4_themes__demo_available_themes --> src__clickmd__md
+    examples__phase4_themes__demo_theme_switching --> src__clickmd__md
+    examples__phase4_themes__demo_theme_colors --> src__clickmd__md
+    examples__phase4_themes__demo_theme_colors --> src__print
+    examples__phase4_themes__demo_color_support --> src__clickmd__md
+    examples__phase4_themes__demo_custom_theme --> src__clickmd__md
+    examples__phase4_themes__demo_no_color --> src__clickmd__md
+    examples__phase4_themes__demo_styled_output --> src__clickmd__md
+    scripts__bump_version__bump_version --> src__print
     tools__md_to_html__convert_directory --> tools__md_to_html__markdown_to_html
     tools__md_to_html__main --> tools__md_to_html__convert_directory
-    devtools__PrettyExceptionFormatter____init__ --> renderer__get_renderer
-    devtools__install_excepthook --> rich_backend___FallbackConsole__print
-    devtools__debug --> renderer__get_renderer
-    devtools__debug --> devtools___format_debug_value
-    devtools__debug --> rich_backend___FallbackConsole__print
-    devtools__inspect_obj --> renderer__get_renderer
-    devtools__inspect_obj --> rich_backend___FallbackConsole__print
-    devtools__ClickmdHandler____init__ --> renderer__get_renderer
-    devtools__ClickmdHandler__emit --> rich_backend___FallbackConsole__print
-    devtools__diff --> renderer__get_renderer
-    devtools__diff --> rich_backend___FallbackConsole__print
-    devtools__tree --> renderer__get_renderer
-    devtools__tree --> rich_backend___FallbackConsole__print
-    examples__phase5_devtools__demo_debug --> clickmd__md
-    examples__phase5_devtools__demo_inspect --> clickmd__md
-    examples__phase5_devtools__demo_tree --> clickmd__md
-    examples__phase5_devtools__demo_diff --> clickmd__md
-    examples__phase5_devtools__demo_logging --> clickmd__md
-    examples__phase5_devtools__demo_pretty_exceptions --> clickmd__md
-    examples__phase5_devtools__demo_pretty_exceptions --> rich_backend___FallbackConsole__print
-    examples__phase5_devtools__demo_combined --> clickmd__md
+    src__clickmd__menu --> src__clickmd__md
+    src__clickmd__select --> src__clickmd__menu
+    src__clickmd__echo --> src__clickmd__renderer__get_renderer
+    src__clickmd__echo --> src__print
+    src__clickmd__md --> src__clickmd__renderer__render_markdown
+    src__clickmd__rich_backend___FallbackConsole__rule --> src__print
+    src__clickmd__rich_backend__render_md --> src__clickmd__rich_backend__get_console
+    src__clickmd__rich_backend__render_panel --> src__clickmd__rich_backend__get_console
+    src__clickmd__rich_backend__render_panel --> src__print
+    src__clickmd__rich_backend__render_syntax --> src__clickmd__rich_backend__get_console
+    src__clickmd__rich_backend__render_table --> src__clickmd__rich_backend__get_console
+    src__clickmd__rich_backend__render_table --> src__print
+    src__clickmd__rich_backend__print_md --> src__clickmd__rich_backend__render_md
+    src__clickmd__rich_backend__print_panel --> src__clickmd__rich_backend__render_panel
+    src__clickmd__rich_backend__print_syntax --> src__clickmd__rich_backend__render_syntax
+    src__clickmd__rich_backend__print_table --> src__clickmd__rich_backend__render_table
+    src__clickmd__progress___clear_line --> src__clickmd__progress___is_tty
+    src__clickmd__progress___write_inline --> src__clickmd__progress___is_tty
+    src__clickmd__progress___write_inline --> src__print
+    src__clickmd__progress__ProgressBar____init__ --> src__clickmd__renderer__get_renderer
+    src__clickmd__progress__ProgressBar____init__ --> src__clickmd__progress___is_tty
+    src__clickmd__progress__ProgressBar___render --> src__clickmd__progress___write_inline
+    src__clickmd__progress__ProgressBar___render --> src__clickmd__progress___is_tty
+    src__clickmd__progress__ProgressBar__finish --> src__clickmd__progress___clear_line
+    src__clickmd__progress__ProgressBar__finish --> src__print
+    src__clickmd__progress__Spinner____init__ --> src__clickmd__renderer__get_renderer
+    src__clickmd__progress__Spinner____init__ --> src__clickmd__progress___is_tty
+    src__clickmd__progress__Spinner__start --> src__clickmd__progress___is_tty
+    src__clickmd__progress__Spinner__start --> src__print
+    src__clickmd__progress__Spinner___animate --> src__clickmd__progress___write_inline
+    src__clickmd__progress__Spinner__stop --> src__clickmd__progress___clear_line
+    src__clickmd__progress__Spinner__stop --> src__print
+    src__clickmd__progress__LiveUpdate____init__ --> src__clickmd__renderer__get_renderer
+    src__clickmd__progress__LiveUpdate____init__ --> src__clickmd__progress___is_tty
+    src__clickmd__progress__LiveUpdate__update --> src__print
+    src__clickmd__progress__LiveUpdate__update --> src__clickmd__progress___is_tty
+    src__clickmd__progress__LiveUpdate__clear --> src__clickmd__progress___is_tty
+    src__clickmd__progress__StatusIndicator____init__ --> src__clickmd__renderer__get_renderer
+    src__clickmd__progress__StatusIndicator____init__ --> src__clickmd__progress___is_tty
+    src__clickmd__progress__StatusIndicator__start --> src__clickmd__progress___is_tty
+    src__clickmd__progress__StatusIndicator__start --> src__clickmd__progress___write_inline
+    src__clickmd__progress__StatusIndicator__start --> src__print
+    src__clickmd__progress__StatusIndicator__done --> src__clickmd__progress___clear_line
+    src__clickmd__progress__StatusIndicator__done --> src__print
+    src__clickmd__progress__StatusIndicator__fail --> src__clickmd__progress___clear_line
+    src__clickmd__progress__StatusIndicator__fail --> src__print
+    src__clickmd__progress__StatusIndicator__skip --> src__clickmd__progress___clear_line
+    src__clickmd__progress__StatusIndicator__skip --> src__print
+    src__clickmd__progress__countdown --> src__clickmd__renderer__get_renderer
+    src__clickmd__progress__countdown --> src__clickmd__progress___clear_line
+    src__clickmd__progress__countdown --> src__print
+    src__clickmd__progress__countdown --> src__clickmd__progress___is_tty
+    src__clickmd__progress__countdown --> src__clickmd__progress___write_inline
+    src__clickmd__renderer__MarkdownRenderer___writeln --> src__print
+    src__render_markdown_with_fences --> src__clickmd__logger__Logger__flush
+    src__clickmd__renderer__render_markdown --> src__clickmd__renderer__get_renderer
+    src__clickmd__renderer__table --> src__clickmd__renderer__get_renderer
+    src__clickmd__renderer__panel --> src__clickmd__renderer__get_renderer
+    src__clickmd__renderer__blockquote --> src__clickmd__renderer__get_renderer
+    src__clickmd__renderer__hr --> src__clickmd__renderer__get_renderer
+    src__clickmd__renderer__checklist --> src__clickmd__renderer__get_renderer
+    src__clickmd__help___render_markdown_help --> src__clickmd__help___strip_markdown_to_plain
+    src__clickmd__help___render_markdown_help --> src__clickmd__help___is_tty
+    src__clickmd__help___format_option_help --> src__clickmd__help___is_tty
+    src__clickmd__help__success --> src__clickmd__renderer__get_renderer
+    src__clickmd__help__success --> src__clickmd__help___is_tty
+    src__clickmd__help__success --> src__print
+    src__clickmd__help__warning --> src__clickmd__renderer__get_renderer
+    src__clickmd__help__warning --> src__clickmd__help___is_tty
+    src__clickmd__help__warning --> src__print
+    src__clickmd__help__error --> src__clickmd__renderer__get_renderer
+    src__clickmd__help__error --> src__clickmd__help___is_tty
+    src__clickmd__help__error --> src__print
+    src__clickmd__help__info --> src__clickmd__renderer__get_renderer
+    src__clickmd__help__info --> src__clickmd__help___is_tty
+    src__clickmd__help__info --> src__print
+    src__clickmd__logger__Logger____init__ --> src__clickmd__renderer__get_renderer
+    src__clickmd__logger__Logger__raw --> src__print
+    src__clickmd__logger__log_info --> src__clickmd__logger__get_logger
+    src__clickmd__logger__log_success --> src__clickmd__logger__get_logger
+    src__clickmd__logger__log_warning --> src__clickmd__logger__get_logger
+    src__clickmd__logger__log_error --> src__clickmd__logger__get_logger
+    src__clickmd__logger__log_action --> src__clickmd__logger__get_logger
+    src__clickmd__themes___detect_color_support --> src__clickmd__themes___check_no_color
+    src__clickmd__themes__is_no_color --> src__clickmd__themes___check_no_color
+    src__clickmd__themes__get_color_support --> src__clickmd__themes___detect_color_support
+    src__clickmd__themes__color --> src__clickmd__themes___check_no_color
+    src__clickmd__themes__color --> src__clickmd__themes__get_theme
+    src__clickmd__themes__init_theme_from_env --> src__clickmd__themes___check_no_color
+    src__clickmd__themes__init_theme_from_env --> src__clickmd__themes__set_theme
+    examples__phase5_devtools__demo_debug --> src__clickmd__md
+    examples__phase5_devtools__demo_inspect --> src__clickmd__md
+    examples__phase5_devtools__demo_tree --> src__clickmd__md
+    examples__phase5_devtools__demo_diff --> src__clickmd__md
+    examples__phase5_devtools__demo_logging --> src__clickmd__md
+    examples__phase5_devtools__demo_pretty_exceptions --> src__clickmd__md
+    examples__phase5_devtools__demo_pretty_exceptions --> src__print
+    examples__phase5_devtools__demo_combined --> src__clickmd__md
+    src____init__ --> src__clickmd__renderer__get_renderer
+    src__clickmd__devtools__install_excepthook --> src__print
+    src__clickmd__devtools__debug --> src__clickmd__renderer__get_renderer
+    src__clickmd__devtools__debug --> src__clickmd__devtools___format_debug_value
+    src__clickmd__devtools__debug --> src__print
+    src__clickmd__devtools__inspect_obj --> src__clickmd__renderer__get_renderer
+    src__clickmd__devtools__inspect_obj --> src__print
+    src__clickmd__devtools__ClickmdHandler____init__ --> src__clickmd__renderer__get_renderer
+    src__clickmd__devtools__ClickmdHandler__emit --> src__print
+    src__clickmd__devtools__diff --> src__clickmd__renderer__get_renderer
+    src__clickmd__devtools__diff --> src__print
+    src__clickmd__devtools__tree --> src__clickmd__renderer__get_renderer
+    src__clickmd__devtools__tree --> src__print
 
     classDef highCC fill:#ff6b6b,stroke:#c92a2a,color:#fff
     classDef medCC fill:#ffd43b,stroke:#f08c00,color:#000
-    class clickmd__menu,renderer__MarkdownRenderer___highlight_line,renderer__MarkdownRenderer___highlight_log,renderer__MarkdownRenderer__table,tools__md_to_html__markdown_to_html,devtools___format_debug_value highCC
-    class clickmd__echo,rich_backend__get_console,rich_backend__render_table,progress__ProgressBar___render,renderer__render_markdown_with_fences,renderer__MarkdownRenderer___highlight_yaml,renderer__MarkdownRenderer__panel,themes___detect_color_support,examples__markdown_help__config,devtools__inspect_obj,devtools__diff,devtools__tree medCC
+    class tools__md_to_html__markdown_to_html,src__clickmd__menu,src___highlight_line,src___highlight_log,src__clickmd__renderer__MarkdownRenderer__table,src__clickmd__devtools___format_debug_value highCC
+    class examples__markdown_help__config,scripts__bump_version__bump_version,src__clickmd__echo,src__clickmd__rich_backend__get_console,src__clickmd__rich_backend__render_table,src__clickmd__progress__ProgressBar___render,src__render_markdown_with_fences,src___highlight_yaml,src__clickmd__renderer__MarkdownRenderer__panel,src__clickmd__themes___detect_color_support,src__clickmd__devtools__inspect_obj,src__clickmd__devtools__diff,src__clickmd__devtools__tree medCC

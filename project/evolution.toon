@@ -1,15 +1,15 @@
-# code2llm/evolution | 220 func | 21f | 2026-03-05
+# code2llm/evolution | 221 func | 22f | 2026-03-05
 
 NEXT[9] (ranked by impact):
-  [1] !! SPLIT           renderer.py
+  [1] !! SPLIT           src/clickmd/renderer.py
       WHY: 900L, 1 classes, max CC=28
       EFFORT: ~4h  IMPACT: 25200
 
-  [2] !! SPLIT           devtools.py
+  [2] !! SPLIT           src/clickmd/devtools.py
       WHY: 574L, 2 classes, max CC=24
       EFFORT: ~4h  IMPACT: 13776
 
-  [3] !! SPLIT           help.py
+  [3] !! SPLIT           src/clickmd/help.py
       WHY: 522L, 0 classes, max CC=4
       EFFORT: ~4h  IMPACT: 2088
 
@@ -39,9 +39,9 @@ NEXT[9] (ranked by impact):
 
 
 RISKS[3]:
-  ⚠ Splitting renderer.py may break 43 import paths
-  ⚠ Splitting devtools.py may break 15 import paths
-  ⚠ Splitting help.py may break 9 import paths
+  ⚠ Splitting src/clickmd/renderer.py may break 43 import paths
+  ⚠ Splitting src/clickmd/devtools.py may break 15 import paths
+  ⚠ Splitting src/clickmd/help.py may break 9 import paths
 
 METRICS-TARGET:
   CC̄:          3.0 → ≤2.1
@@ -51,4 +51,4 @@ METRICS-TARGET:
   hub-types:   0 → ≤0
 
 HISTORY:
-  (first run — no previous data)
+  prev CC̄=3.0 → now CC̄=3.0

@@ -1,9 +1,6 @@
-# clickmd | 33f 7795L | python:33
+# clickmd | 34f 7873L | python:43
 # Keys: M=modules, D=details, i=imports, c=classes, f=functions, m=methods
-M[33]:
-  __init__.py,382
-  decorators.py,215
-  devtools.py,405
+M[34]:
   examples/api_response.py,79
   examples/basic.py,59
   examples/build_script.py,66
@@ -21,39 +18,24 @@ M[33]:
   examples/phase5_devtools.py,173
   examples/quickstart.py,38
   examples/simple_cli.py,84
-  help.py,383
-  logger.py,215
-  progress.py,381
-  renderer.py,708
-  rich_backend.py,233
+  scripts/bump_version.py,56
+  src/clickmd/__init__.py,382
+  src/clickmd/decorators.py,215
+  src/clickmd/devtools.py,405
+  src/clickmd/help.py,383
+  src/clickmd/logger.py,215
+  src/clickmd/progress.py,381
+  src/clickmd/renderer.py,708
+  src/clickmd/rich_backend.py,233
+  src/clickmd/themes.py,356
   tests/__init__.py,1
   tests/test_core.py,54
   tests/test_decorators.py,59
   tests/test_logger.py,152
   tests/test_renderer.py,154
-  themes.py,356
   tools/md_to_html.py,186
   tools/test_examples_md.py,135
 D:
-  __init__.py:
-    i: re,sys,renderer,typing.{Any,Optional}
-    e: menu,select,echo,md
-    menu(title:str;items:list;default:int=1;prompt_text:str='Select';exit_option:Optional[str]='Exit')->int
-    select(prompt_text:str;items:list;default:int=1)->int
-    echo(message:Optional[Any]=None;file=None;nl:bool=True;err:bool=False;color:Optional[bool]=None)->None
-    md(text:str)->None
-  devtools.py:
-    i: inspect,logging,os,sys,traceback,datetime,pathlib.Path,typing.{Any,Dict,List}
-    e: PrettyExceptionFormatter,ClickmdHandler,install_excepthook,uninstall_excepthook,debug,inspect_obj,diff,tree
-    PrettyExceptionFormatter: __init__(4),format_exception(3),_format_frame(2),_shorten_path(1),_highlight_python(1)  # Format exceptions with syntax highlig...
-    ClickmdHandler: __init__(5),emit(1),format_record(1)  # Logging handler that formats logs wit...
-    install_excepthook(show_locals:bool=False;context_lines:int=3)->None
-    uninstall_excepthook()->None
-    debug(obj:Any;name:str='';max_depth:int=3;max_items:int=20;stream:Optional[TextIO]=None;markdown_safe:bool=True)->None
-    _format_debug_value(obj:Any;renderer:MarkdownRenderer;depth:int=0;max_depth:int=3;max_items:int=20)->str
-    inspect_obj(obj:Any;markdown_safe:bool=True)->None
-    diff(old:Union[str;List[str]];new:Union[str;List[str]];old_name:str='old';new_name:str='new';markdown_safe:bool=True)->None
-    tree(data:Dict[str;Any];prefix:str='';is_last:bool=True;name:str='';_is_root:bool=True)->None
   examples/api_response.py:
     i: sys,clickmd,json,pathlib.Path
     e: handle_api_error
@@ -64,7 +46,7 @@ D:
     build_project()
     deploy_preview()
   examples/cli_app.py:
-    i: sys,pathlib.Path
+    i: sys,clickmd,pathlib.Path
     e: cli,hello,status,example
     cli()
     hello(name:str;formal:bool)
@@ -153,9 +135,32 @@ D:
     hello(name)
     info()
     status(format)
-  help.py:
+  scripts/bump_version.py:
+    i: sys,re,pathlib.Path
+    e: bump_version
+    bump_version(version_type)
+  src/clickmd/__init__.py:
+    i: re,sys,renderer,typing.{Any,Optional}
+    e: _MD_HINT_RE,menu,select,echo,md
+    menu(title:str;items:list;default:int=1;prompt_text:str='Select';exit_option:Optional[str]='Exit')->int
+    select(prompt_text:str;items:list;default:int=1)->int
+    echo(message:Optional[Any]=None;file=None;nl:bool=True;err:bool=False;color:Optional[bool]=None)->None
+    md(text:str)->None
+  src/clickmd/devtools.py:
+    i: inspect,logging,os,sys,traceback,datetime,pathlib.Path,typing.{Any,Dict,List}
+    e: PrettyExceptionFormatter,install_excepthook,uninstall_excepthook,debug,inspect_obj,ClickmdHandler,diff,tree
+    PrettyExceptionFormatter: __init__(4),format_exception(3),_format_frame(2),_shorten_path(1),_highlight_python(1)  # Format exceptions with syntax highlig...
+    ClickmdHandler: __init__(5),emit(1),format_record(1)  # Logging handler that formats logs wit...
+    install_excepthook(show_locals:bool=False;context_lines:int=3)->None
+    uninstall_excepthook()->None
+    debug(obj:Any;name:str='';max_depth:int=3;max_items:int=20;stream:Optional[TextIO]=None;markdown_safe:bool=True)->None
+    _format_debug_value(obj:Any;renderer:MarkdownRenderer;depth:int=0;max_depth:int=3;max_items:int=20)->str
+    inspect_obj(obj:Any;markdown_safe:bool=True)->None
+    diff(old:Union[str;List[str]];new:Union[str;List[str]];old_name:str='old';new_name:str='new';markdown_safe:bool=True)->None
+    tree(data:Dict[str;Any];prefix:str='';is_last:bool=True;name:str='';_is_root:bool=True)->None
+  src/clickmd/help.py:
     i: re,sys,textwrap,functools.wraps,renderer.{MarkdownRenderer,get_renderer},typing.{Any,Callable,Optional,TypeVar}
-    e: success,warning,error,info,echo_md
+    e: F,success,warning,error,info,echo_md
     _is_tty()->bool
     _render_markdown_help(text:str;use_colors:bool=True)->str
     _strip_markdown_to_plain(text:str)->str
@@ -164,9 +169,9 @@ D:
     warning(message:str)->None
     error(message:str)->None
     info(message:str)->None
-  logger.py:
+  src/clickmd/logger.py:
     i: sys,traceback,contextlib.contextmanager,renderer.{MarkdownRenderer,get_renderer},typing.{Any,Literal,Optional,TextIO}
-    e: Logger,get_logger,set_logger,log_info,log_success,log_warning,log_error,log_action
+    e: _LEVEL_EMOJI,_ACTION_EMOJI,Logger,get_logger,set_logger,log_info,log_success,log_warning
     Logger: __init__(4),_emit(1),_render_log_block(1),flush(0),debug(1)  # Markdown-aware logger that wraps outp...
     get_logger(verbose:bool=True)->Logger
     set_logger(logger:Logger)->None
@@ -175,9 +180,9 @@ D:
     log_warning(message:str)->None
     log_error(message:str)->None
     log_action(action:str;message:str)->None
-  progress.py:
+  src/clickmd/progress.py:
     i: sys,threading,time,contextlib.contextmanager,typing
-    e: ProgressBar,Spinner,LiveUpdate,StatusIndicator,progress,spinner,live,countdown
+    e: T,SPINNERS,ProgressBar,progress,Spinner,spinner,LiveUpdate,live
     ProgressBar: __init__(7),update(1),set(1),_render(0),finish(1)  # A customizable progress bar.
     Spinner: __init__(5),start(0),_animate(0),stop(1),__enter__(0)  # An animated spinner for indeterminate...
     LiveUpdate: __init__(1),update(1),clear(0),__enter__(0),__exit__(0)  # Live-updating display that refreshes...
@@ -185,13 +190,13 @@ D:
     _is_tty()->bool
     _clear_line()->None
     _write_inline(text:str)->None
-    progress(iterable:Iterable[T];label:str='';total:Optional[int]=None)->Generator[T,None,None]
-    spinner(message:str='Loading...';style:str='dots')->Generator[Spinner,None,None]
-    live(initial:str='')->Generator[LiveUpdate,None,None]
+    progress(iterable:Iterable[T];label:str='';total:Optional[int]=None)->Generator[T, None, None]
+    spinner(message:str='Loading...';style:str='dots')->Generator[Spinner, None, None]
+    live(initial:str='')->Generator[LiveUpdate, None, None]
     countdown(seconds:int;message:str='Starting in';on_complete:Optional[Callable[Any;None]]=None)->None
-  renderer.py:
+  src/clickmd/renderer.py:
     i: os,re,shutil,sys,typing.{Literal,Optional}
-    e: MarkdownRenderer,strip_ansi,get_renderer,render_markdown,table,panel,blockquote,hr
+    e: _COLORS,_ANSI_RE,strip_ansi,MarkdownRenderer,get_renderer,render_markdown,table,panel
     MarkdownRenderer: __init__(2),_c(4),_get_terminal_width(0),_writeln(1),heading(2)
     strip_ansi(text:str)->str
     get_renderer(stream=None;use_colors:bool=True)->MarkdownRenderer
@@ -201,8 +206,8 @@ D:
     blockquote(content:str)->None
     hr(char:str='─';width:Optional[int]=None)->None
     checklist(items:list[tuple[bool;str]])->None
-  rich_backend.py:
-    i: sys,typing.{Any,Optional,TextIO}
+  src/clickmd/rich_backend.py:
+    i: sys,rich.console.Console,rich.markdown.Markdown,rich.panel.Panel,rich.syntax.Syntax,rich.table.Table,rich.theme.Theme,typing.{Any,Optional,TextIO}
     e: is_rich_available,get_console,render_md,render_panel,render_syntax,render_table,print_md,print_panel
     _FallbackConsole: __init__(1),print(0),rule(1)  # Simple console wrapper when Rich is n...
     is_rich_available()->bool
@@ -213,6 +218,18 @@ D:
     render_table(headers:list[str];rows:list[list[str]];title:Optional[str]=None;stream:Optional[TextIO]=None)->None
     print_md(text:str)->None
     print_panel(content:str)->None
+  src/clickmd/themes.py:
+    i: os,sys,dataclasses.{dataclass,field},typing.{Dict,Literal,Optional}
+    e: ANSI_COLORS,COLOR_256,Theme,THEMES,get_theme,set_theme,register_theme,list_themes
+    Theme: get_color(1)  # Color theme definition.
+    _rgb_to_ansi(r:int;g:int;b:int)->str
+    _color_256(index:int)->str
+    _ansi_color(name:str)->str
+    _check_no_color()->bool
+    _detect_color_support()->Literal["none", "basic", "256", "truecolor"]
+    get_theme()->Theme
+    set_theme(name:str)->None
+    register_theme(theme:Theme)->None
   tests/test_core.py:
     i: io,sys,pytest,clickmd.{CLICK_AVAILABLE,echo,md}
     e: TestMd,TestEcho,TestClickAvailable
@@ -241,21 +258,9 @@ D:
     TestHighlighting: test_yaml_highlighting(0),test_yaml_comment(0),test_json_highlighting(0),test_bash_highlighting(0),test_js_highlighting(0)
     TestGetRenderer: test_returns_renderer(0),test_with_custom_stream(0)
     TestRenderMarkdown: test_renders_to_stream(0),test_renders_code_blocks(0)
-  themes.py:
-    i: os,sys,dataclasses.{dataclass,field},typing.{Dict,Literal,Optional}
-    e: Theme,get_theme,set_theme,register_theme,list_themes,is_no_color,get_color_support,color
-    Theme: get_color(1)  # Color theme definition.
-    _rgb_to_ansi(r:int;g:int;b:int)->str
-    _color_256(index:int)->str
-    _ansi_color(name:str)->str
-    _check_no_color()->bool
-    _detect_color_support()->Literal[none,basic,256,truecolor]
-    get_theme()->Theme
-    set_theme(name:str)->None
-    register_theme(theme:Theme)->None
   tools/md_to_html.py:
     i: argparse,html,os,re,pathlib.Path
-    e: markdown_to_html,convert_directory,main
+    e: _BOLD_RE,_ITALIC_RE,_LINK_RE,_INLINE_CODE_RE,markdown_to_html,convert_directory,main
     _inline_md_to_html(text:str)->str
     _escape_text(text:str)->str
     markdown_to_html(markdown_text:str;title:str)->str
@@ -263,8 +268,8 @@ D:
     main()->int
   tools/test_examples_md.py:
     i: subprocess,sys,os,pathlib.Path,tools.md_to_html.markdown_to_html
-    e: run_example,check_markdown_structure,main
-    run_example(example_file:str;args:list[str]=None)->tuple[bool,str]
+    e: EXAMPLES,SKIP_INTERACTIVE,run_example,check_markdown_structure,main
+    run_example(example_file:str;args:list[str]=None)->tuple[bool, str]
     check_markdown_structure(content:str)->list[str]
-    _test_html_conversion(content:str;name:str)->tuple[bool,str]
+    _test_html_conversion(content:str;name:str)->tuple[bool, str]
     main()

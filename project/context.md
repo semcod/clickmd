@@ -4,44 +4,44 @@
 
 - **Project**: /home/tom/github/wronai/clickmd
 - **Analysis Mode**: static
-- **Total Functions**: 220
+- **Total Functions**: 221
 - **Total Classes**: 11
-- **Modules**: 26
-- **Entry Points**: 193
+- **Modules**: 27
+- **Entry Points**: 194
 
 ## Architecture by Module
 
-### renderer
+### src.clickmd.renderer
 - **Functions**: 43
 - **Classes**: 1
 - **File**: `renderer.py`
 
-### progress
+### src.clickmd.progress
 - **Functions**: 30
 - **Classes**: 4
 - **File**: `progress.py`
 
-### logger
+### src.clickmd.logger
 - **Functions**: 30
 - **Classes**: 1
 - **File**: `logger.py`
 
-### devtools
+### src.clickmd.devtools
 - **Functions**: 15
 - **Classes**: 2
 - **File**: `devtools.py`
 
-### themes
+### src.clickmd.themes
 - **Functions**: 14
 - **Classes**: 1
 - **File**: `themes.py`
 
-### rich_backend
+### src.clickmd.rich_backend
 - **Functions**: 13
 - **Classes**: 1
 - **File**: `rich_backend.py`
 
-### help
+### src.clickmd.help
 - **Functions**: 9
 - **File**: `help.py`
 
@@ -78,10 +78,6 @@
 - **Functions**: 5
 - **File**: `md_to_html.py`
 
-### clickmd
-- **Functions**: 4
-- **File**: `__init__.py`
-
 ### examples.cli_app
 - **Functions**: 4
 - **File**: `cli_app.py`
@@ -90,19 +86,23 @@
 - **Functions**: 4
 - **File**: `markdown_help.py`
 
-### examples.api_response
-- **Functions**: 1
-- **File**: `api_response.py`
+### src.clickmd
+- **Functions**: 4
+- **File**: `__init__.py`
 
 ### examples.colored_logging
 - **Functions**: 1
 - **File**: `colored_logging.py`
 
+### examples.api_response
+- **Functions**: 1
+- **File**: `api_response.py`
+
 ## Key Entry Points
 
 Main execution flows into the system:
 
-### renderer.MarkdownRenderer.table
+### src.clickmd.renderer.MarkdownRenderer.table
 > Render a table with configurable style.
 
 Args:
@@ -111,41 +111,41 @@ Args:
     style: Border style - "ascii", "un
 - **Calls**: enumerate, self._get_table_chars, len, enumerate, len, self._writeln, self._writeln, enumerate
 
-### devtools.inspect_obj
+### src.clickmd.devtools.inspect_obj
 > Inspect an object showing its type, methods, and attributes.
 
 Args:
     obj: Object to inspect
     markdown_safe: Wrap in codeblock for markdown compa
-- **Calls**: renderer.get_renderer, rich_backend._FallbackConsole.print, rich_backend._FallbackConsole.print, rich_backend._FallbackConsole.print, rich_backend._FallbackConsole.print, isinstance, rich_backend._FallbackConsole.print, renderer._c
+- **Calls**: src.clickmd.renderer.get_renderer, src.clickmd.rich_backend._FallbackConsole.print, src.clickmd.rich_backend._FallbackConsole.print, src.clickmd.rich_backend._FallbackConsole.print, src.clickmd.rich_backend._FallbackConsole.print, isinstance, src.clickmd.rich_backend._FallbackConsole.print, renderer._c
 
 ### examples.custom_renderer.main
-- **Calls**: rich_backend._FallbackConsole.print, MarkdownRenderer, renderer.heading, renderer.codeblock, rich_backend._FallbackConsole.print, MarkdownRenderer, no_color.heading, no_color.codeblock
+- **Calls**: src.clickmd.rich_backend._FallbackConsole.print, MarkdownRenderer, renderer.heading, renderer.codeblock, src.clickmd.rich_backend._FallbackConsole.print, MarkdownRenderer, no_color.heading, no_color.codeblock
 
-### renderer.MarkdownRenderer._highlight_python
+### src.clickmd.renderer.MarkdownRenderer._highlight_python
 - **Calls**: None.startswith, re.sub, re.sub, re.sub, re.sub, re.sub, re.sub, re.sub
 
-### devtools.PrettyExceptionFormatter.format_exception
+### src.clickmd.devtools.PrettyExceptionFormatter.format_exception
 > Format an exception with full traceback.
 - **Calls**: lines.append, lines.append, lines.append, lines.append, lines.append, lines.append, lines.append, lines.append
 
-### renderer.MarkdownRenderer._highlight_log
-- **Calls**: line.strip, trimmed.startswith, trimmed.startswith, trimmed.startswith, trimmed.startswith, trimmed.startswith, self._c, self._c
-
 ### examples.logger_usage.real_world_example
 > Real-world evolution pipeline example
-- **Calls**: clickmd.md, Logger, log.heading, log.heading, log.llm, log.attempt, log.success, log.heading
+- **Calls**: src.clickmd.md, Logger, log.heading, log.heading, log.llm, log.attempt, log.success, log.heading
 
-### devtools.diff
+### src.clickmd.renderer.MarkdownRenderer._highlight_log
+- **Calls**: line.strip, trimmed.startswith, trimmed.startswith, trimmed.startswith, trimmed.startswith, trimmed.startswith, self._c, self._c
+
+### src.clickmd.devtools.diff
 > Display a colored diff between two texts.
 
 Args:
     old: Original text (string or list of lines)
     new: New text (string or list of lines)
     old_
-- **Calls**: renderer.get_renderer, difflib.unified_diff, isinstance, old.splitlines, list, isinstance, new.splitlines, list
+- **Calls**: src.clickmd.renderer.get_renderer, difflib.unified_diff, isinstance, old.splitlines, list, isinstance, new.splitlines, list
 
-### renderer.MarkdownRenderer.panel
+### src.clickmd.renderer.MarkdownRenderer.panel
 > Render content in a styled panel/box.
 
 Args:
@@ -154,47 +154,47 @@ Args:
     style: Panel style - "de
 - **Calls**: style_colors.get, self._get_terminal_width, self._writeln, content.split, self._writeln, min, self._writeln, len
 
-### renderer.MarkdownRenderer._highlight_yaml
+### src.clickmd.renderer.MarkdownRenderer._highlight_yaml
 - **Calls**: None.startswith, re.match, None.startswith, self._c, m.groups, self._c, self._c, value.strip
 
-### renderer.MarkdownRenderer._highlight_line
+### src.clickmd.renderer.MarkdownRenderer._highlight_line
 - **Calls**: None.lower, self._c, self._highlight_yaml, self._highlight_json, self._highlight_bash, self._highlight_js, self._highlight_python, self._highlight_markdown
-
-### progress.ProgressBar._render
-> Render the progress bar.
-- **Calls**: int, self._renderer._c, parts.append, progress._write_inline, progress._is_tty, parts.append, parts.append, parts.append
 
 ### examples.phase3_progress.demo_combined
 > Demonstrate combined usage.
 - **Calls**: clickmd.md, clickmd.StatusIndicator, status.start, time.sleep, status.done, clickmd.md, clickmd.progress, status.start
 
-### renderer.MarkdownRenderer._highlight_css
+### scripts.bump_version.bump_version
+> Bump version in pyproject.toml
+- **Calls**: Path, pyproject_path.read_text, re.search, version_match.group, current_version.split, re.sub, pyproject_path.write_text, Path
+
+### src.clickmd.progress.ProgressBar._render
+> Render the progress bar.
+- **Calls**: int, self._renderer._c, parts.append, src.clickmd.progress._write_inline, src.clickmd.progress._is_tty, parts.append, parts.append, parts.append
+
+### src.clickmd.renderer.MarkdownRenderer._highlight_css
 > Highlight CSS syntax.
 - **Calls**: re.sub, re.sub, re.sub, None.startswith, None.startswith, self._c, line.strip, line.strip
-
-### renderer.MarkdownRenderer._highlight_js
-- **Calls**: None.startswith, re.sub, re.sub, re.sub, self._c, re.sub, result.split, line.strip
-
-### help._format_option_help
-> Format option/argument help text with inline markdown.
-Handles **bold**, *italic*, `code` inline.
-- **Calls**: MarkdownRenderer, re.sub, re.sub, re.sub, re.sub, re.sub, re.sub, re.sub
 
 ### examples.phase3_progress.demo_status_indicator
 > Demonstrate status indicator.
 - **Calls**: clickmd.md, clickmd.StatusIndicator, status.start, time.sleep, status.done, status.start, time.sleep, status.done
 
-### renderer.MarkdownRenderer._highlight_php
+### src.clickmd.renderer.MarkdownRenderer._highlight_js
+- **Calls**: None.startswith, re.sub, re.sub, re.sub, self._c, re.sub, result.split, line.strip
+
+### src.clickmd.help._format_option_help
+> Format option/argument help text with inline markdown.
+Handles **bold**, *italic*, `code` inline.
+- **Calls**: MarkdownRenderer, re.sub, re.sub, re.sub, re.sub, re.sub, re.sub, re.sub
+
+### src.clickmd.renderer.MarkdownRenderer._highlight_php
 > Highlight PHP syntax.
 - **Calls**: re.sub, re.sub, re.sub, None.startswith, None.startswith, self._c, re.sub, self._c
 
 ### examples.phase5_devtools.demo_debug
 > Demonstrate debug output.
 - **Calls**: clickmd.md, clickmd.md, clickmd.debug, clickmd.debug, clickmd.debug, clickmd.debug, clickmd.debug, clickmd.md
-
-### renderer.MarkdownRenderer._highlight_html
-> Highlight HTML/XML syntax.
-- **Calls**: None.startswith, re.sub, re.sub, re.sub, self._c, line.strip, m.group, self._c
 
 ### examples.phase3_progress.demo_spinners
 > Demonstrate spinners.
@@ -204,28 +204,28 @@ Handles **bold**, *italic*, `code` inline.
 > Demonstrate nested list rendering.
 - **Calls**: clickmd.md, clickmd.md, clickmd.get_renderer, renderer.list_item, renderer.list_item, renderer.list_item, renderer.list_item, renderer.list_item
 
-### progress.countdown
+### src.clickmd.renderer.MarkdownRenderer._highlight_html
+> Highlight HTML/XML syntax.
+- **Calls**: None.startswith, re.sub, re.sub, re.sub, self._c, line.strip, m.group, self._c
+
+### src.clickmd.progress.countdown
 > Display a countdown timer.
 
 Args:
     seconds: Number of seconds to count down
     message: Message to display
     on_complete: Callback when countdow
-- **Calls**: renderer.get_renderer, range, progress._clear_line, rich_backend._FallbackConsole.print, progress._is_tty, time.sleep, renderer._c, on_complete
+- **Calls**: src.clickmd.renderer.get_renderer, range, src.clickmd.progress._clear_line, src.clickmd.rich_backend._FallbackConsole.print, src.clickmd.progress._is_tty, time.sleep, renderer._c, on_complete
 
-### renderer.MarkdownRenderer.render_markdown_with_fences
-- **Calls**: None.split, logger.Logger.flush, self.codeblock, line.rstrip, re.match, None.join, m.group, self._writeln
+### src.clickmd.renderer.MarkdownRenderer.render_markdown_with_fences
+- **Calls**: None.split, src.clickmd.logger.Logger.flush, self.codeblock, line.rstrip, re.match, None.join, m.group, self._writeln
 
-### renderer.MarkdownRenderer._highlight_json
+### src.clickmd.renderer.MarkdownRenderer._highlight_json
 - **Calls**: re.sub, re.sub, re.sub, re.sub, re.sub, self._c, self._c, self._c
 
-### renderer.MarkdownRenderer._highlight_ruby
+### src.clickmd.renderer.MarkdownRenderer._highlight_ruby
 > Highlight Ruby syntax.
 - **Calls**: None.startswith, re.sub, re.sub, re.sub, self._c, re.sub, line.strip, self._c
-
-### renderer.MarkdownRenderer._highlight_c
-> Highlight C/C++ syntax.
-- **Calls**: re.sub, re.sub, None.startswith, None.startswith, self._c, re.sub, self._c, self._c
 
 ### examples.phase3_progress.demo_progress_bar
 > Demonstrate progress bar.
@@ -235,9 +235,9 @@ Args:
 > Demonstrate panel/box rendering.
 - **Calls**: clickmd.md, clickmd.md, clickmd.panel, clickmd.md, clickmd.panel, clickmd.md, clickmd.panel, clickmd.md
 
-### devtools.PrettyExceptionFormatter._format_frame
-> Format a single traceback frame.
-- **Calls**: self._shorten_path, self._renderer._c, lines.append, lines.append, self._renderer._c, self._highlight_python, self._renderer._c, self._renderer._c
+### src.clickmd.renderer.MarkdownRenderer._highlight_c
+> Highlight C/C++ syntax.
+- **Calls**: re.sub, re.sub, None.startswith, None.startswith, self._c, re.sub, self._c, self._c
 
 ## Process Flows
 
@@ -245,12 +245,12 @@ Key execution flows identified:
 
 ### Flow 1: table
 ```
-table [renderer.MarkdownRenderer]
+table [src.clickmd.renderer.MarkdownRenderer]
 ```
 
 ### Flow 2: inspect_obj
 ```
-inspect_obj [devtools]
+inspect_obj [src.clickmd.devtools]
   └─ →> get_renderer
   └─ →> print
   └─ →> print
@@ -265,20 +265,15 @@ main [examples.custom_renderer]
 
 ### Flow 4: _highlight_python
 ```
-_highlight_python [renderer.MarkdownRenderer]
+_highlight_python [src.clickmd.renderer.MarkdownRenderer]
 ```
 
 ### Flow 5: format_exception
 ```
-format_exception [devtools.PrettyExceptionFormatter]
+format_exception [src.clickmd.devtools.PrettyExceptionFormatter]
 ```
 
-### Flow 6: _highlight_log
-```
-_highlight_log [renderer.MarkdownRenderer]
-```
-
-### Flow 7: real_world_example
+### Flow 6: real_world_example
 ```
 real_world_example [examples.logger_usage]
   └─ →> md
@@ -286,98 +281,103 @@ real_world_example [examples.logger_usage]
           └─> get_renderer
 ```
 
+### Flow 7: _highlight_log
+```
+_highlight_log [src.clickmd.renderer.MarkdownRenderer]
+```
+
 ### Flow 8: diff
 ```
-diff [devtools]
+diff [src.clickmd.devtools]
   └─ →> get_renderer
 ```
 
 ### Flow 9: panel
 ```
-panel [renderer.MarkdownRenderer]
+panel [src.clickmd.renderer.MarkdownRenderer]
 ```
 
 ### Flow 10: _highlight_yaml
 ```
-_highlight_yaml [renderer.MarkdownRenderer]
+_highlight_yaml [src.clickmd.renderer.MarkdownRenderer]
 ```
 
 ## Key Classes
 
-### renderer.MarkdownRenderer
+### src.clickmd.renderer.MarkdownRenderer
 - **Methods**: 35
-- **Key Methods**: renderer.MarkdownRenderer.__init__, renderer.MarkdownRenderer._c, renderer.MarkdownRenderer._get_terminal_width, renderer.MarkdownRenderer._writeln, renderer.MarkdownRenderer.heading, renderer.MarkdownRenderer.codeblock, renderer.MarkdownRenderer.render_markdown_with_fences, renderer.MarkdownRenderer._highlight_line, renderer.MarkdownRenderer._highlight_log, renderer.MarkdownRenderer._highlight_markdown
+- **Key Methods**: src.clickmd.renderer.MarkdownRenderer.__init__, src.clickmd.renderer.MarkdownRenderer._c, src.clickmd.renderer.MarkdownRenderer._get_terminal_width, src.clickmd.renderer.MarkdownRenderer._writeln, src.clickmd.renderer.MarkdownRenderer.heading, src.clickmd.renderer.MarkdownRenderer.codeblock, src.clickmd.renderer.MarkdownRenderer.render_markdown_with_fences, src.clickmd.renderer.MarkdownRenderer._highlight_line, src.clickmd.renderer.MarkdownRenderer._highlight_log, src.clickmd.renderer.MarkdownRenderer._highlight_markdown
 
-### logger.Logger
+### src.clickmd.logger.Logger
 > Markdown-aware logger that wraps output in codeblocks.
 
 All log methods automatically wrap output in
 - **Methods**: 23
-- **Key Methods**: logger.Logger.__init__, logger.Logger._emit, logger.Logger._render_log_block, logger.Logger.flush, logger.Logger.debug, logger.Logger.info, logger.Logger.warning, logger.Logger.error, logger.Logger.success, logger.Logger.action
+- **Key Methods**: src.clickmd.logger.Logger.__init__, src.clickmd.logger.Logger._emit, src.clickmd.logger.Logger._render_log_block, src.clickmd.logger.Logger.flush, src.clickmd.logger.Logger.debug, src.clickmd.logger.Logger.info, src.clickmd.logger.Logger.warning, src.clickmd.logger.Logger.error, src.clickmd.logger.Logger.success, src.clickmd.logger.Logger.action
 
-### progress.ProgressBar
+### src.clickmd.progress.ProgressBar
 > A customizable progress bar.
 
 Example:
     bar = ProgressBar(total=100, label="Downloading")
     for
 - **Methods**: 7
-- **Key Methods**: progress.ProgressBar.__init__, progress.ProgressBar.update, progress.ProgressBar.set, progress.ProgressBar._render, progress.ProgressBar.finish, progress.ProgressBar.__enter__, progress.ProgressBar.__exit__
+- **Key Methods**: src.clickmd.progress.ProgressBar.__init__, src.clickmd.progress.ProgressBar.update, src.clickmd.progress.ProgressBar.set, src.clickmd.progress.ProgressBar._render, src.clickmd.progress.ProgressBar.finish, src.clickmd.progress.ProgressBar.__enter__, src.clickmd.progress.ProgressBar.__exit__
 
-### progress.Spinner
+### src.clickmd.progress.Spinner
 > An animated spinner for indeterminate progress.
 
 Example:
     with Spinner("Loading..."):
         do
 - **Methods**: 6
-- **Key Methods**: progress.Spinner.__init__, progress.Spinner.start, progress.Spinner._animate, progress.Spinner.stop, progress.Spinner.__enter__, progress.Spinner.__exit__
+- **Key Methods**: src.clickmd.progress.Spinner.__init__, src.clickmd.progress.Spinner.start, src.clickmd.progress.Spinner._animate, src.clickmd.progress.Spinner.stop, src.clickmd.progress.Spinner.__enter__, src.clickmd.progress.Spinner.__exit__
 
-### progress.LiveUpdate
+### src.clickmd.progress.LiveUpdate
 > Live-updating display that refreshes in place.
 
 Example:
     with LiveUpdate() as live:
         for 
 - **Methods**: 5
-- **Key Methods**: progress.LiveUpdate.__init__, progress.LiveUpdate.update, progress.LiveUpdate.clear, progress.LiveUpdate.__enter__, progress.LiveUpdate.__exit__
+- **Key Methods**: src.clickmd.progress.LiveUpdate.__init__, src.clickmd.progress.LiveUpdate.update, src.clickmd.progress.LiveUpdate.clear, src.clickmd.progress.LiveUpdate.__enter__, src.clickmd.progress.LiveUpdate.__exit__
 
-### progress.StatusIndicator
+### src.clickmd.progress.StatusIndicator
 > A status indicator that shows step-by-step progress.
 
 Example:
     status = StatusIndicator()
     st
 - **Methods**: 5
-- **Key Methods**: progress.StatusIndicator.__init__, progress.StatusIndicator.start, progress.StatusIndicator.done, progress.StatusIndicator.fail, progress.StatusIndicator.skip
+- **Key Methods**: src.clickmd.progress.StatusIndicator.__init__, src.clickmd.progress.StatusIndicator.start, src.clickmd.progress.StatusIndicator.done, src.clickmd.progress.StatusIndicator.fail, src.clickmd.progress.StatusIndicator.skip
 
-### devtools.PrettyExceptionFormatter
+### src.clickmd.devtools.PrettyExceptionFormatter
 > Format exceptions with syntax highlighting and context.
 
 Features:
 - Syntax-highlighted code snippet
 - **Methods**: 5
-- **Key Methods**: devtools.PrettyExceptionFormatter.__init__, devtools.PrettyExceptionFormatter.format_exception, devtools.PrettyExceptionFormatter._format_frame, devtools.PrettyExceptionFormatter._shorten_path, devtools.PrettyExceptionFormatter._highlight_python
+- **Key Methods**: src.clickmd.devtools.PrettyExceptionFormatter.__init__, src.clickmd.devtools.PrettyExceptionFormatter.format_exception, src.clickmd.devtools.PrettyExceptionFormatter._format_frame, src.clickmd.devtools.PrettyExceptionFormatter._shorten_path, src.clickmd.devtools.PrettyExceptionFormatter._highlight_python
 
-### rich_backend._FallbackConsole
+### src.clickmd.rich_backend._FallbackConsole
 > Simple console wrapper when Rich is not available.
 - **Methods**: 3
-- **Key Methods**: rich_backend._FallbackConsole.__init__, rich_backend._FallbackConsole.print, rich_backend._FallbackConsole.rule
+- **Key Methods**: src.clickmd.rich_backend._FallbackConsole.__init__, src.clickmd.rich_backend._FallbackConsole.print, src.clickmd.rich_backend._FallbackConsole.rule
 
-### devtools.ClickmdHandler
+### src.clickmd.devtools.ClickmdHandler
 > Logging handler that formats logs with clickmd styling.
 
 Usage:
     import logging
     from clickmd 
 - **Methods**: 3
-- **Key Methods**: devtools.ClickmdHandler.__init__, devtools.ClickmdHandler.emit, devtools.ClickmdHandler.format_record
+- **Key Methods**: src.clickmd.devtools.ClickmdHandler.__init__, src.clickmd.devtools.ClickmdHandler.emit, src.clickmd.devtools.ClickmdHandler.format_record
 - **Inherits**: logging.Handler
 
-### themes.Theme
+### src.clickmd.themes.Theme
 > Color theme definition.
 - **Methods**: 1
-- **Key Methods**: themes.Theme.get_color
+- **Key Methods**: src.clickmd.themes.Theme.get_color
 
 ### examples.phase5_devtools.User
 > Sample user class for debugging.
@@ -386,11 +386,6 @@ Usage:
 ## Data Transformation Functions
 
 Key functions that process and transform data:
-
-### help._format_option_help
-> Format option/argument help text with inline markdown.
-Handles **bold**, *italic*, `code` inline.
-- **Output to**: MarkdownRenderer, re.sub, re.sub, re.sub, re.sub
 
 ### examples.markdown_help.process
 > # Process Data
@@ -403,19 +398,24 @@ Transform and process input files with **configurable** options.
 ### tools.md_to_html.convert_directory
 - **Output to**: sorted, md_dir.glob, md_path.with_suffix, md_path.read_text, tools.md_to_html.markdown_to_html
 
-### devtools.PrettyExceptionFormatter.format_exception
+### src.clickmd.help._format_option_help
+> Format option/argument help text with inline markdown.
+Handles **bold**, *italic*, `code` inline.
+- **Output to**: MarkdownRenderer, re.sub, re.sub, re.sub, re.sub
+
+### src.clickmd.devtools.PrettyExceptionFormatter.format_exception
 > Format an exception with full traceback.
 - **Output to**: lines.append, lines.append, lines.append, lines.append, lines.append
 
-### devtools.PrettyExceptionFormatter._format_frame
+### src.clickmd.devtools.PrettyExceptionFormatter._format_frame
 > Format a single traceback frame.
 - **Output to**: self._shorten_path, self._renderer._c, lines.append, lines.append, self._renderer._c
 
-### devtools._format_debug_value
+### src.clickmd.devtools._format_debug_value
 > Format a value for debug output.
 - **Output to**: isinstance, isinstance, isinstance, isinstance, isinstance
 
-### devtools.ClickmdHandler.format_record
+### src.clickmd.devtools.ClickmdHandler.format_record
 > Format a log record with styling.
 - **Output to**: self.LEVEL_STYLES.get, record.getMessage, parts.append, None.join, None.strftime
 
@@ -424,77 +424,77 @@ Transform and process input files with **configurable** options.
 ### recursion_print
 - **Type**: recursion
 - **Confidence**: 0.90
-- **Functions**: rich_backend._FallbackConsole.print
+- **Functions**: src.clickmd.rich_backend._FallbackConsole.print
 
 ### recursion__format_debug_value
 - **Type**: recursion
 - **Confidence**: 0.90
-- **Functions**: devtools._format_debug_value
+- **Functions**: src.clickmd.devtools._format_debug_value
 
 ### recursion_tree
 - **Type**: recursion
 - **Confidence**: 0.90
-- **Functions**: devtools.tree
+- **Functions**: src.clickmd.devtools.tree
 
 ### state_machine_ProgressBar
 - **Type**: state_machine
 - **Confidence**: 0.70
-- **Functions**: progress.ProgressBar.__init__, progress.ProgressBar.update, progress.ProgressBar.set, progress.ProgressBar._render, progress.ProgressBar.finish
+- **Functions**: src.clickmd.progress.ProgressBar.__init__, src.clickmd.progress.ProgressBar.update, src.clickmd.progress.ProgressBar.set, src.clickmd.progress.ProgressBar._render, src.clickmd.progress.ProgressBar.finish
 
 ### state_machine_Spinner
 - **Type**: state_machine
 - **Confidence**: 0.70
-- **Functions**: progress.Spinner.__init__, progress.Spinner.start, progress.Spinner._animate, progress.Spinner.stop, progress.Spinner.__enter__
+- **Functions**: src.clickmd.progress.Spinner.__init__, src.clickmd.progress.Spinner.start, src.clickmd.progress.Spinner._animate, src.clickmd.progress.Spinner.stop, src.clickmd.progress.Spinner.__enter__
 
 ### state_machine_LiveUpdate
 - **Type**: state_machine
 - **Confidence**: 0.70
-- **Functions**: progress.LiveUpdate.__init__, progress.LiveUpdate.update, progress.LiveUpdate.clear, progress.LiveUpdate.__enter__, progress.LiveUpdate.__exit__
+- **Functions**: src.clickmd.progress.LiveUpdate.__init__, src.clickmd.progress.LiveUpdate.update, src.clickmd.progress.LiveUpdate.clear, src.clickmd.progress.LiveUpdate.__enter__, src.clickmd.progress.LiveUpdate.__exit__
 
 ## Public API Surface
 
 Functions exposed as public API (no underscore prefix):
 
 - `tools.md_to_html.markdown_to_html` - 94 calls
-- `renderer.MarkdownRenderer.table` - 44 calls
-- `devtools.inspect_obj` - 39 calls
+- `src.clickmd.renderer.MarkdownRenderer.table` - 44 calls
+- `src.clickmd.devtools.inspect_obj` - 39 calls
 - `examples.custom_renderer.main` - 37 calls
-- `clickmd.menu` - 26 calls
-- `rich_backend.render_table` - 26 calls
-- `devtools.PrettyExceptionFormatter.format_exception` - 26 calls
+- `src.clickmd.menu` - 26 calls
+- `src.clickmd.rich_backend.render_table` - 26 calls
+- `src.clickmd.devtools.PrettyExceptionFormatter.format_exception` - 26 calls
 - `examples.logger_usage.real_world_example` - 25 calls
-- `devtools.diff` - 25 calls
-- `renderer.MarkdownRenderer.panel` - 24 calls
-- `devtools.tree` - 24 calls
+- `src.clickmd.devtools.diff` - 25 calls
+- `src.clickmd.renderer.MarkdownRenderer.panel` - 24 calls
+- `src.clickmd.devtools.tree` - 24 calls
 - `examples.phase3_progress.demo_combined` - 19 calls
+- `scripts.bump_version.bump_version` - 19 calls
 - `examples.phase3_progress.demo_status_indicator` - 17 calls
 - `examples.phase5_devtools.demo_debug` - 16 calls
-- `rich_backend.render_panel` - 15 calls
 - `examples.phase3_progress.demo_spinners` - 15 calls
 - `examples.phase1_features.demo_nested_lists` - 15 calls
-- `progress.countdown` - 14 calls
-- `renderer.MarkdownRenderer.render_markdown_with_fences` - 14 calls
+- `src.clickmd.rich_backend.render_panel` - 15 calls
+- `src.clickmd.progress.countdown` - 14 calls
+- `src.clickmd.renderer.MarkdownRenderer.render_markdown_with_fences` - 14 calls
 - `examples.phase3_progress.demo_progress_bar` - 13 calls
 - `examples.phase1_features.demo_panels` - 13 calls
 - `examples.markdown_help.process` - 12 calls
 - `examples.phase3_progress.demo_live_update` - 12 calls
-- `devtools.ClickmdHandler.format_record` - 12 calls
-- `renderer.MarkdownRenderer.codeblock` - 11 calls
+- `src.clickmd.devtools.ClickmdHandler.format_record` - 12 calls
 - `examples.logger_usage.progress_and_steps` - 11 calls
 - `examples.logger_usage.grouped_output` - 11 calls
 - `examples.markdown_help.config` - 11 calls
+- `src.clickmd.renderer.MarkdownRenderer.codeblock` - 11 calls
 - `examples.phase5_devtools.demo_logging` - 11 calls
 - `examples.simple_cli.status` - 10 calls
-- `themes.color` - 9 calls
 - `examples.phase1_features.demo_tables` - 9 calls
 - `examples.phase1_features.demo_horizontal_rules` - 9 calls
-- `clickmd.echo` - 8 calls
-- `progress.Spinner.stop` - 8 calls
+- `src.clickmd.themes.color` - 9 calls
 - `examples.logger_usage.action_logging` - 8 calls
 - `examples.logger_usage.llm_logging` - 8 calls
 - `examples.logger_usage.mixed_output` - 8 calls
 - `examples.config_viewer.show_env_config` - 8 calls
 - `examples.phase4_themes.demo_custom_theme` - 8 calls
+- `tools.md_to_html.main` - 8 calls
 
 ## System Interactions
 
@@ -514,12 +514,12 @@ graph TD
     _highlight_python --> startswith
     _highlight_python --> sub
     format_exception --> append
-    _highlight_log --> strip
-    _highlight_log --> startswith
     real_world_example --> md
     real_world_example --> Logger
     real_world_example --> heading
     real_world_example --> llm
+    _highlight_log --> strip
+    _highlight_log --> startswith
     diff --> get_renderer
     diff --> unified_diff
     diff --> isinstance

@@ -3,15 +3,15 @@ project:
   name: clickmd
   repo: /home/tom/github/wronai/clickmd
   language: python
-  analyzed_at: '2026-03-05T21:07:06Z'
+  analyzed_at: '2026-03-05T21:30:49Z'
   tool: code2llm
   stats:
-    files: 9
-    lines: 5292
-    functions: 163
+    files: 10
+    lines: 5369
+    functions: 164
     classes: 10
 health:
-  cc_avg: 3.4
+  cc_avg: 3.5
   critical_count: 13
   critical_limit: 10
   duplicates: 0
@@ -38,12 +38,12 @@ health:
     limit: 15
     severity: error
   - type: cc_exceeded
-    target: MarkdownRenderer._highlight_line
+    target: markdown_to_html
     value: 21
     limit: 15
     severity: error
   - type: cc_exceeded
-    target: markdown_to_html
+    target: MarkdownRenderer._highlight_line
     value: 21
     limit: 15
     severity: error
@@ -65,6 +65,11 @@ health:
   - type: high_fan_out
     target: render_table
     value: 14
+    limit: 10
+    severity: warning
+  - type: high_fan_out
+    target: bump_version
+    value: 13
     limit: 10
     severity: warning
   - type: high_fan_out
@@ -103,7 +108,7 @@ health:
     limit: 10
     severity: warning
 modules:
-- path: renderer.py
+- path: src/clickmd/renderer.py
   lines: 900
   classes: 1
   methods: 43
@@ -154,7 +159,7 @@ modules:
   - name: checklist
     type: function
     cc: 1
-- path: devtools.py
+- path: src/clickmd/devtools.py
   lines: 574
   classes: 2
   methods: 15
@@ -205,12 +210,12 @@ modules:
   - name: main
     type: function
     cc: 3
-- path: __init__.py
+- path: src/clickmd/__init__.py
   lines: 445
   classes: 0
   methods: 4
   cc_max: 15
-  inbound_deps: 9
+  inbound_deps: 2
   exports:
   - name: menu
     type: function
@@ -226,12 +231,12 @@ modules:
   - name: md
     type: function
     cc: 1
-- path: rich_backend.py
+- path: src/clickmd/rich_backend.py
   lines: 306
   classes: 1
   methods: 13
   cc_max: 14
-  inbound_deps: 9
+  inbound_deps: 10
   exports:
   - name: _FallbackConsole
     type: class
@@ -268,7 +273,7 @@ modules:
   - name: print_table
     type: function
     cc: 1
-- path: progress.py
+- path: src/clickmd/progress.py
   lines: 511
   classes: 4
   methods: 30
@@ -303,7 +308,18 @@ modules:
     type: function
     cc: 4
     fan_out: 11
-- path: themes.py
+- path: scripts/bump_version.py
+  lines: 77
+  classes: 0
+  methods: 1
+  cc_max: 9
+  inbound_deps: 0
+  exports:
+  - name: bump_version
+    type: function
+    cc: 9
+    fan_out: 13
+- path: src/clickmd/themes.py
   lines: 482
   classes: 1
   methods: 14
@@ -337,7 +353,7 @@ modules:
   - name: init_theme_from_env
     type: function
     cc: 2
-- path: help.py
+- path: src/clickmd/help.py
   lines: 522
   classes: 0
   methods: 9
@@ -359,7 +375,7 @@ modules:
   - name: echo_md
     type: function
     cc: 3
-- path: logger.py
+- path: src/clickmd/logger.py
   lines: 302
   classes: 1
   methods: 30
@@ -390,7 +406,7 @@ modules:
   - name: log_action
     type: function
     cc: 1
-- path: decorators.py
+- path: src/clickmd/decorators.py
   lines: 286
   classes: 0
   methods: 0
@@ -410,6 +426,9 @@ hotspots:
   fan_out: 14
   note: "Render a formatted table.\n\nArgs:\n    headers: Column headers\n    rows:\
     \ Table row"
+- name: bump_version
+  fan_out: 13
+  note: Bump version in pyproject.toml
 - name: menu
   fan_out: 13
   note: "Display a numbered markdown menu and prompt for selection.\n\nArgs:\n   \
@@ -429,28 +448,28 @@ hotspots:
   fan_out: 11
   note: "Inspect an object showing its type, methods, and attributes.\n\nArgs:\n \
     \   obj: Obj"
-- name: tree
-  fan_out: 11
-  note: "Display data in a tree structure.\n\nArgs:\n    data: Dictionary to display\
-    \ as tree"
 refactoring:
   priorities:
   - action: Split MarkdownRenderer.table (CC=28 → target CC<10)
     impact: high
     effort: low
     module: renderer.py
-  - action: Split god module renderer.py (900L, 1 classes)
+  - action: Split god module src/clickmd/renderer.py (900L, 1 classes)
     impact: high
     effort: high
-  - action: Split god module devtools.py (574L, 2 classes)
+  - action: Split god module src/clickmd/devtools.py (574L, 2 classes)
     impact: high
     effort: high
-  - action: Split god module progress.py (511L, 4 classes)
+  - action: Split god module src/clickmd/progress.py (511L, 4 classes)
     impact: high
     effort: high
-  - action: Split god module help.py (522L, 0 classes)
+  - action: Split god module src/clickmd/help.py (522L, 0 classes)
     impact: high
     effort: high
+  - action: Split markdown_to_html (CC=21 → target CC<10)
+    impact: medium
+    effort: low
+    module: md_to_html.py
   - action: Split menu (CC=15 → target CC<10)
     impact: medium
     effort: low
@@ -463,21 +482,17 @@ refactoring:
     impact: medium
     effort: low
     module: renderer.py
-  - action: Split markdown_to_html (CC=21 → target CC<10)
-    impact: medium
-    effort: low
-    module: md_to_html.py
   - action: Split _format_debug_value (CC=24 → target CC<10)
     impact: medium
     effort: low
     module: devtools.py
-  - action: 'Break circular dependency: rich_backend._FallbackConsole.print'
+  - action: 'Break circular dependency: src.clickmd.rich_backend._FallbackConsole.print'
     impact: medium
     effort: low
-  - action: 'Break circular dependency: devtools._format_debug_value'
+  - action: 'Break circular dependency: src.clickmd.devtools._format_debug_value'
     impact: medium
     effort: low
-  - action: 'Break circular dependency: devtools.tree'
+  - action: 'Break circular dependency: src.clickmd.devtools.tree'
     impact: medium
     effort: low
   - action: Reduce markdown_to_html fan-out (currently 29)
@@ -488,7 +503,7 @@ refactoring:
     effort: medium
 evolution:
 - date: '2026-03-05'
-  cc_avg: 3.4
+  cc_avg: 3.5
   critical: 13
-  lines: 5292
+  lines: 5369
   note: Automated analysis

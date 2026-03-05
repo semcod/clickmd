@@ -5,105 +5,73 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Planned
+- Split `renderer.py` into smaller modules (highlighters, table, panel)
+- Reduce cyclomatic complexity in `devtools.py` (CC=24 → ≤14)
+- Split high-CC functions: `_highlight_line`, `table`, `_format_debug_value`
+
+## [1.1.0] - 2026-03-05
+
+### Changed
+- **BREAKING (internal)**: Moved package source to `src/clickmd/` layout
+- Updated `pyproject.toml` to use `src` layout with hatchling
+- Updated coverage config to target `src/clickmd`
+
+### Fixed
+- Fixed `pyproject.toml` authors field format (must be inline tables)
+- Fixed `publish-env/` directory polluting builds and analysis
+- Added `--skip-existing` flag to `make publish` to avoid duplicate upload errors
+- Added `publish-env/` and `publish-test-env/` to `.gitignore`
+
+### Added
+- `scripts/bump_version.py` for automated version bumping (patch/minor/major)
+- `make publish-new` target: bumps version + builds + publishes
+- `make tets` alias for common typo
+- VERSION file sync in bump script
+
+### Removed
+- Stale `publish-env/` and `venv/` directories from repo
+
+## [1.0.3] - 2026-03-05
+
+### Fixed
+- Simplified Makefile publish targets (removed temporary venv creation)
+- Installed `build` and `twine` as dev dependencies
+
+## [1.0.2] - 2026-03-05
+
+### Fixed
+- Fixed `pyproject.toml` authors format for hatchling compatibility
+- Added project analysis files
+
+## [1.0.1] - 2026-03-05
+
+### Added
+- Phase 1: Tables, panels, blockquotes, horizontal rules, checklists
+- Phase 3: Progress bars, spinners, live updates, countdown
+- Phase 4: Theming system with multiple built-in themes
+- Phase 5: Developer tools (debug, inspect, diff, tree, pretty exceptions)
+- `menu()` and `select()` interactive prompts
+- `Logger` class with markdown-aware structured logging
+- Optional Rich backend integration
+- Markdown help formatter for Click (`MarkdownCommand`, `MarkdownGroup`)
+- Comprehensive test suite (69 tests)
+- Examples directory with 17 demo scripts
+
+### Features
+- Works without Click installed (zero dependencies for core)
+- Auto-detects TTY for color output
+- Supports custom output streams
+- Type hints (`py.typed` marker)
+
 ## [1.0.0] - 2024-01-07
 
 ### Added
 - Initial release
 - `md()` function for markdown rendering
 - `echo()` smart function with auto-detection
-- `MarkdownRenderer` class for advanced usage
-- Syntax highlighting for:
-  - Python (keywords, decorators, strings, comments)
-  - TypeScript/JavaScript (keywords, strings, template literals)
-  - JSON (keys, values, numbers, booleans)
-  - YAML (keys, values, comments, lists)
-  - Bash/Shell (commands, comments)
-  - Markdown (headers, bold, links)
-  - Log (status emojis, errors, warnings)
+- `MarkdownRenderer` class with syntax highlighting
+- Supported languages: Python, TypeScript/JavaScript, JSON, YAML, Bash, Markdown, Log
 - Click decorators re-export (optional dependency)
-- Zero-dependency core functionality
-- Full test suite
-- Examples and documentation
-
-### Features
-- Works without Click installed
-- Auto-detects TTY for color output
-- Supports custom output streams
-- Type hints (py.typed marker)
-
-## [Unreleased]
-
-### Planned
-- Table rendering
-- Progress bars
-- Box/panel rendering
-- More language highlighters
-
-## [1.0.3] - 2026-03-05
-
-### Other
-- Update Makefile
-- Update publish-env/bin/docutils
-- Update publish-env/bin/keyring
-- Update publish-env/bin/markdown-it
-- Update publish-env/bin/normalizer
-- Update publish-env/bin/pygmentize
-- Update publish-env/bin/rst2html
-- Update publish-env/bin/rst2html4
-- Update publish-env/bin/rst2html5
-- Update publish-env/bin/rst2latex
-- ... and 8 more files
-
-## [1.0.2] - 2026-03-05
-
-### Docs
-- Update project/README.md
-- Update project/context.md
-
-### Other
-- Update Makefile
-- Update project/analysis.toon
-- Update project/calls.mmd
-- Update project/calls.png
-- Update project/compact_flow.mmd
-- Update project/compact_flow.png
-- Update project/dashboard.html
-- Update project/evolution.toon
-- Update project/flow.mmd
-- Update project/flow.png
-- ... and 5 more files
-
-## [1.0.1] - 2026-03-05
-
-### Docs
-- Update CHANGELOG.md
-- Update README.md
-- Update ROADMAP.md
-- Update docs/API.md
-- Update docs/CONTRIBUTING.md
-- Update examples_output/api_response.md
-- Update examples_output/basic.md
-- Update examples_output/cli_app.md
-- Update examples_output/cli_colors.md
-- Update examples_output/config_viewer.md
-- ... and 7 more files
-
-### Test
-- Update tests/__init__.py
-- Update tests/test_core.py
-- Update tests/test_decorators.py
-- Update tests/test_logger.py
-- Update tests/test_renderer.py
-
-### Other
-- Update .gitignore
-- Update LICENSE
-- Update Makefile
-- Update __init__.py
-- Update clickmd.functions.toon
-- Update clickmd.toon
-- Update clickmd.toon-schema.json
-- Update decorators.py
-- Update devtools.py
-- Update examples/api_response.py
-- ... and 38 more files

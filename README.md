@@ -184,6 +184,29 @@ See the [examples/](examples/) directory for more usage examples:
 - `examples/custom_renderer.py` - Custom renderer configuration
 - `examples/logging.py` - Log-style colored output
 
+## Project Structure
+
+```
+clickmd/
+├── src/clickmd/          # Package source
+│   ├── __init__.py       # Public API & re-exports
+│   ├── renderer.py       # Core markdown renderer & syntax highlighting
+│   ├── decorators.py     # Click decorator re-exports
+│   ├── help.py           # Markdown help formatter for Click
+│   ├── logger.py         # Markdown-aware structured logger
+│   ├── progress.py       # Progress bars, spinners, live updates
+│   ├── themes.py         # Color themes & NO_COLOR support
+│   ├── devtools.py       # Debug, inspect, diff, tree tools
+│   ├── rich_backend.py   # Optional Rich integration
+│   └── py.typed          # PEP 561 type marker
+├── tests/                # Test suite (69 tests)
+├── examples/             # Demo scripts
+├── scripts/              # Build & version tools
+├── tools/                # Markdown-to-HTML converter
+├── pyproject.toml        # Project config (hatchling)
+└── Makefile              # Dev commands
+```
+
 ## Development
 
 ```bash
@@ -192,16 +215,18 @@ git clone https://github.com/wronai/clickmd.git
 cd clickmd
 
 # Install development dependencies
-pip install -e ".[dev]"
+pip install -e ".[dev,click]"
 
 # Run tests
 make test
 
-# Run linter
+# Run linter & format
 make lint
-
-# Format code
 make format
+
+# Build & publish
+make build
+make publish
 ```
 
 ## License
@@ -220,4 +245,3 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 
 - [Click](https://click.palletsprojects.com/) - Python CLI framework
 - [Rich](https://github.com/Textualize/rich) - Rich text and beautiful formatting
-- [Reclapp](https://github.com/wronai/contract) - Contract-first development platform
