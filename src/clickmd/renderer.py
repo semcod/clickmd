@@ -126,71 +126,128 @@ class MarkdownRenderer:
         flush()
 
     def _highlight_line(self, lang: str, line: str) -> str:
+        """Highlight a line based on language."""
         l = (lang or "text").lower()
-        if l in ("yaml", "yml"):
-            return self._highlight_yaml(line)
-        if l == "json":
-            return self._highlight_json(line)
-        if l in ("bash", "sh", "shell", "zsh"):
-            return self._highlight_bash(line)
-        if l in ("typescript", "ts", "javascript", "js", "jsx", "tsx"):
-            return self._highlight_js(line)
-        if l in ("python", "py"):
-            return self._highlight_python(line)
-        if l in ("markdown", "md"):
-            return self._highlight_markdown(line)
-        if l in ("log",):
-            return self._highlight_log(line)
-        if l in ("html", "htm", "xml", "svg"):
-            return self._highlight_html(line)
-        if l in ("css", "scss", "sass", "less"):
-            return self._highlight_css(line)
-        if l in ("sql", "mysql", "postgresql", "sqlite"):
-            return self._highlight_sql(line)
-        if l in ("toml", "ini", "cfg", "conf"):
-            return self._highlight_toml(line)
-        if l in ("go", "golang"):
-            return self._highlight_go(line)
-        if l in ("rust", "rs"):
-            return self._highlight_rust(line)
-        if l in ("java", "kotlin", "kt", "scala"):
-            return self._highlight_java(line)
-        if l in ("c", "cpp", "c++", "h", "hpp", "cxx"):
-            return self._highlight_c(line)
-        if l in ("ruby", "rb"):
-            return self._highlight_ruby(line)
-        if l in ("php"):
-            return self._highlight_php(line)
-        if l in ("dockerfile", "docker"):
-            return self._highlight_dockerfile(line)
-        if l in ("diff", "patch"):
-            return self._highlight_diff(line)
+        
+        # Language to method mapping
+        highlighters = {
+            # Data formats
+            "yaml": self._highlight_yaml,
+            "yml": self._highlight_yaml,
+            "json": self._highlight_json,
+            "toml": self._highlight_toml,
+            "ini": self._highlight_toml,
+            "cfg": self._highlight_toml,
+            "conf": self._highlight_toml,
+            
+            # Programming languages
+            "python": self._highlight_python,
+            "py": self._highlight_python,
+            "typescript": self._highlight_js,
+            "ts": self._highlight_js,
+            "javascript": self._highlight_js,
+            "js": self._highlight_js,
+            "jsx": self._highlight_js,
+            "tsx": self._highlight_js,
+            "go": self._highlight_go,
+            "golang": self._highlight_go,
+            "rust": self._highlight_rust,
+            "rs": self._highlight_rust,
+            "java": self._highlight_java,
+            "kotlin": self._highlight_java,
+            "kt": self._highlight_java,
+            "scala": self._highlight_java,
+            "c": self._highlight_c,
+            "cpp": self._highlight_c,
+            "c++": self._highlight_c,
+            "h": self._highlight_c,
+            "hpp": self._highlight_c,
+            "cxx": self._highlight_c,
+            "ruby": self._highlight_ruby,
+            "rb": self._highlight_ruby,
+            "php": self._highlight_php,
+            
+            # Web technologies
+            "html": self._highlight_html,
+            "htm": self._highlight_html,
+            "xml": self._highlight_html,
+            "svg": self._highlight_html,
+            "css": self._highlight_css,
+            "scss": self._highlight_css,
+            "sass": self._highlight_css,
+            "less": self._highlight_css,
+            
+            # Shell and scripts
+            "bash": self._highlight_bash,
+            "sh": self._highlight_bash,
+            "shell": self._highlight_bash,
+            "zsh": self._highlight_bash,
+            "dockerfile": self._highlight_dockerfile,
+            "docker": self._highlight_dockerfile,
+            
+            # Databases
+            "sql": self._highlight_sql,
+            "mysql": self._highlight_sql,
+            "postgresql": self._highlight_sql,
+            "sqlite": self._highlight_sql,
+            
+            # Others
+            "markdown": self._highlight_markdown,
+            "md": self._highlight_markdown,
+            "log": self._highlight_log,
+            "diff": self._highlight_diff,
+            "patch": self._highlight_diff,
+        }
+        
+        highlighter = highlighters.get(l)
+        if highlighter:
+            return highlighter(line)
+        
         return self._c("white", line)
 
     def _highlight_log(self, line: str) -> str:
+        """Highlight log lines based on patterns and emojis."""
         trimmed = line.strip()
-        if trimmed.startswith("🛑"):
-            return self._c("red", line)
-        if trimmed.startswith("⚠️"):
-            return self._c("yellow", line)
-        if trimmed.startswith("🚀"):
-            return self._c("green", line)
-        if trimmed.startswith("📦") or trimmed.startswith("💬") or trimmed.startswith("🔄"):
-            return self._c("cyan", line)
-        if trimmed.startswith("🎫") or trimmed.startswith("📝"):
-            return self._c("yellow", line)
+        
+        # Emoji patterns at start of line
+        emoji_patterns = {
+            "🛑": "red",
+            "⚠️": "yellow", 
+            "🚀": "green",
+            "📦": "cyan",
+            "💬": "cyan",
+            "🔄": "cyan",
+            "🎫": "yellow",
+            "📝": "yellow",
+        }
+        
+        for emoji, color in emoji_patterns.items():
+            if trimmed.startswith(emoji):
+                return self._c(color, line)
+        
+        # Special patterns
         if trimmed.startswith("📊") or "📊 Progress" in trimmed:
             return self._c("magenta", line)
         if trimmed.startswith("## "):
             return self._c("cyan", line)
         if trimmed.startswith("→ "):
             return self._c("gray", line)
-        if "✅" in line:
-            return self._c("green", line)
-        if "❌" in line or "Error" in line or "ERR_" in line or "Exception" in line:
-            return self._c("red", line)
-        if "⚠️" in line or "warning" in line.lower():
-            return self._c("yellow", line)
+        
+        # Content-based patterns
+        content_patterns = [
+            ("✅", "green"),
+            ("❌", "red"),
+            ("Error", "red"),
+            ("ERR_", "red"),
+            ("Exception", "red"),
+            ("⚠️", "yellow"),
+            ("warning", "yellow"),
+        ]
+        
+        for pattern, color in content_patterns:
+            if pattern in line or (pattern.lower() in line.lower() and pattern != "⚠️"):
+                return self._c(color, line)
+        
         return self._c("white", line)
 
     def _highlight_markdown(self, line: str) -> str:
@@ -559,8 +616,24 @@ class MarkdownRenderer:
         if not headers and not rows:
             return
         
-        # Calculate column widths
         num_cols = len(headers) if headers else (len(rows[0]) if rows else 0)
+        widths = self._calculate_column_widths(headers, rows, num_cols)
+        align = align or ["left"] * num_cols
+        chars = self._get_table_chars(style)
+        
+        if markdown_safe:
+            self._writeln("```")
+        
+        self._render_table_top_border(chars, widths)
+        self._render_table_header(headers, widths, align, chars)
+        self._render_table_rows(rows, widths, align, chars, num_cols)
+        self._render_table_bottom_border(chars, widths)
+        
+        if markdown_safe:
+            self._writeln("```")
+    
+    def _calculate_column_widths(self, headers: list[str], rows: list[list[str]], num_cols: int) -> list[int]:
+        """Calculate the width for each column including padding."""
         widths = [0] * num_cols
         
         for i, h in enumerate(headers):
@@ -572,79 +645,70 @@ class MarkdownRenderer:
                 if i < num_cols:
                     widths[i] = max(widths[i], len(strip_ansi(str(cell))))
         
-        # Add padding
-        widths = [w + 2 for w in widths]
-        
-        # Default alignment
-        if align is None:
-            align = ["left"] * num_cols
-        
-        # Style characters
-        chars = self._get_table_chars(style)
-        
-        def align_cell(text: str, width: int, alignment: str) -> str:
-            text_len = len(strip_ansi(text))
-            padding = width - text_len
-            if alignment == "center":
-                left_pad = padding // 2
-                right_pad = padding - left_pad
-                return " " * left_pad + text + " " * right_pad
-            elif alignment == "right":
-                return " " * padding + text
-            else:  # left
-                return text + " " * padding
-        
-        # Start codeblock for markdown safety
-        if markdown_safe:
-            self._writeln("```")
-        
-        # Top border
-        if chars["top_left"]:
-            top = chars["top_left"] + chars["top_mid"].join(
+        return [w + 2 for w in widths]
+    
+    def _align_cell(self, text: str, width: int, alignment: str) -> str:
+        """Align text within a cell of given width."""
+        text_len = len(strip_ansi(text))
+        padding = width - text_len
+        if alignment == "center":
+            left_pad = padding // 2
+            right_pad = padding - left_pad
+            return " " * left_pad + text + " " * right_pad
+        elif alignment == "right":
+            return " " * padding + text
+        else:  # left
+            return text + " " * padding
+    
+    def _render_table_border(self, chars: dict[str, str], widths: list[int], 
+                           left_key: str, right_key: str, mid_key: str) -> None:
+        """Render a table border (top, middle, or bottom)."""
+        if chars[left_key]:
+            border = chars[left_key] + chars[mid_key].join(
                 chars["horizontal"] * w for w in widths
-            ) + chars["top_right"]
-            self._writeln(self._c("gray", top))
+            ) + chars[right_key]
+            self._writeln(self._c("gray", border))
+    
+    def _render_table_top_border(self, chars: dict[str, str], widths: list[int]) -> None:
+        """Render the top border of the table."""
+        self._render_table_border(chars, widths, "top_left", "top_right", "top_mid")
+    
+    def _render_table_bottom_border(self, chars: dict[str, str], widths: list[int]) -> None:
+        """Render the bottom border of the table."""
+        self._render_table_border(chars, widths, "bottom_left", "bottom_right", "bottom_mid")
+    
+    def _render_table_header(self, headers: list[str], widths: list[int], 
+                           align: list[str], chars: dict[str, str]) -> None:
+        """Render the table header row."""
+        if not headers:
+            return
         
-        # Header
-        if headers:
-            header_cells = []
-            for i, h in enumerate(headers):
-                w = widths[i] if i < len(widths) else 10
-                a = align[i] if i < len(align) else "left"
-                colored = self._c("cyan", str(h), bold=True)
-                header_cells.append(align_cell(colored, w, a))
-            
-            header_line = chars["vertical"] + chars["vertical"].join(header_cells) + chars["vertical"]
-            self._writeln(header_line)
-            
-            # Header separator
-            sep = chars["mid_left"] + chars["mid_mid"].join(
-                chars["horizontal"] * w for w in widths
-            ) + chars["mid_right"]
-            self._writeln(self._c("gray", sep))
+        header_cells = []
+        for i, h in enumerate(headers):
+            w = widths[i] if i < len(widths) else 10
+            a = align[i] if i < len(align) else "left"
+            colored = self._c("cyan", str(h), bold=True)
+            header_cells.append(self._align_cell(colored, w, a))
         
-        # Rows
+        header_line = chars["vertical"] + chars["vertical"].join(header_cells) + chars["vertical"]
+        self._writeln(header_line)
+        
+        # Header separator
+        self._render_table_border(chars, widths, "mid_left", "mid_right", "mid_mid")
+    
+    def _render_table_rows(self, rows: list[list[str]], widths: list[int], 
+                         align: list[str], chars: dict[str, str], num_cols: int) -> None:
+        """Render all table rows."""
         for row in rows:
             row_cells = []
             for i in range(num_cols):
                 cell = str(row[i]) if i < len(row) else ""
                 w = widths[i] if i < len(widths) else 10
                 a = align[i] if i < len(align) else "left"
-                row_cells.append(align_cell(cell, w, a))
+                row_cells.append(self._align_cell(cell, w, a))
             
             row_line = chars["vertical"] + chars["vertical"].join(row_cells) + chars["vertical"]
             self._writeln(row_line)
-        
-        # Bottom border
-        if chars["bottom_left"]:
-            bottom = chars["bottom_left"] + chars["bottom_mid"].join(
-                chars["horizontal"] * w for w in widths
-            ) + chars["bottom_right"]
-            self._writeln(self._c("gray", bottom))
-        
-        # End codeblock
-        if markdown_safe:
-            self._writeln("```")
     
     def _get_table_chars(self, style: str) -> dict[str, str]:
         """Get table border characters for style."""

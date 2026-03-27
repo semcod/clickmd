@@ -43,32 +43,42 @@ def _escape_text(text: str) -> str:
 
 
 def markdown_to_html(markdown_text: str, title: str) -> str:
+    """Convert markdown text to HTML with basic formatting support."""
     lines = (markdown_text or "").splitlines()
+    
+    # Initialize state
+    state = {
+        "out": [],
+        "in_code": False,
+        "code_lang": "",
+        "code_buf": [],
+        "paragraph": [],
+        "in_list": False,
+        "list_items": [],
+    }
+    
+    # Add HTML header
+    _add_html_header(state["out"], title)
+    
+    # Process each line
+    i = 0
+    while i < len(lines):
+        i = _process_line(lines, i, state)
+    
+    # Flush remaining content
+    _flush_paragraph(state)
+    _flush_list(state)
+    _flush_code(state)
+    
+    # Close HTML
+    state["out"].append("</body>")
+    state["out"].append("</html>")
+    
+    return "\n".join(state["out"])
 
-    out: list[str] = []
 
-    in_code = False
-    code_lang = ""
-    code_buf: list[str] = []
-
-    def flush_code() -> None:
-        nonlocal in_code, code_lang, code_buf
-        if not in_code:
-            return
-        code = "\n".join(code_buf)
-        out.append(
-            f"<pre><code class=\"language-{html.escape(code_lang)}\">{html.escape(code)}</code></pre>"
-        )
-        in_code = False
-        code_lang = ""
-        code_buf = []
-
-    def start_code(lang: str) -> None:
-        nonlocal in_code, code_lang, code_buf
-        in_code = True
-        code_lang = (lang or "").strip() or "text"
-        code_buf = []
-
+def _add_html_header(out: list[str], title: str) -> None:
+    """Add the HTML head section with styles."""
     out.append("<!doctype html>")
     out.append("<html lang=\"en\">")
     out.append("<head>")
@@ -92,134 +102,144 @@ def markdown_to_html(markdown_text: str, title: str) -> str:
     out.append("</head>")
     out.append("<body>")
 
-    paragraph: list[str] = []
-    in_list = False
-    list_items: list[str] = []
 
-    def flush_paragraph() -> None:
-        nonlocal paragraph
-        if not paragraph:
-            return
-        # Each line becomes its own paragraph for better formatting
-        for p in paragraph:
-            text = p.strip()
-            if text:
-                out.append(f"<p>{_inline_md_to_html(text)}</p>")
-        paragraph = []
+def _process_line(lines: list[str], i: int, state: dict) -> int:
+    """Process a single line and return the next line index."""
+    line = lines[i]
+    stripped = line.rstrip("\n")
+    
+    # Code fences
+    fence = re.match(r"^(`{3,})(.*)$", stripped.strip())
+    if fence:
+        _flush_paragraph(state)
+        _flush_list(state)
+        if not state["in_code"]:
+            _start_code(state, fence.group(2))
+        else:
+            _flush_code(state)
+        return i + 1
+    
+    # Inside code block
+    if state["in_code"]:
+        state["code_buf"].append(stripped)
+        return i + 1
+    
+    # Headings
+    m = re.match(r"^(#{1,6})\s+(.*)$", stripped)
+    if m:
+        _flush_paragraph(state)
+        _flush_list(state)
+        level = len(m.group(1))
+        state["out"].append(f"<h{level}>{_inline_md_to_html(m.group(2).strip())}</h{level}>")
+        return i + 1
+    
+    # List items
+    list_match = re.match(r"^[-*]\s+(.*)$", stripped.strip())
+    if list_match:
+        _flush_paragraph(state)
+        state["in_list"] = True
+        state["list_items"].append(list_match.group(1))
+        return i + 1
+    
+    ordered_match = re.match(r"^\d+\.\s+(.*)$", stripped.strip())
+    if ordered_match:
+        _flush_paragraph(state)
+        state["in_list"] = True
+        state["list_items"].append(ordered_match.group(1))
+        return i + 1
+    
+    # Tables
+    if _is_table_row(stripped) and i + 1 < len(lines) and re.match(r"^\|\s*[:-]-+.*\|$", lines[i + 1].strip()):
+        i = _process_table(lines, i, state)
+        return i
+    
+    # Blank line
+    if not stripped.strip():
+        _flush_paragraph(state)
+        _flush_list(state)
+        return i + 1
+    
+    # Regular text
+    if state["in_list"]:
+        _flush_list(state)
+    state["paragraph"].append(stripped)
+    return i + 1
 
-    def flush_list() -> None:
-        nonlocal in_list, list_items
-        if not in_list or not list_items:
-            in_list = False
-            list_items = []
-            return
-        out.append("<ul>")
-        for item in list_items:
-            out.append(f"<li>{_inline_md_to_html(item)}</li>")
-        out.append("</ul>")
-        in_list = False
-        list_items = []
 
-    # very small table support (GitHub-style pipes)
-    def is_table_row(s: str) -> bool:
-        t = s.strip()
-        return t.startswith("|") and t.endswith("|") and "|" in t[1:-1]
-
-    def is_list_item(s: str) -> bool:
-        t = s.strip()
-        return t.startswith("- ") or t.startswith("* ") or re.match(r"^\d+\.\s", t)
-
-    i = 0
-    while i < len(lines):
-        line = lines[i]
-        stripped = line.rstrip("\n")
-
-        fence = re.match(r"^(`{3,})(.*)$", stripped.strip())
-        if fence:
-            flush_paragraph()
-            flush_list()
-            if not in_code:
-                start_code(fence.group(2))
-            else:
-                flush_code()
-            i += 1
-            continue
-
-        if in_code:
-            code_buf.append(stripped)
-            i += 1
-            continue
-
-        # Headings
-        m = re.match(r"^(#{1,6})\s+(.*)$", stripped)
-        if m:
-            flush_paragraph()
-            flush_list()
-            level = len(m.group(1))
-            out.append(f"<h{level}>{_inline_md_to_html(m.group(2).strip())}</h{level}>")
-            i += 1
-            continue
-
-        # Unordered list items
-        list_match = re.match(r"^[-*]\s+(.*)$", stripped.strip())
-        if list_match:
-            flush_paragraph()
-            in_list = True
-            list_items.append(list_match.group(1))
-            i += 1
-            continue
-
-        # Ordered list items
-        ordered_match = re.match(r"^\d+\.\s+(.*)$", stripped.strip())
-        if ordered_match:
-            flush_paragraph()
-            in_list = True
-            list_items.append(ordered_match.group(1))
-            i += 1
-            continue
-
-        # Tables (simple)
-        if is_table_row(stripped) and i + 1 < len(lines) and re.match(r"^\|\s*[:-]-+.*\|$", lines[i + 1].strip()):
-            flush_paragraph()
-            flush_list()
-            header = [c.strip() for c in stripped.strip()[1:-1].split("|")]
-            i += 2
-            rows: list[list[str]] = []
-            while i < len(lines) and is_table_row(lines[i]):
-                row = [c.strip() for c in lines[i].strip()[1:-1].split("|")]
-                rows.append(row)
-                i += 1
-            out.append("<table>")
-            out.append("<thead><tr>" + "".join([f"<th>{_inline_md_to_html(c)}</th>" for c in header]) + "</tr></thead>")
-            out.append("<tbody>")
-            for row in rows:
-                row_cells = "".join([f"<td>{_inline_md_to_html(c)}</td>" for c in row])
-                out.append(f"<tr>{row_cells}</tr>")
-            out.append("</tbody></table>")
-            continue
-
-        # Blank line ends paragraph and list
-        if not stripped.strip():
-            flush_paragraph()
-            flush_list()
-            i += 1
-            continue
-
-        # Regular text - flush list first if we were in one
-        if in_list:
-            flush_list()
-
-        paragraph.append(stripped)
+def _process_table(lines: list[str], i: int, state: dict) -> int:
+    """Process a table and return the next line index after the table."""
+    _flush_paragraph(state)
+    _flush_list(state)
+    
+    header = [c.strip() for c in lines[i].strip()[1:-1].split("|")]
+    i += 2  # Skip header and separator
+    
+    rows = []
+    while i < len(lines) and _is_table_row(lines[i]):
+        row = [c.strip() for c in lines[i].strip()[1:-1].split("|")]
+        rows.append(row)
         i += 1
+    
+    state["out"].append("<table>")
+    state["out"].append("<thead><tr>" + "".join([f"<th>{_inline_md_to_html(c)}</th>" for c in header]) + "</tr></thead>")
+    state["out"].append("<tbody>")
+    for row in rows:
+        row_cells = "".join([f"<td>{_inline_md_to_html(c)}</td>" for c in row])
+        state["out"].append(f"<tr>{row_cells}</tr>")
+    state["out"].append("</tbody></table>")
+    
+    return i
 
-    flush_paragraph()
-    flush_list()
-    flush_code()
 
-    out.append("</body>")
-    out.append("</html>")
+def _is_table_row(s: str) -> bool:
+    """Check if a line is a table row."""
+    t = s.strip()
+    return t.startswith("|") and t.endswith("|") and "|" in t[1:-1]
 
-    return "\n".join(out)
+
+def _flush_code(state: dict) -> None:
+    """Flush the code buffer to output."""
+    if not state["in_code"]:
+        return
+    code = "\n".join(state["code_buf"])
+    state["out"].append(
+        f"<pre><code class=\"language-{html.escape(state['code_lang'])}\">{html.escape(code)}</code></pre>"
+    )
+    state["in_code"] = False
+    state["code_lang"] = ""
+    state["code_buf"] = []
+
+
+def _start_code(state: dict, lang: str) -> None:
+    """Start a code block."""
+    state["in_code"] = True
+    state["code_lang"] = (lang or "").strip() or "text"
+    state["code_buf"] = []
+
+
+def _flush_paragraph(state: dict) -> None:
+    """Flush paragraph buffer to output."""
+    if not state["paragraph"]:
+        return
+    for p in state["paragraph"]:
+        text = p.strip()
+        if text:
+            state["out"].append(f"<p>{_inline_md_to_html(text)}</p>")
+    state["paragraph"] = []
+
+
+def _flush_list(state: dict) -> None:
+    """Flush list buffer to output."""
+    if not state["in_list"] or not state["list_items"]:
+        state["in_list"] = False
+        state["list_items"] = []
+        return
+    state["out"].append("<ul>")
+    for item in state["list_items"]:
+        state["out"].append(f"<li>{_inline_md_to_html(item)}</li>")
+    state["out"].append("</ul>")
+    state["in_list"] = False
+    state["list_items"] = []
 
 
 def convert_directory(md_dir: Path) -> None:

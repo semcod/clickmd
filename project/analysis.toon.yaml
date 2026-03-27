@@ -1,8 +1,8 @@
-# code2llm | 12f 4677L | python:11,shell:1 | 2026-03-27
+# code2llm | 12f 4680L | python:11,shell:1 | 2026-03-27
 # CC̄=3.5 | critical:6/221 | dups:0 | cycles:3
 
 HEALTH[7]:
-  🔴 GOD   src/clickmd/progress.py = 511L, 4 classes, 30m, max CC=10
+  🔴 GOD   src/clickmd/progress.py = 514L, 4 classes, 30m, max CC=10
   🟡 CC    markdown_to_html CC=21 (limit:15)
   🟡 CC    menu CC=15 (limit:15)
   🟡 CC    _highlight_line CC=21 (limit:15)
@@ -35,12 +35,12 @@ LAYERS:
   │ !! md_to_html                 248L  0C    5m  CC=21     ←0
   │
   src/                            CC̄=3.4    ←in:0  →out:4
-  │ !! renderer                   900L  1C   43m  CC=28     ←6
-  │ !! devtools                   574L  2C   15m  CC=24     ←0
-  │ !! help                       522L  0C    9m  CC=4      ←0
-  │ !! progress                   511L  4C   30m  CC=10     ←0
+  │ !! renderer                   905L  1C   43m  CC=28     ←6
+  │ !! devtools                   572L  2C   15m  CC=24     ←0
+  │ !! help                       521L  0C    9m  CC=4      ←0
+  │ !! progress                   514L  4C   30m  CC=10     ←0
   │ themes                     482L  1C   14m  CC=8      ←0
-  │ !! __init__                   445L  0C    4m  CC=15     ←9
+  │ !! __init__                   443L  0C    4m  CC=15     ←9
   │ rich_backend               306L  1C   13m  CC=14     ←10
   │ logger                     302L  1C   30m  CC=4      ←1
   │ decorators                 286L  0C    0m  CC=0.0    ←0

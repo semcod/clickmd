@@ -246,86 +246,105 @@ def _format_debug_value(
     
     obj_type = type(obj).__name__
     
-    # None
+    # Simple types
     if obj is None:
         return renderer._c("gray", "None")
-    
-    # Booleans
     if isinstance(obj, bool):
         return renderer._c("yellow", str(obj))
-    
-    # Numbers
     if isinstance(obj, (int, float)):
         return renderer._c("cyan", str(obj))
-    
-    # Strings
     if isinstance(obj, str):
-        if len(obj) > 80:
-            obj = f"{obj[:77]}..."
-        return renderer._c("green", repr(obj))
+        return _format_string(obj, renderer)
     
-    # Lists/Tuples
+    # Collections
     if isinstance(obj, (list, tuple)):
-        if len(obj) == 0:
-            return renderer._c("gray", f"{obj_type}()")
-        
-        bracket = "[" if isinstance(obj, list) else "("
-        close = "]" if isinstance(obj, list) else ")"
-        
-        lines = [renderer._c("white", f"{obj_type}{bracket}")]
-        for i, item in enumerate(obj[:max_items]):
-            formatted = _format_debug_value(item, renderer, depth + 1, max_depth, max_items)
-            lines.append(f"{indent}  {formatted},")
-        
-        if len(obj) > max_items:
-            lines.append(f"{indent}  {renderer._c('gray', f'... ({len(obj) - max_items} more)')}")
-        
-        lines.append(f"{indent}{renderer._c('white', close)}")
-        return "\n".join(lines)
-    
-    # Dicts
+        return _format_sequence(obj, renderer, depth, max_depth, max_items, indent)
     if isinstance(obj, dict):
-        if len(obj) == 0:
-            return renderer._c("gray", "{}")
-        
-        lines = [renderer._c("white", "{")]
-        for i, (key, value) in enumerate(list(obj.items())[:max_items]):
-            key_str = renderer._c("cyan", repr(key))
-            val_str = _format_debug_value(value, renderer, depth + 1, max_depth, max_items)
-            lines.append(f"{indent}  {key_str}: {val_str},")
-        
-        if len(obj) > max_items:
-            lines.append(f"{indent}  {renderer._c('gray', f'... ({len(obj) - max_items} more)')}")
-        
-        lines.append(f"{indent}{renderer._c('white', '}')}")
-        return "\n".join(lines)
-    
-    # Sets
+        return _format_dict(obj, renderer, depth, max_depth, max_items, indent)
     if isinstance(obj, (set, frozenset)):
-        if len(obj) == 0:
-            return renderer._c("gray", f"{obj_type}()")
-        
-        items = list(obj)[:max_items]
-        formatted_items = [_format_debug_value(item, renderer, depth + 1, max_depth, max_items) for item in items]
-        
-        if len(obj) > max_items:
-            formatted_items.append(renderer._c("gray", f"... ({len(obj) - max_items} more)"))
-        
-        open_brace = renderer._c('white', f'{obj_type}({{')
-        close_brace = renderer._c('white', '})')
-        return f"{open_brace}{', '.join(formatted_items)}{close_brace}"
+        return _format_set(obj, renderer, depth, max_depth, max_items, obj_type)
     
-    # Objects with __dict__
+    # Objects
     if hasattr(obj, "__dict__") and obj.__dict__:
-        lines = [renderer._c("magenta", f"<{obj_type}>", bold=True)]
-        for key, value in list(vars(obj).items())[:max_items]:
-            key_str = renderer._c("cyan", key)
-            val_str = _format_debug_value(value, renderer, depth + 1, max_depth, max_items)
-            lines.append(f"{indent}  .{key_str} = {val_str}")
-        return "\n".join(lines)
+        return _format_object(obj, renderer, depth, max_depth, max_items, indent, obj_type)
     
     # Default: repr
     return renderer._c("white", repr(obj)[:100])
+
+
+def _format_string(obj: str, renderer: MarkdownRenderer) -> str:
+    """Format a string value."""
+    if len(obj) > 80:
+        obj = f"{obj[:77]}..."
+    return renderer._c("green", repr(obj))
+
+
+def _format_sequence(obj: Union[list, tuple], renderer: MarkdownRenderer, depth: int, 
+                    max_depth: int, max_items: int, indent: str) -> str:
+    """Format a list or tuple."""
+    if len(obj) == 0:
+        return renderer._c("gray", f"{type(obj).__name__}()")
+    
+    bracket = "[" if isinstance(obj, list) else "("
+    close = "]" if isinstance(obj, list) else ")"
+    
+    lines = [renderer._c("white", f"{type(obj).__name__}{bracket}")]
+    for i, item in enumerate(obj[:max_items]):
+        formatted = _format_debug_value(item, renderer, depth + 1, max_depth, max_items)
+        lines.append(f"{indent}  {formatted},")
+    
+    if len(obj) > max_items:
+        lines.append(f"{indent}  {renderer._c('gray', f'... ({len(obj) - max_items} more)')}")
+    
+    lines.append(f"{indent}{renderer._c('white', close)}")
+    return "\n".join(lines)
+
+
+def _format_dict(obj: dict, renderer: MarkdownRenderer, depth: int, 
+                max_depth: int, max_items: int, indent: str) -> str:
+    """Format a dictionary."""
+    if len(obj) == 0:
+        return renderer._c("gray", "{}")
+    
+    lines = [renderer._c("white", "{")]
+    for i, (key, value) in enumerate(list(obj.items())[:max_items]):
+        key_str = renderer._c("cyan", repr(key))
+        val_str = _format_debug_value(value, renderer, depth + 1, max_depth, max_items)
+        lines.append(f"{indent}  {key_str}: {val_str},")
+    
+    if len(obj) > max_items:
+        lines.append(f"{indent}  {renderer._c('gray', f'... ({len(obj) - max_items} more)')}")
+    
+    lines.append(f"{indent}{renderer._c('white', '}')}")
+    return "\n".join(lines)
+
+
+def _format_set(obj: Union[set, frozenset], renderer: MarkdownRenderer, depth: int, 
+               max_depth: int, max_items: int, obj_type: str) -> str:
+    """Format a set or frozenset."""
+    if len(obj) == 0:
+        return renderer._c("gray", f"{obj_type}()")
+    
+    items = list(obj)[:max_items]
+    formatted_items = [_format_debug_value(item, renderer, depth + 1, max_depth, max_items) for item in items]
+    
+    if len(obj) > max_items:
+        formatted_items.append(renderer._c("gray", f"... ({len(obj) - max_items} more)"))
+    
+    open_brace = renderer._c('white', f'{obj_type}({{')
+    close_brace = renderer._c('white', '})')
+    return f"{open_brace}{', '.join(formatted_items)}{close_brace}"
+
+
+def _format_object(obj: Any, renderer: MarkdownRenderer, depth: int, 
+                  max_depth: int, max_items: int, indent: str, obj_type: str) -> str:
+    """Format an object with __dict__."""
+    lines = [renderer._c("magenta", f"<{obj_type}>", bold=True)]
+    for key, value in list(vars(obj).items())[:max_items]:
+        key_str = renderer._c("cyan", key)
+        val_str = _format_debug_value(value, renderer, depth + 1, max_depth, max_items)
+        lines.append(f"{indent}  .{key_str} = {val_str}")
+    return "\n".join(lines)
 
 
 def inspect_obj(obj: Any, markdown_safe: bool = True) -> None:

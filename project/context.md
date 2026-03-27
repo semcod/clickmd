@@ -96,9 +96,9 @@
 - **Functions**: 1
 - **File**: `colored_logging.py`
 
-### examples.api_response
+### examples.custom_renderer
 - **Functions**: 1
-- **File**: `api_response.py`
+- **File**: `custom_renderer.py`
 
 ## Key Entry Points
 
@@ -198,13 +198,13 @@ Handles **bold**, *italic*, `code` inline.
 > Demonstrate debug output.
 - **Calls**: clickmd.md, clickmd.md, clickmd.debug, clickmd.debug, clickmd.debug, clickmd.debug, clickmd.debug, clickmd.md
 
-### examples.phase3_progress.demo_spinners
-> Demonstrate spinners.
-- **Calls**: clickmd.md, clickmd.md, clickmd.md, clickmd.md, clickmd.md, clickmd.table, clickmd.spinner, time.sleep
-
 ### examples.phase1_features.demo_nested_lists
 > Demonstrate nested list rendering.
 - **Calls**: clickmd.md, clickmd.md, clickmd.get_renderer, renderer.list_item, renderer.list_item, renderer.list_item, renderer.list_item, renderer.list_item
+
+### examples.phase3_progress.demo_spinners
+> Demonstrate spinners.
+- **Calls**: clickmd.md, clickmd.md, clickmd.md, clickmd.md, clickmd.md, clickmd.table, clickmd.spinner, time.sleep
 
 ### src.clickmd.renderer.MarkdownRenderer._highlight_html
 > Highlight HTML/XML syntax.
@@ -229,13 +229,13 @@ Args:
 > Highlight Ruby syntax.
 - **Calls**: None.startswith, re.sub, re.sub, re.sub, self._c, re.sub, line.strip, self._c
 
-### examples.phase3_progress.demo_progress_bar
-> Demonstrate progress bar.
-- **Calls**: clickmd.md, clickmd.md, range, clickmd.progress, clickmd.md, clickmd.md, clickmd.progress, time.sleep
-
 ### examples.phase1_features.demo_panels
 > Demonstrate panel/box rendering.
 - **Calls**: clickmd.md, clickmd.md, clickmd.panel, clickmd.md, clickmd.panel, clickmd.md, clickmd.panel, clickmd.md
+
+### examples.phase3_progress.demo_progress_bar
+> Demonstrate progress bar.
+- **Calls**: clickmd.md, clickmd.md, range, clickmd.progress, clickmd.md, clickmd.md, clickmd.progress, time.sleep
 
 ### src.clickmd.renderer.MarkdownRenderer._highlight_c
 > Highlight C/C++ syntax.
@@ -472,13 +472,13 @@ Functions exposed as public API (no underscore prefix):
 - `scripts.bump_version.bump_version` - 19 calls
 - `examples.phase3_progress.demo_status_indicator` - 17 calls
 - `examples.phase5_devtools.demo_debug` - 16 calls
-- `examples.phase3_progress.demo_spinners` - 15 calls
 - `examples.phase1_features.demo_nested_lists` - 15 calls
+- `examples.phase3_progress.demo_spinners` - 15 calls
 - `src.clickmd.rich_backend.render_panel` - 15 calls
 - `src.clickmd.progress.countdown` - 14 calls
 - `src.clickmd.renderer.MarkdownRenderer.render_markdown_with_fences` - 14 calls
-- `examples.phase3_progress.demo_progress_bar` - 13 calls
 - `examples.phase1_features.demo_panels` - 13 calls
+- `examples.phase3_progress.demo_progress_bar` - 13 calls
 - `examples.markdown_help.process` - 12 calls
 - `examples.phase3_progress.demo_live_update` - 12 calls
 - `src.clickmd.devtools.ClickmdHandler.format_record` - 12 calls

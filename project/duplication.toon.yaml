@@ -1,12 +1,12 @@
-# redup/duplication | 2 groups | 24f 6792L | 2026-03-27
+# redup/duplication | 2 groups | 24f 6861L | 2026-03-27
 
 SUMMARY:
   files_scanned: 24
-  total_lines:   6792
+  total_lines:   6861
   dup_groups:    2
   dup_fragments: 4
   saved_lines:   28
-  scan_ms:       2820
+  scan_ms:       5638
 
 DUPLICATES[2] (ranked by impact):
   [32863c608347d477]   STRU  cli  L=22 N=2 saved=22 sim=1.00

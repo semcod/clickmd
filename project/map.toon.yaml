@@ -1,4 +1,4 @@
-# clickmd | 12f 4677L | python:11,shell:1 | 2026-03-27
+# clickmd | 12f 4680L | python:11,shell:1 | 2026-03-27
 # stats: 164 func | 0 cls | 12 mod | CC̄=3.5 | critical:6 | cycles:0
 # alerts[5]: fan-out markdown_to_html=29; CC MarkdownRenderer.table=28; fan-out MarkdownRenderer._highlight_line=21; CC _format_debug_value=24; CC MarkdownRenderer._highlight_line=21
 # hotspots[5]: markdown_to_html fan=29; MarkdownRenderer._highlight_line fan=21; _format_debug_value fan=16; render_table fan=14; bump_version fan=13
@@ -7,13 +7,13 @@
 M[12]:
   project.sh,24
   scripts/bump_version.py,77
-  src/clickmd/__init__.py,445
+  src/clickmd/__init__.py,443
   src/clickmd/decorators.py,286
-  src/clickmd/devtools.py,574
-  src/clickmd/help.py,522
+  src/clickmd/devtools.py,572
+  src/clickmd/help.py,521
   src/clickmd/logger.py,302
-  src/clickmd/progress.py,511
-  src/clickmd/renderer.py,900
+  src/clickmd/progress.py,514
+  src/clickmd/renderer.py,905
   src/clickmd/rich_backend.py,306
   src/clickmd/themes.py,482
   tools/md_to_html.py,248
@@ -113,6 +113,17 @@ Exampl...
     get_color_support()
     color(name;text;bold;dim;use_theme)
     init_theme_from_env()
+  src/clickmd/help.py:
+    e: _is_tty,_render_markdown_help,_strip_markdown_to_plain,_format_option_help,success,warning,error,info,echo_md
+    _is_tty()
+    _render_markdown_help(text;use_colors)
+    _strip_markdown_to_plain(text)
+    _format_option_help(help_text;use_colors)
+    success(message)
+    warning(message)
+    error(message)
+    info(message)
+    echo_md(text;err)
   src/clickmd/logger.py:
     e: Logger,get_logger,set_logger,log_info,log_success,log_warning,log_error,log_action
     Logger: __init__(4),_emit(1),_render_log_block(1),flush(0),debug(1),info(1),warning(1),error(1),success(1),action(2),start(1),done(1),fail(1),progress(3),step(3),exception(2),key_value(2),llm(2),attempt(3),section(1),heading(2),md(1),raw(1)  # Markdown-aware logger that wraps output in codeblocks.
@@ -125,16 +136,5 @@ All ...
     log_warning(message)
     log_error(message)
     log_action(action;message)
-  src/clickmd/help.py:
-    e: _is_tty,_render_markdown_help,_strip_markdown_to_plain,_format_option_help,success,warning,error,info,echo_md
-    _is_tty()
-    _render_markdown_help(text;use_colors)
-    _strip_markdown_to_plain(text)
-    _format_option_help(help_text;use_colors)
-    success(message)
-    warning(message)
-    error(message)
-    info(message)
-    echo_md(text;err)
   src/clickmd/decorators.py:
   project.sh:

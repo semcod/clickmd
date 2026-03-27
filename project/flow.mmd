@@ -4,10 +4,6 @@ flowchart TD
     classDef entry fill:#4dabf7,stroke:#1971c2,color:#fff
 
     subgraph CLI
-        src__clickmd__menu["menu"]
-        src__clickmd__select["select"]
-        src__clickmd__echo["echo"]
-        src__clickmd__md["md"]
         src__clickmd__progress___is_tty["_is_tty"]
         src__clickmd__progress___clear_line["_clear_line"]
         src__clickmd__progress___write_inline["_write_inline"]
@@ -19,6 +15,10 @@ flowchart TD
         src__clickmd__progress__ProgressBar____exit__["__exit__"]
         src__clickmd__progress__progress["progress"]
         src__clickmd__progress__Spinner__start["start"]
+        src__clickmd__progress__Spinner___animate["_animate"]
+        src__clickmd__progress__Spinner__stop["stop"]
+        src__clickmd__progress__Spinner____enter__["__enter__"]
+        src__clickmd__progress__Spinner____exit__["__exit__"]
         ...["+134 more"]
     end
 
@@ -28,4 +28,4 @@ flowchart TD
         tools__md_to_html__main["main"]
     end
 
-    class tools__md_to_html___escape_text,tools__md_to_html__main,src__clickmd__menu,src__clickmd__select,src__clickmd__echo,src__clickmd__md,src__clickmd__progress___is_tty,src__clickmd__progress___clear_line,src__clickmd__progress___write_inline,src__clickmd__progress__ProgressBar__update entry
+    class tools__md_to_html___escape_text,tools__md_to_html__main,src__clickmd__progress___is_tty,src__clickmd__progress___clear_line,src__clickmd__progress___write_inline,src__clickmd__progress__ProgressBar__update,src__clickmd__progress__ProgressBar__set,src__clickmd__progress__ProgressBar___render,src__clickmd__progress__ProgressBar__finish,src__clickmd__progress__ProgressBar____enter__ entry

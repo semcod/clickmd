@@ -1,4 +1,4 @@
-# clickmd | 164 func | 10f | 5391L | python | 2026-03-27
+# clickmd | 164 func | 10f | 5325L | python | 2026-03-27
 
 HEALTH:
   CC̄=3.5  critical=13 (limit:10)  dup=0  cycles=3
@@ -16,10 +16,10 @@ ALERTS[18]:
   !   high_fan_out     render_table = 14 (limit:10)
 
 MODULES[12] (top by size):
-  M[src/clickmd/renderer.py] 900L C:1 F:43 CC↑28 D:6 (python)
-  M[src/clickmd/devtools.py] 574L C:2 F:15 CC↑24 D:0 (python)
-  M[src/clickmd/help.py] 522L C:0 F:9 CC↑4 D:0 (python)
-  M[src/clickmd/progress.py] 511L C:4 F:30 CC↑10 D:0 (python)
+  M[src/clickmd/renderer.py] 834L C:1 F:43 CC↑28 D:6 (python)
+  M[src/clickmd/devtools.py] 572L C:2 F:15 CC↑24 D:0 (python)
+  M[src/clickmd/help.py] 521L C:0 F:9 CC↑4 D:0 (python)
+  M[src/clickmd/progress.py] 514L C:4 F:30 CC↑10 D:0 (python)
   M[src/clickmd/themes.py] 482L C:1 F:14 CC↑8 D:0 (python)
   M[src/clickmd/__init__.py] 443L C:0 F:4 CC↑15 D:2 (python)
   M[src/clickmd/rich_backend.py] 306L C:1 F:13 CC↑14 D:10 (python)
@@ -43,12 +43,12 @@ Args:
 
 REFACTOR[15]:
   [1] H/L Split MarkdownRenderer.table (CC=28 → target CC<10)
-  [2] H/H Split god module src/clickmd/renderer.py (900L, 1 classes)
-  [3] H/H Split god module src/clickmd/devtools.py (574L, 2 classes)
-  [4] H/H Split god module src/clickmd/progress.py (511L, 4 classes)
-  [5] H/H Split god module src/clickmd/help.py (522L, 0 classes)
+  [2] H/H Split god module src/clickmd/renderer.py (834L, 1 classes)
+  [3] H/H Split god module src/clickmd/devtools.py (572L, 2 classes)
+  [4] H/H Split god module src/clickmd/progress.py (514L, 4 classes)
+  [5] H/H Split god module src/clickmd/help.py (521L, 0 classes)
 
 EVOLUTION:
   2026-03-05 CC̄=3.5 crit=13 5369L // Automated analysis
   2026-03-07 CC̄=3.5 crit=13 5369L // Automated analysis
-  2026-03-27 CC̄=3.5 crit=13 5391L // Automated analysis
+  2026-03-27 CC̄=3.5 crit=13 5325L // Automated analysis
