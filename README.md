@@ -9,25 +9,26 @@
 
 ## AI Cost Tracking
 
-![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-1.1.13-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
-![AI Cost](https://img.shields.io/badge/AI%20Cost-$2.10-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-7.3h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
+![AI Cost](https://img.shields.io/badge/AI%20Cost-$2.25-green) ![AI Model](https://img.shields.io/badge/AI%20Model-openrouter%2Fqwen%2Fqwen3-coder-next-lightgrey)
 
-- 🤖 **LLM usage:** $2.1000 (14 commits)
-- 👤 **Human dev:** ~$730 (7.3h @ $100/h, 30min dedup)
+This project uses AI-generated code. Total cost: **$2.2500** with **15** AI commits.
 
-Generated on 2026-04-07 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
+Generated on 2026-04-08 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/models/openrouter/qwen/qwen3-coder-next)
 
 ---
-
-
 
 **Markdown rendering for CLI applications with syntax highlighting.**
 
 `clickmd` provides beautiful terminal output with:
-- 🎨 **Syntax highlighting** for code blocks (Python, TypeScript, JSON, YAML, Bash, etc.)
-- 📝 **Markdown rendering** with headers, bold, links, and more
+- 🎨 **Syntax highlighting** for 25+ languages (Python, TypeScript, Go, Rust, SQL, etc.)
+- 📝 **Markdown rendering** with headers, bold, links, tables, panels, blockquotes
+- 📊 **Tables & panels** for structured data display
+- 📈 **Progress bars, spinners, live updates** for async operations
+- 🎭 **Theming system** with 5+ built-in themes (monokai, dracula, nord, etc.)
+- 🐛 **Developer tools** (debug, inspect, diff, tree, pretty exceptions)
 - 🔧 **Zero dependencies** for core functionality
 - 🖱️ **Optional Click integration** for CLI decorators
+- ✨ **Optional Rich backend** for enhanced rendering
 
 ## Installation
 
@@ -37,6 +38,12 @@ pip install clickmd
 
 # With Click support
 pip install clickmd[click]
+
+# With Rich backend (enhanced rendering)
+pip install clickmd[rich]
+
+# All optional features
+pip install clickmd[all]
 ```
 
 ## Quick Start
@@ -91,17 +98,16 @@ if __name__ == "__main__":
 
 ### Syntax Highlighting
 
-`clickmd` provides syntax highlighting for multiple languages:
+`clickmd` provides syntax highlighting for 25+ languages:
 
-| Language | Extensions | Highlight Features |
-|----------|------------|-------------------|
-| Python | `.py` | Keywords, strings, comments, decorators |
-| TypeScript/JavaScript | `.ts`, `.js` | Keywords, strings, template literals |
-| JSON | `.json` | Keys, strings, numbers, booleans |
-| YAML | `.yaml`, `.yml` | Keys, values, comments |
-| Bash/Shell | `.sh`, `.bash` | Commands, comments |
-| Markdown | `.md` | Headers, bold, links |
-| Log | `.log` | Errors (red), warnings (yellow), success (green) |
+| Category | Languages | Extensions |
+|----------|-----------|------------|
+| **Programming** | Python, TypeScript, JavaScript, Go, Rust, Java, Kotlin, C/C++, Ruby, PHP | `.py`, `.ts`, `.js`, `.go`, `.rs`, `.java`, `.kt`, `.c`, `.cpp`, `.rb`, `.php` |
+| **Data Formats** | JSON, YAML, TOML, INI, Config | `.json`, `.yaml`, `.yml`, `.toml`, `.ini`, `.cfg`, `.conf` |
+| **Web** | HTML, XML, CSS, SCSS, Sass, Less | `.html`, `.htm`, `.xml`, `.svg`, `.css`, `.scss`, `.sass`, `.less` |
+| **Shell** | Bash, Shell, Zsh, Dockerfile | `.sh`, `.bash`, `.zsh`, `Dockerfile` |
+| **Database** | SQL, MySQL, PostgreSQL, SQLite | `.sql` |
+| **Other** | Markdown, Log, Diff | `.md`, `.log`, `.diff`, `.patch` |
 
 ### Markdown Elements
 
@@ -160,37 +166,142 @@ md("""
 
 ## API Reference
 
-### Core Functions
+### Core Functions (No Dependencies)
 
-#### `md(text: str) -> None`
-Render markdown text with syntax highlighting.
+| Function | Description |
+|----------|-------------|
+| `md(text: str) -> None` | Render markdown text with syntax highlighting |
+| `echo(message, file=None, nl=True, err=False, color=None) -> None` | Smart echo that auto-detects markdown and renders it |
+| `render_markdown(text, text_lang="markdown", stream=None, use_colors=True) -> None` | Low-level markdown rendering function |
+| `get_renderer(stream=None, use_colors=True) -> MarkdownRenderer` | Get a `MarkdownRenderer` instance |
+| `strip_ansi(text: str) -> str` | Remove ANSI escape codes from text |
 
-#### `echo(message, file=None, nl=True, err=False, color=None) -> None`
-Smart echo that auto-detects markdown and renders it.
+### Interactive Prompts
 
-#### `render_markdown(text, text_lang="markdown", stream=None, use_colors=True) -> None`
-Low-level markdown rendering function.
+| Function | Description |
+|----------|-------------|
+| `menu(title, items, default=1, prompt_text="Select", exit_option="Exit") -> int` | Display a numbered markdown menu |
+| `select(prompt_text, items, default=1) -> int` | Inline numbered selection without title |
 
-#### `get_renderer(stream=None, use_colors=True) -> MarkdownRenderer`
-Get a `MarkdownRenderer` instance.
+### Phase 1: Tables, Panels, Blockquotes
 
-### Click Decorators (requires `click` package)
+| Function | Description |
+|----------|-------------|
+| `table(headers, rows, style="simple") -> None` | Render ASCII/Unicode tables |
+| `panel(text, title=None, style="default") -> None` | Display text in a bordered box |
+| `blockquote(text) -> None` | Render a markdown blockquote |
+| `hr() -> None` | Render a horizontal rule |
+| `checklist(items, checked=None) -> None` | Render a markdown checklist |
 
-When `click` is installed, these decorators are available:
+### Logger
 
+| Function/Class | Description |
+|----------------|-------------|
+| `Logger` | Markdown-aware logger with automatic codeblock wrapping |
+| `get_logger(name)` | Get a logger instance |
+| `log_info(msg)`, `log_success(msg)`, `log_warning(msg)`, `log_error(msg)`, `log_action(msg)` | Shortcut functions |
+
+### Phase 3: Progress, Spinners, Live Updates
+
+| Function/Class | Description |
+|----------------|-------------|
+| `progress(items, label=None, show_eta=True)` | Iterator wrapper with progress bar |
+| `ProgressBar` | Manual progress bar control |
+| `spinner(text, style="dots")` | Context manager for animated spinners |
+| `Spinner` | Manual spinner control |
+| `live(text_fn, refresh_rate=0.5)` | Live updating display |
+| `countdown(seconds, message=None)` | Countdown timer display |
+| `SPINNERS` | Dictionary of spinner animation styles |
+
+### Phase 4: Theming
+
+| Function/Class | Description |
+|----------------|-------------|
+| `Theme` | Color theme definition |
+| `set_theme(name)` | Activate a theme |
+| `get_theme()` | Get current theme |
+| `list_themes()` | Show available themes |
+| `register_theme(name, theme)` | Register a custom theme |
+| `color(name)` | Get color code from current theme |
+| `is_no_color() -> bool` | Check if NO_COLOR is set |
+| `get_color_support() -> int` | Detect terminal color support (0/8/256/true) |
+| `THEMES` | Dictionary of built-in themes |
+
+### Phase 5: Developer Tools
+
+| Function/Class | Description |
+|----------------|-------------|
+| `debug(obj, name=None, depth=2)` | Pretty-print with type info |
+| `inspect_obj(obj, show_methods=True)` | Show object attributes |
+| `diff(a, b, context=3)` | Side-by-side diff visualization |
+| `tree(path, max_depth=3)` | Directory tree display |
+| `PrettyExceptionFormatter` | Format exceptions with syntax highlighting |
+| `install_excepthook()` | Enable pretty exception display |
+| `uninstall_excepthook()` | Restore default exception display |
+| `ClickmdHandler` | Logging handler with markdown styling |
+
+### Click Integration (requires `click` package)
+
+When `click` is installed, the full Click API is available:
+
+**Decorators:**
 - `@clickmd.group()` - Create a command group
 - `@clickmd.command()` - Create a command
 - `@clickmd.option()` - Add an option
 - `@clickmd.argument()` - Add an argument
-- `@clickmd.pass_context` - Pass Click context
-- `clickmd.Choice` - Choice type
-- `clickmd.Path` - Path type
+- `@clickmd.pass_context`, `@clickmd.pass_obj` - Context passing
+- `@clickmd.version_option()`, `@clickmd.help_option()`, etc.
+
+**Parameter Types:**
+- `clickmd.STRING`, `clickmd.INT`, `clickmd.FLOAT`, `clickmd.BOOL`, `clickmd.UUID`
+- `clickmd.Choice`, `clickmd.Path`, `clickmd.File`, `clickmd.DateTime`
+- `clickmd.IntRange`, `clickmd.FloatRange`, `clickmd.Tuple`, `clickmd.ParamType`
+
+**Core Classes:**
+- `clickmd.Context`, `clickmd.Command`, `clickmd.Group`
+- `clickmd.Option`, `clickmd.Argument`, `clickmd.Parameter`
+
+**Utility Functions:**
+- `clickmd.click_echo()`, `clickmd.secho()`, `clickmd.style()`, `clickmd.unstyle()`
+- `clickmd.prompt()`, `clickmd.confirm()`, `clickmd.getchar()`, `clickmd.clear()`
+- `clickmd.progressbar()`, `clickmd.open_file()`, `clickmd.get_app_dir()`
+
+**Exceptions:**
+- `clickmd.ClickException`, `clickmd.UsageError`, `clickmd.BadParameter`
+- `clickmd.Abort`, `clickmd.NoSuchOption`, `clickmd.MissingParameter`
+
+### Markdown Help for Click
+
+| Class/Decorator | Description |
+|----------------|-------------|
+| `MarkdownCommand` | Command class with markdown help rendering |
+| `MarkdownGroup` | Group class with markdown help rendering |
+| `MarkdownHelpFormatter` | Help formatter with markdown support |
+| `@markdown_help` | Decorator to enable markdown help |
+| `success(msg)`, `warning(msg)`, `error(msg)`, `info(msg)` | Styled output panels |
+| `echo_md(msg)` | Echo with markdown rendering |
+
+### Rich Backend (optional)
+
+When `rich` is installed:
+
+| Function | Description |
+|----------|-------------|
+| `is_rich_available() -> bool` | Check if Rich is installed |
+| `get_console()` | Get Rich console instance |
+| `render_md(text)` | Render markdown with Rich |
+| `render_panel(text, **kwargs)` | Render panel with Rich |
+| `render_syntax(code, lang)` | Render syntax-highlighted code |
+| `render_table(data, **kwargs)` | Render table with Rich |
 
 ### Constants
 
-- `CLICK_AVAILABLE: bool` - Whether Click is installed
+| Constant | Description |
+|----------|-------------|
+| `CLICK_AVAILABLE: bool` | Whether Click is installed |
+| `RICH_AVAILABLE: bool` | Whether Rich is installed |
 
-## Additional Features
+## Usage Examples
 
 ### Interactive Menus
 
@@ -299,7 +410,7 @@ git clone https://github.com/wronai/clickmd.git
 cd clickmd
 
 # Install development dependencies
-pip install -e ".[dev,click]"
+pip install -e ".[dev,all]"
 
 # Run tests
 make test

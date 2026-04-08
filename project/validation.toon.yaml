@@ -1,14 +1,26 @@
-# vallm batch | 88f | 44✓ 1⚠ 1✗ | 2026-04-07
+# vallm batch | 89f | 40✓ 1⚠ 5✗ | 2026-04-08
 
 SUMMARY:
-  scanned: 88  passed: 44 (50.0%)  warnings: 1  errors: 1  unsupported: 43
+  scanned: 89  passed: 40 (44.9%)  warnings: 1  errors: 5  unsupported: 44
 
 WARNINGS[1]{path,score}:
   src/clickmd/renderer.py,0.98
     issues[1]{rule,severity,message,line}:
       complexity.maintainability,warning,Low maintainability index: 11.5 (threshold: 20),
 
-ERRORS[1]{path,score}:
+ERRORS[5]{path,score}:
+  tests/test_decorators.py,0.79
+    issues[1]{rule,severity,message,line}:
+      python.import.resolvable,error,Module 'pytest' not found,3
+  tests/test_logger.py,0.86
+    issues[1]{rule,severity,message,line}:
+      python.import.resolvable,error,Module 'pytest' not found,4
+  tests/test_renderer.py,0.86
+    issues[1]{rule,severity,message,line}:
+      python.import.resolvable,error,Module 'pytest' not found,4
+  tests/test_core.py,0.89
+    issues[1]{rule,severity,message,line}:
+      python.import.resolvable,error,Module 'pytest' not found,5
   tools/test_examples_md.py,0.91
     issues[1]{rule,severity,message,line}:
       python.import.resolvable,error,Module 'tools.md_to_html' not found,21
@@ -16,4 +28,4 @@ ERRORS[1]{path,score}:
 UNSUPPORTED[3]{bucket,count}:
   *.md,21
   *.txt,1
-  other,21
+  other,22

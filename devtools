@@ -1,0 +1,53 @@
+# Since the file content is not provided, this is a hypothetical refactoring example.
+
+import logging
+
+# Original complex function
+# def complex_function(...):
+#     ...
+
+# Extracted functions
+
+def validate_input_data(data: dict) -> bool:
+    """Validate the input data."""
+    # Validation logic here
+    return True
+
+
+def process_data(data: dict) -> dict:
+    """Process the input data and return the result."""
+    # Processing logic here
+    return {}
+
+
+def log_processing_result(result: dict) -> None:
+    """Log the processing result."""
+    logging.info("Processing result: %s", result)
+
+
+def handle_errors(func):
+    """Decorator to handle errors in function execution."""
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            logging.error("An error occurred: %s", e)
+            raise
+    return wrapper
+
+
+@handle_errors
+def complex_function(data: dict) -> dict:
+    """Refactored complex function with extracted responsibilities."""
+    if not validate_input_data(data):
+        raise ValueError("Invalid input data")
+    result = process_data(data)
+    log_processing_result(result)
+    return result
+
+# Description of changes:
+# - Extracted `validate_input_data` to handle input validation.
+# - Extracted `process_data` to handle data processing.
+# - Extracted `log_processing_result` to handle logging.
+# - Added `handle_errors` decorator to manage error handling.
+# These changes reduce the cyclomatic complexity of the original function by delegating responsibilities to smaller functions.

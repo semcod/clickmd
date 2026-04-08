@@ -2,13 +2,13 @@
 
 ## Overview
 
-- **Project**: /home/tom/github/wronai/clickmd
+- **Project**: /home/tom/github/semcod/clickmd
 - **Primary Language**: python
-- **Languages**: python: 27, shell: 1
+- **Languages**: python: 29, shell: 1
 - **Analysis Mode**: static
 - **Total Functions**: 244
 - **Total Classes**: 11
-- **Modules**: 28
+- **Modules**: 30
 - **Entry Points**: 201
 
 ## Architecture by Module
@@ -38,14 +38,14 @@
 - **Classes**: 1
 - **File**: `themes.py`
 
-### tools.md_to_html
-- **Functions**: 13
-- **File**: `md_to_html.py`
-
 ### src.clickmd.rich_backend
 - **Functions**: 13
 - **Classes**: 1
 - **File**: `rich_backend.py`
+
+### tools.md_to_html
+- **Functions**: 13
+- **File**: `md_to_html.py`
 
 ### src.clickmd.help
 - **Functions**: 9
@@ -55,13 +55,13 @@
 - **Functions**: 8
 - **File**: `logger_usage.py`
 
-### examples.phase4_themes
-- **Functions**: 7
-- **File**: `phase4_themes.py`
-
 ### examples.phase1_features
 - **Functions**: 7
 - **File**: `phase1_features.py`
+
+### examples.phase4_themes
+- **Functions**: 7
+- **File**: `phase4_themes.py`
 
 ### src.clickmd
 - **Functions**: 7
@@ -92,13 +92,13 @@
 - **Functions**: 4
 - **File**: `markdown_help.py`
 
-### examples.api_response
-- **Functions**: 1
-- **File**: `api_response.py`
-
 ### examples.colored_logging
 - **Functions**: 1
 - **File**: `colored_logging.py`
+
+### examples.api_response
+- **Functions**: 1
+- **File**: `api_response.py`
 
 ## Key Entry Points
 
@@ -151,13 +151,13 @@ Args:
 > Demonstrate combined usage.
 - **Calls**: clickmd.md, clickmd.StatusIndicator, status.start, time.sleep, status.done, clickmd.md, clickmd.progress, status.start
 
-### scripts.bump_version.bump_version
-> Bump version in pyproject.toml
-- **Calls**: Path, pyproject_path.read_text, re.search, version_match.group, current_version.split, re.sub, pyproject_path.write_text, Path
-
 ### src.clickmd.progress.ProgressBar._render
 > Render the progress bar.
 - **Calls**: int, self._renderer._c, parts.append, src.clickmd.progress._write_inline, src.clickmd.progress._is_tty, parts.append, parts.append, parts.append
+
+### scripts.bump_version.bump_version
+> Bump version in pyproject.toml
+- **Calls**: Path, pyproject_path.read_text, re.search, version_match.group, current_version.split, re.sub, pyproject_path.write_text, Path
 
 ### src.clickmd.renderer.MarkdownRenderer._highlight_css
 > Highlight CSS syntax.
@@ -183,13 +183,13 @@ Handles **bold**, *italic*, `code` inline.
 > Demonstrate debug output.
 - **Calls**: clickmd.md, clickmd.md, clickmd.debug, clickmd.debug, clickmd.debug, clickmd.debug, clickmd.debug, clickmd.md
 
-### examples.phase3_progress.demo_spinners
-> Demonstrate spinners.
-- **Calls**: clickmd.md, clickmd.md, clickmd.md, clickmd.md, clickmd.md, clickmd.table, clickmd.spinner, time.sleep
-
 ### examples.phase1_features.demo_nested_lists
 > Demonstrate nested list rendering.
 - **Calls**: clickmd.md, clickmd.md, clickmd.get_renderer, renderer.list_item, renderer.list_item, renderer.list_item, renderer.list_item, renderer.list_item
+
+### examples.phase3_progress.demo_spinners
+> Demonstrate spinners.
+- **Calls**: clickmd.md, clickmd.md, clickmd.md, clickmd.md, clickmd.md, clickmd.table, clickmd.spinner, time.sleep
 
 ### src.clickmd.renderer.MarkdownRenderer._highlight_html
 > Highlight HTML/XML syntax.
@@ -218,13 +218,13 @@ Args:
 > Highlight Ruby syntax.
 - **Calls**: None.startswith, re.sub, re.sub, re.sub, self._c, re.sub, line.strip, self._c
 
-### examples.phase3_progress.demo_progress_bar
-> Demonstrate progress bar.
-- **Calls**: clickmd.md, clickmd.md, range, clickmd.progress, clickmd.md, clickmd.md, clickmd.progress, time.sleep
-
 ### examples.phase1_features.demo_panels
 > Demonstrate panel/box rendering.
 - **Calls**: clickmd.md, clickmd.md, clickmd.panel, clickmd.md, clickmd.panel, clickmd.md, clickmd.panel, clickmd.md
+
+### examples.phase3_progress.demo_progress_bar
+> Demonstrate progress bar.
+- **Calls**: clickmd.md, clickmd.md, range, clickmd.progress, clickmd.md, clickmd.md, clickmd.progress, time.sleep
 
 ### src.clickmd.renderer.MarkdownRenderer._highlight_c
 > Highlight C/C++ syntax.
@@ -303,9 +303,13 @@ _highlight_yaml [src.clickmd.renderer.MarkdownRenderer]
 demo_combined [examples.phase3_progress]
 ```
 
-### Flow 10: bump_version
+### Flow 10: _render
 ```
-bump_version [scripts.bump_version]
+_render [src.clickmd.progress.ProgressBar]
+  └─ →> _write_inline
+      └─> _is_tty
+      └─ →> print
+  └─ →> _is_tty
 ```
 
 ## Key Classes
@@ -401,6 +405,11 @@ Transform and process input files with **configurable** options.
 ## Supported Forma
 - **Output to**: cli.command, clickmd.option, clickmd.option, clickmd.option, clickmd.option
 
+### src.clickmd.help._format_option_help
+> Format option/argument help text with inline markdown.
+Handles **bold**, *italic*, `code` inline.
+- **Output to**: MarkdownRenderer, re.sub, re.sub, re.sub, re.sub
+
 ### tools.md_to_html._process_line
 > Process a single line and return the next line index.
 - **Output to**: line.rstrip, re.match, re.match, re.match, re.match
@@ -411,11 +420,6 @@ Transform and process input files with **configurable** options.
 
 ### tools.md_to_html.convert_directory
 - **Output to**: sorted, md_dir.glob, md_path.with_suffix, md_path.read_text, tools.md_to_html.markdown_to_html
-
-### src.clickmd.help._format_option_help
-> Format option/argument help text with inline markdown.
-Handles **bold**, *italic*, `code` inline.
-- **Output to**: MarkdownRenderer, re.sub, re.sub, re.sub, re.sub
 
 ### src.clickmd.devtools.PrettyExceptionFormatter.format_exception
 > Format an exception with full traceback.
@@ -496,13 +500,13 @@ Functions exposed as public API (no underscore prefix):
 - `scripts.bump_version.bump_version` - 19 calls
 - `examples.phase3_progress.demo_status_indicator` - 17 calls
 - `examples.phase5_devtools.demo_debug` - 16 calls
-- `examples.phase3_progress.demo_spinners` - 15 calls
 - `examples.phase1_features.demo_nested_lists` - 15 calls
+- `examples.phase3_progress.demo_spinners` - 15 calls
 - `src.clickmd.rich_backend.render_panel` - 15 calls
 - `src.clickmd.progress.countdown` - 14 calls
 - `src.clickmd.renderer.MarkdownRenderer.render_markdown_with_fences` - 14 calls
-- `examples.phase3_progress.demo_progress_bar` - 13 calls
 - `examples.phase1_features.demo_panels` - 13 calls
+- `examples.phase3_progress.demo_progress_bar` - 13 calls
 - `examples.markdown_help.process` - 12 calls
 - `examples.phase3_progress.demo_live_update` - 12 calls
 - `src.clickmd.devtools.ClickmdHandler.format_record` - 12 calls
@@ -512,8 +516,8 @@ Functions exposed as public API (no underscore prefix):
 - `src.clickmd.renderer.MarkdownRenderer.codeblock` - 11 calls
 - `examples.phase5_devtools.demo_logging` - 11 calls
 - `examples.simple_cli.status` - 10 calls
-- `tools.md_to_html.markdown_to_html` - 10 calls
 - `src.clickmd.renderer.MarkdownRenderer.table` - 10 calls
+- `tools.md_to_html.markdown_to_html` - 10 calls
 - `examples.phase1_features.demo_tables` - 9 calls
 - `examples.phase1_features.demo_horizontal_rules` - 9 calls
 - `src.clickmd.themes.color` - 9 calls
@@ -522,7 +526,7 @@ Functions exposed as public API (no underscore prefix):
 - `examples.logger_usage.llm_logging` - 8 calls
 - `examples.logger_usage.mixed_output` - 8 calls
 - `examples.phase4_themes.demo_custom_theme` - 8 calls
-- `tools.md_to_html.main` - 8 calls
+- `src.clickmd.echo` - 8 calls
 - `src.clickmd.progress.Spinner.stop` - 8 calls
 
 ## System Interactions

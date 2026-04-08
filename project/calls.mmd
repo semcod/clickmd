@@ -6,60 +6,60 @@ flowchart LR
         examples__colored_logging__main["main"]
     end
     subgraph examples__config_viewer
-        examples__config_viewer__show_toml_config["show_toml_config"]
-        examples__config_viewer__show_env_config["show_env_config"]
-        examples__config_viewer__show_config_diff["show_config_diff"]
-        examples__config_viewer__show_config_tree["show_config_tree"]
-        examples__config_viewer__show_yaml_config["show_yaml_config"]
         examples__config_viewer__show_json_config["show_json_config"]
+        examples__config_viewer__show_config_diff["show_config_diff"]
+        examples__config_viewer__show_yaml_config["show_yaml_config"]
+        examples__config_viewer__show_env_config["show_env_config"]
+        examples__config_viewer__show_config_tree["show_config_tree"]
+        examples__config_viewer__show_toml_config["show_toml_config"]
     end
     subgraph examples__custom_renderer
         examples__custom_renderer__main["main"]
     end
     subgraph examples__logger_usage
-        examples__logger_usage__action_logging["action_logging"]
-        examples__logger_usage__real_world_example["real_world_example"]
         examples__logger_usage__exception_handling["exception_handling"]
-        examples__logger_usage__basic_usage["basic_usage"]
         examples__logger_usage__llm_logging["llm_logging"]
+        examples__logger_usage__basic_usage["basic_usage"]
+        examples__logger_usage__progress_and_steps["progress_and_steps"]
         examples__logger_usage__mixed_output["mixed_output"]
         examples__logger_usage__grouped_output["grouped_output"]
-        examples__logger_usage__progress_and_steps["progress_and_steps"]
+        examples__logger_usage__real_world_example["real_world_example"]
+        examples__logger_usage__action_logging["action_logging"]
     end
     subgraph examples__phase1_features
-        examples__phase1_features__demo_blockquotes["demo_blockquotes"]
-        examples__phase1_features__demo_checklists["demo_checklists"]
-        examples__phase1_features__demo_horizontal_rules["demo_horizontal_rules"]
         examples__phase1_features__demo_combined["demo_combined"]
-        examples__phase1_features__demo_tables["demo_tables"]
-        examples__phase1_features__demo_nested_lists["demo_nested_lists"]
         examples__phase1_features__demo_panels["demo_panels"]
+        examples__phase1_features__demo_nested_lists["demo_nested_lists"]
+        examples__phase1_features__demo_tables["demo_tables"]
+        examples__phase1_features__demo_blockquotes["demo_blockquotes"]
+        examples__phase1_features__demo_horizontal_rules["demo_horizontal_rules"]
+        examples__phase1_features__demo_checklists["demo_checklists"]
     end
     subgraph examples__phase3_progress
-        examples__phase3_progress__demo_progress_bar["demo_progress_bar"]
-        examples__phase3_progress__demo_countdown["demo_countdown"]
-        examples__phase3_progress__demo_combined["demo_combined"]
-        examples__phase3_progress__demo_status_indicator["demo_status_indicator"]
-        examples__phase3_progress__demo_live_update["demo_live_update"]
         examples__phase3_progress__demo_spinners["demo_spinners"]
+        examples__phase3_progress__demo_combined["demo_combined"]
+        examples__phase3_progress__demo_live_update["demo_live_update"]
+        examples__phase3_progress__demo_countdown["demo_countdown"]
+        examples__phase3_progress__demo_status_indicator["demo_status_indicator"]
+        examples__phase3_progress__demo_progress_bar["demo_progress_bar"]
     end
     subgraph examples__phase4_themes
+        examples__phase4_themes__demo_color_support["demo_color_support"]
         examples__phase4_themes__demo_theme_switching["demo_theme_switching"]
+        examples__phase4_themes__demo_available_themes["demo_available_themes"]
         examples__phase4_themes__demo_no_color["demo_no_color"]
         examples__phase4_themes__demo_custom_theme["demo_custom_theme"]
-        examples__phase4_themes__demo_theme_colors["demo_theme_colors"]
-        examples__phase4_themes__demo_color_support["demo_color_support"]
-        examples__phase4_themes__demo_available_themes["demo_available_themes"]
         examples__phase4_themes__demo_styled_output["demo_styled_output"]
+        examples__phase4_themes__demo_theme_colors["demo_theme_colors"]
     end
     subgraph examples__phase5_devtools
-        examples__phase5_devtools__demo_combined["demo_combined"]
-        examples__phase5_devtools__demo_diff["demo_diff"]
         examples__phase5_devtools__demo_pretty_exceptions["demo_pretty_exceptions"]
-        examples__phase5_devtools__demo_logging["demo_logging"]
         examples__phase5_devtools__demo_debug["demo_debug"]
-        examples__phase5_devtools__demo_tree["demo_tree"]
+        examples__phase5_devtools__demo_diff["demo_diff"]
+        examples__phase5_devtools__demo_combined["demo_combined"]
         examples__phase5_devtools__demo_inspect["demo_inspect"]
+        examples__phase5_devtools__demo_tree["demo_tree"]
+        examples__phase5_devtools__demo_logging["demo_logging"]
     end
     subgraph examples__simple_cli
         examples__simple_cli__status["status"]
@@ -68,104 +68,116 @@ flowchart LR
         scripts__bump_version__bump_version["bump_version"]
     end
     subgraph src__clickmd
-        src__clickmd__help__warning["warning"]
-        src__clickmd__logger__Logger____init__["__init__"]
-        src__clickmd__devtools___format_debug_value["_format_debug_value"]
-        src__clickmd__menu["menu"]
-        src__clickmd__help__success["success"]
-        src__clickmd__renderer__MarkdownRenderer__render_markdown_with_fences["render_markdown_with_fences"]
-        src__clickmd__renderer__render_markdown["render_markdown"]
-        src__clickmd__help___format_option_help["_format_option_help"]
-        src__clickmd__progress__StatusIndicator__fail["fail"]
-        src__clickmd__progress__StatusIndicator__skip["skip"]
-        src__clickmd__progress__countdown["countdown"]
-        src__clickmd__logger__log_info["log_info"]
-        src__clickmd__logger__log_success["log_success"]
-        src__clickmd__devtools__debug["debug"]
-        src__clickmd__help__error["error"]
-        src__clickmd__renderer__get_renderer["get_renderer"]
-        src__clickmd__progress__Spinner____init__["__init__"]
-        src__clickmd__rich_backend__render_md["render_md"]
-        src__clickmd__progress__StatusIndicator__done["done"]
-        src__clickmd__progress__LiveUpdate____init__["__init__"]
-        src__clickmd__logger__log_warning["log_warning"]
-        src__clickmd__logger__log_error["log_error"]
-        src__clickmd__devtools__PrettyExceptionFormatter____init__["__init__"]
-        src__clickmd__themes___check_no_color["_check_no_color"]
-        src__clickmd__renderer__blockquote["blockquote"]
+        src__clickmd__devtools__ClickmdHandler____init__["__init__"]
         src__clickmd__help__info["info"]
-        src__clickmd__devtools___format_object["_format_object"]
-        src__clickmd__logger__Logger__flush["flush"]
-        src__clickmd__rich_backend__print_table["print_table"]
-        src__clickmd__themes__color["color"]
-        src__clickmd__progress__Spinner___animate["_animate"]
+        src__clickmd__rich_backend__render_syntax["render_syntax"]
+        src__clickmd___get_user_choice["_get_user_choice"]
+        src__clickmd__help___strip_markdown_to_plain["_strip_markdown_to_plain"]
+        src__clickmd__progress__ProgressBar___render["_render"]
+        src__clickmd__progress___is_tty["_is_tty"]
         src__clickmd__rich_backend__print_syntax["print_syntax"]
+        src__clickmd__logger__log_action["log_action"]
         src__clickmd__rich_backend__render_table["render_table"]
-        src__clickmd__renderer__checklist["checklist"]
-        src__clickmd__devtools___format_set["_format_set"]
-        src__clickmd__progress__ProgressBar__finish["finish"]
-        src__clickmd__rich_backend__render_panel["render_panel"]
         src__clickmd__themes__set_theme["set_theme"]
+        src__clickmd__devtools___format_object["_format_object"]
+        src__clickmd__renderer__panel["panel"]
+        src__clickmd__devtools___format_debug_value["_format_debug_value"]
+        src__clickmd__logger__log_warning["log_warning"]
+        src__clickmd__help___render_markdown_help["_render_markdown_help"]
+        src__clickmd__progress__ProgressBar____init__["__init__"]
+        src__clickmd__progress__LiveUpdate__clear["clear"]
+        src__clickmd__logger__log_error["log_error"]
+        src__clickmd__menu["menu"]
+        src__clickmd__devtools__PrettyExceptionFormatter____init__["__init__"]
+        src__clickmd__progress__StatusIndicator__skip["skip"]
+        src__clickmd__echo["echo"]
+        src__clickmd__themes__get_color_support["get_color_support"]
+        src__clickmd__renderer__MarkdownRenderer___align_cell["_align_cell"]
+        src__clickmd__help__warning["warning"]
+        src__clickmd__rich_backend__print_md["print_md"]
+        src__clickmd__logger__Logger__flush["flush"]
+        src__clickmd___render_menu["_render_menu"]
+        src__clickmd__devtools__diff["diff"]
+        src__clickmd__help___is_tty["_is_tty"]
+        src__clickmd__renderer__table["table"]
+        src__clickmd__logger__log_info["log_info"]
+        src__clickmd__progress__Spinner____init__["__init__"]
+        src__clickmd__progress__StatusIndicator____init__["__init__"]
+        src__clickmd__progress___clear_line["_clear_line"]
+        src__clickmd__help__error["error"]
+        src__clickmd__progress__countdown["countdown"]
+        src__clickmd__logger__Logger____init__["__init__"]
+        src__clickmd___is_valid_choice["_is_valid_choice"]
+        src__clickmd__devtools__ClickmdHandler__emit["emit"]
+        src__clickmd__renderer__hr["hr"]
+        src__clickmd__rich_backend__get_console["get_console"]
+        src__clickmd__progress___write_inline["_write_inline"]
+        src__clickmd__renderer__checklist["checklist"]
+        src__clickmd__help__success["success"]
+        src__clickmd__logger__Logger__raw["raw"]
+        src__clickmd__logger__get_logger["get_logger"]
+        src__clickmd__themes___detect_color_support["_detect_color_support"]
         src__clickmd__select["select"]
         src__clickmd__progress__Spinner__stop["stop"]
-        src__clickmd__progress___write_inline["_write_inline"]
-        src__clickmd__devtools__diff["diff"]
-        src__clickmd__themes__init_theme_from_env["init_theme_from_env"]
-        src__clickmd__rich_backend__render_syntax["render_syntax"]
-        src__clickmd__help___strip_markdown_to_plain["_strip_markdown_to_plain"]
-        src__clickmd__themes___detect_color_support["_detect_color_support"]
-        src__clickmd__progress__LiveUpdate__clear["clear"]
-        src__clickmd__echo["echo"]
-        src__clickmd__renderer__strip_ansi["strip_ansi"]
         src__clickmd__renderer__MarkdownRenderer___calculate_column_widths["_calculate_column_widths"]
-        src__clickmd__progress__LiveUpdate__update["update"]
-        src__clickmd__themes__get_color_support["get_color_support"]
-        src__clickmd__devtools__ClickmdHandler__emit["emit"]
-        src__clickmd__progress__ProgressBar____init__["__init__"]
-        src__clickmd__progress___is_tty["_is_tty"]
-        src__clickmd__progress__ProgressBar___render["_render"]
-        src__clickmd__progress__Spinner__start["start"]
-        src__clickmd__renderer__panel["panel"]
-        src__clickmd__renderer__table["table"]
-        src__clickmd__md["md"]
-        src__clickmd__rich_backend__print_md["print_md"]
-        src__clickmd__rich_backend__get_console["get_console"]
-        src__clickmd__devtools__ClickmdHandler____init__["__init__"]
-        src__clickmd__renderer__MarkdownRenderer___writeln["_writeln"]
-        src__clickmd__progress__StatusIndicator____init__["__init__"]
-        src__clickmd__devtools___format_dict["_format_dict"]
-        src__clickmd__progress___clear_line["_clear_line"]
         src__clickmd__devtools___format_sequence["_format_sequence"]
-        src__clickmd__devtools__tree["tree"]
-        src__clickmd__renderer__hr["hr"]
-        src__clickmd__rich_backend___FallbackConsole__rule["rule"]
-        src__clickmd__help___render_markdown_help["_render_markdown_help"]
-        src__clickmd__rich_backend___FallbackConsole__print["print"]
-        src__clickmd__help___is_tty["_is_tty"]
-        src__clickmd__devtools__install_excepthook["install_excepthook"]
-        src__clickmd__devtools__inspect_obj["inspect_obj"]
+        src__clickmd__progress__Spinner__start["start"]
+        src__clickmd__devtools___format_set["_format_set"]
+        src__clickmd__devtools___format_dict["_format_dict"]
+        src__clickmd__themes___check_no_color["_check_no_color"]
+        src__clickmd__progress__LiveUpdate__update["update"]
         src__clickmd__progress__StatusIndicator__start["start"]
-        src__clickmd__renderer__MarkdownRenderer___align_cell["_align_cell"]
-        src__clickmd__themes__is_no_color["is_no_color"]
-        src__clickmd__logger__Logger__raw["raw"]
-        src__clickmd__logger__log_action["log_action"]
-        src__clickmd__themes__get_theme["get_theme"]
+        src__clickmd__devtools__inspect_obj["inspect_obj"]
+        src__clickmd__devtools__install_excepthook["install_excepthook"]
+        src__clickmd__rich_backend___FallbackConsole__rule["rule"]
+        src__clickmd__renderer__MarkdownRenderer___writeln["_writeln"]
+        src__clickmd__devtools__debug["debug"]
+        src__clickmd__themes__init_theme_from_env["init_theme_from_env"]
+        src__clickmd__renderer__blockquote["blockquote"]
+        src__clickmd__progress__LiveUpdate____init__["__init__"]
+        src__clickmd__rich_backend__print_table["print_table"]
         src__clickmd__rich_backend__print_panel["print_panel"]
-        src__clickmd__logger__get_logger["get_logger"]
+        src__clickmd__progress__Spinner___animate["_animate"]
+        src__clickmd__renderer__MarkdownRenderer__render_markdown_with_fences["render_markdown_with_fences"]
+        src__clickmd__rich_backend__render_md["render_md"]
+        src__clickmd__md["md"]
+        src__clickmd__rich_backend__render_panel["render_panel"]
+        src__clickmd__progress__ProgressBar__finish["finish"]
+        src__clickmd__logger__log_success["log_success"]
+        src__clickmd__progress__StatusIndicator__fail["fail"]
+        src__clickmd__themes__get_theme["get_theme"]
+        src__clickmd__themes__color["color"]
+        src__clickmd__renderer__strip_ansi["strip_ansi"]
+        src__clickmd__help___format_option_help["_format_option_help"]
+        src__clickmd__renderer__render_markdown["render_markdown"]
+        src__clickmd__devtools__tree["tree"]
+        src__clickmd__rich_backend___FallbackConsole__print["print"]
+        src__clickmd__renderer__get_renderer["get_renderer"]
+        src__clickmd__progress__StatusIndicator__done["done"]
+        src__clickmd__themes__is_no_color["is_no_color"]
     end
     subgraph tools__md_to_html
-        tools__md_to_html___flush_code["_flush_code"]
-        tools__md_to_html___process_line["_process_line"]
-        tools__md_to_html___inline_md_to_html["_inline_md_to_html"]
-        tools__md_to_html___is_table_row["_is_table_row"]
+        tools__md_to_html___flush_paragraph["_flush_paragraph"]
         tools__md_to_html__main["main"]
-        tools__md_to_html___add_html_header["_add_html_header"]
         tools__md_to_html___flush_list["_flush_list"]
+        tools__md_to_html___flush_code["_flush_code"]
         tools__md_to_html__markdown_to_html["markdown_to_html"]
         tools__md_to_html___process_table["_process_table"]
+        tools__md_to_html___process_line["_process_line"]
+        tools__md_to_html___add_html_header["_add_html_header"]
+        tools__md_to_html___inline_md_to_html["_inline_md_to_html"]
         tools__md_to_html__convert_directory["convert_directory"]
-        tools__md_to_html___flush_paragraph["_flush_paragraph"]
+        tools__md_to_html___is_table_row["_is_table_row"]
     end
+    examples__config_viewer__show_yaml_config --> src__clickmd__md
+    examples__config_viewer__show_json_config --> src__clickmd__md
+    examples__config_viewer__show_toml_config --> src__clickmd__md
+    examples__config_viewer__show_env_config --> src__clickmd__md
+    examples__config_viewer__show_config_diff --> src__clickmd__md
+    examples__config_viewer__show_config_tree --> src__clickmd__md
+    examples__colored_logging__main --> src__clickmd__md
+    examples__api_response__handle_api_error --> src__clickmd__md
+    examples__custom_renderer__main --> src__clickmd__rich_backend___FallbackConsole__print
     examples__logger_usage__basic_usage --> src__clickmd__md
     examples__logger_usage__action_logging --> src__clickmd__md
     examples__logger_usage__progress_and_steps --> src__clickmd__md
@@ -174,21 +186,6 @@ flowchart LR
     examples__logger_usage__llm_logging --> src__clickmd__md
     examples__logger_usage__mixed_output --> src__clickmd__md
     examples__logger_usage__real_world_example --> src__clickmd__md
-    examples__colored_logging__main --> src__clickmd__md
-    examples__api_response__handle_api_error --> src__clickmd__md
-    examples__custom_renderer__main --> src__clickmd__rich_backend___FallbackConsole__print
-    examples__phase3_progress__demo_progress_bar --> src__clickmd__md
-    examples__phase3_progress__demo_spinners --> src__clickmd__md
-    examples__phase3_progress__demo_status_indicator --> src__clickmd__md
-    examples__phase3_progress__demo_live_update --> src__clickmd__md
-    examples__phase3_progress__demo_countdown --> src__clickmd__md
-    examples__phase3_progress__demo_combined --> src__clickmd__md
-    examples__config_viewer__show_yaml_config --> src__clickmd__md
-    examples__config_viewer__show_json_config --> src__clickmd__md
-    examples__config_viewer__show_toml_config --> src__clickmd__md
-    examples__config_viewer__show_env_config --> src__clickmd__md
-    examples__config_viewer__show_config_diff --> src__clickmd__md
-    examples__config_viewer__show_config_tree --> src__clickmd__md
     examples__phase1_features__demo_tables --> src__clickmd__md
     examples__phase1_features__demo_panels --> src__clickmd__md
     examples__phase1_features__demo_blockquotes --> src__clickmd__md
@@ -196,6 +193,12 @@ flowchart LR
     examples__phase1_features__demo_checklists --> src__clickmd__md
     examples__phase1_features__demo_nested_lists --> src__clickmd__md
     examples__phase1_features__demo_combined --> src__clickmd__md
+    examples__phase3_progress__demo_progress_bar --> src__clickmd__md
+    examples__phase3_progress__demo_spinners --> src__clickmd__md
+    examples__phase3_progress__demo_status_indicator --> src__clickmd__md
+    examples__phase3_progress__demo_live_update --> src__clickmd__md
+    examples__phase3_progress__demo_countdown --> src__clickmd__md
+    examples__phase3_progress__demo_combined --> src__clickmd__md
     examples__phase4_themes__demo_available_themes --> src__clickmd__md
     examples__phase4_themes__demo_theme_switching --> src__clickmd__md
     examples__phase4_themes__demo_theme_colors --> src__clickmd__md
@@ -204,22 +207,16 @@ flowchart LR
     examples__phase4_themes__demo_custom_theme --> src__clickmd__md
     examples__phase4_themes__demo_no_color --> src__clickmd__md
     examples__phase4_themes__demo_styled_output --> src__clickmd__md
-    scripts__bump_version__bump_version --> src__clickmd__rich_backend___FallbackConsole__print
     examples__simple_cli__status --> src__clickmd__md
-    tools__md_to_html__markdown_to_html --> tools__md_to_html___add_html_header
-    tools__md_to_html__markdown_to_html --> tools__md_to_html___flush_paragraph
-    tools__md_to_html__markdown_to_html --> tools__md_to_html___flush_list
-    tools__md_to_html__markdown_to_html --> tools__md_to_html___flush_code
-    tools__md_to_html__markdown_to_html --> tools__md_to_html___process_line
-    tools__md_to_html___process_line --> tools__md_to_html___flush_paragraph
-    tools__md_to_html___process_line --> tools__md_to_html___flush_list
-    tools__md_to_html___process_table --> tools__md_to_html___flush_paragraph
-    tools__md_to_html___process_table --> tools__md_to_html___flush_list
-    tools__md_to_html___process_table --> tools__md_to_html___is_table_row
-    tools__md_to_html___flush_paragraph --> tools__md_to_html___inline_md_to_html
-    tools__md_to_html___flush_list --> tools__md_to_html___inline_md_to_html
-    tools__md_to_html__convert_directory --> tools__md_to_html__markdown_to_html
-    tools__md_to_html__main --> tools__md_to_html__convert_directory
+    src__clickmd__menu --> src__clickmd___render_menu
+    src__clickmd__menu --> src__clickmd___get_user_choice
+    src__clickmd__menu --> src__clickmd___is_valid_choice
+    src__clickmd__menu --> src__clickmd__md
+    src__clickmd___render_menu --> src__clickmd__md
+    src__clickmd__select --> src__clickmd__menu
+    src__clickmd__echo --> src__clickmd__renderer__get_renderer
+    src__clickmd__echo --> src__clickmd__rich_backend___FallbackConsole__print
+    src__clickmd__md --> src__clickmd__renderer__render_markdown
     src__clickmd__progress___clear_line --> src__clickmd__progress___is_tty
     src__clickmd__progress___write_inline --> src__clickmd__progress___is_tty
     src__clickmd__progress___write_inline --> src__clickmd__rich_backend___FallbackConsole__print
@@ -257,11 +254,6 @@ flowchart LR
     src__clickmd__progress__countdown --> src__clickmd__rich_backend___FallbackConsole__print
     src__clickmd__progress__countdown --> src__clickmd__progress___is_tty
     src__clickmd__progress__countdown --> src__clickmd__progress___write_inline
-    src__clickmd__menu --> src__clickmd__md
-    src__clickmd__select --> src__clickmd__menu
-    src__clickmd__echo --> src__clickmd__renderer__get_renderer
-    src__clickmd__echo --> src__clickmd__rich_backend___FallbackConsole__print
-    src__clickmd__md --> src__clickmd__renderer__render_markdown
     src__clickmd__rich_backend___FallbackConsole__rule --> src__clickmd__rich_backend___FallbackConsole__print
     src__clickmd__rich_backend__render_md --> src__clickmd__rich_backend__get_console
     src__clickmd__rich_backend__render_panel --> src__clickmd__rich_backend__get_console
@@ -305,6 +297,21 @@ flowchart LR
     src__clickmd__logger__log_warning --> src__clickmd__logger__get_logger
     src__clickmd__logger__log_error --> src__clickmd__logger__get_logger
     src__clickmd__logger__log_action --> src__clickmd__logger__get_logger
+    tools__md_to_html__markdown_to_html --> tools__md_to_html___add_html_header
+    tools__md_to_html__markdown_to_html --> tools__md_to_html___flush_paragraph
+    tools__md_to_html__markdown_to_html --> tools__md_to_html___flush_list
+    tools__md_to_html__markdown_to_html --> tools__md_to_html___flush_code
+    tools__md_to_html__markdown_to_html --> tools__md_to_html___process_line
+    tools__md_to_html___process_line --> tools__md_to_html___flush_paragraph
+    tools__md_to_html___process_line --> tools__md_to_html___flush_list
+    tools__md_to_html___process_table --> tools__md_to_html___flush_paragraph
+    tools__md_to_html___process_table --> tools__md_to_html___flush_list
+    tools__md_to_html___process_table --> tools__md_to_html___is_table_row
+    tools__md_to_html___flush_paragraph --> tools__md_to_html___inline_md_to_html
+    tools__md_to_html___flush_list --> tools__md_to_html___inline_md_to_html
+    tools__md_to_html__convert_directory --> tools__md_to_html__markdown_to_html
+    tools__md_to_html__main --> tools__md_to_html__convert_directory
+    scripts__bump_version__bump_version --> src__clickmd__rich_backend___FallbackConsole__print
     src__clickmd__themes___detect_color_support --> src__clickmd__themes___check_no_color
     src__clickmd__themes__is_no_color --> src__clickmd__themes___check_no_color
     src__clickmd__themes__get_color_support --> src__clickmd__themes___detect_color_support

@@ -1,27 +1,27 @@
-# code2llm | 12f 4797L | python:11,shell:1 | 2026-03-30
+# code2llm | 14f 4799L | python:13,shell:1 | 2026-04-08
 # CC̄=3.1 | critical:0/244 | dups:0 | cycles:6
 
 HEALTH[5]:
   🔴 GOD   src/clickmd/progress.py = 514L, 4 classes, 30m, max CC=10
-  🔴 CYCLE Circular dependency detected: src.clickmd.devtools._format_sequence -> src.clickmd.devtools._format_debug_value. This indicates high coupling and may lead to infinite recursion or initialization issues.
-  🔴 CYCLE Circular dependency detected: src.clickmd.devtools._format_dict -> src.clickmd.devtools._format_debug_value. This indicates high coupling and may lead to infinite recursion or initialization issues.
   🔴 CYCLE Circular dependency detected: src.clickmd.devtools._format_object -> src.clickmd.devtools._format_debug_value. This indicates high coupling and may lead to infinite recursion or initialization issues.
-  🔴 CYCLE Circular dependency detected: src.clickmd.devtools._format_set -> src.clickmd.devtools._format_debug_value. This indicates high coupling and may lead to infinite recursion or initialization issues.
+  🔴 CYCLE Circular dependency detected: src.clickmd.devtools._format_sequence -> src.clickmd.devtools._format_debug_value. This indicates high coupling and may lead to infinite recursion or initialization issues.
+  🔴 CYCLE Circular dependency detected: src.clickmd.devtools._format_debug_value -> src.clickmd.devtools._format_dict. This indicates high coupling and may lead to infinite recursion or initialization issues.
+  🔴 CYCLE Circular dependency detected: src.clickmd.devtools._format_debug_value -> src.clickmd.devtools._format_set. This indicates high coupling and may lead to infinite recursion or initialization issues.
 
 REFACTOR[2]:
   1. split src/clickmd/progress.py  (god module)
   2. break 6 circular dependencies
 
 PIPELINES[189]:
-  [1] Src [handle_api_error]: handle_api_error
+  [1] Src [show_yaml_config]: show_yaml_config
       PURITY: 100% pure
-  [2] Src [main]: main → md → render_markdown → get_renderer
+  [2] Src [show_json_config]: show_json_config
       PURITY: 100% pure
-  [3] Src [show_yaml_config]: show_yaml_config
+  [3] Src [show_toml_config]: show_toml_config
       PURITY: 100% pure
-  [4] Src [show_json_config]: show_json_config
+  [4] Src [show_env_config]: show_env_config
       PURITY: 100% pure
-  [5] Src [show_toml_config]: show_toml_config
+  [5] Src [show_config_diff]: show_config_diff
       PURITY: 100% pure
 
 LAYERS:
@@ -44,6 +44,8 @@ LAYERS:
   │
   ./                              CC̄=0.0    ←in:0  →out:0
   │ project.sh                  24L  0C    0m  CC=0.0    ←0
+  │ devtools                     1L  0C    0m  CC=0.0    ←0
+  │ renderer                     1L  0C    0m  CC=0.0    ←0
   │
 
 COUPLING:

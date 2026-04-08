@@ -68,10 +68,10 @@ def bump_version(version_type) -> int:
     print(f"✓ Bumped version from {current_version} to {new_version}")
     return 0
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python bump_version.py [patch|minor|major]")
-        sys.exit(1)
-    
-    version_type = sys.argv[1]
-    sys.exit(bump_version(version_type))
+if len(sys.argv) != 2:
+    print("Usage: python bump_version.py [patch|minor|major]")
+    sys.exit(1)
+
+version_type = sys.argv[1]
+sys.exit(bump_version(version_type))
+

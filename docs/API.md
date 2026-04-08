@@ -115,7 +115,7 @@ code here
 
 ---
 
-## Click Decorators
+## Click Integration
 
 Requires `click` package: `pip install clickmd[click]`
 
@@ -128,7 +128,9 @@ if CLICK_AVAILABLE:
     print("Click is installed")
 ```
 
-### Decorators
+### Complete Click API
+
+`clickmd` re-exports the entire Click API for convenience:
 
 ```python
 import clickmd as click
@@ -145,7 +147,7 @@ def process(name, path):
     click.md(f"Processing **{path}** for {name}")
 ```
 
-### Available Decorators
+### Decorators
 
 | Decorator | Description |
 |-----------|-------------|
@@ -153,15 +155,36 @@ def process(name, path):
 | `@command()` | Create command |
 | `@option()` | Add option |
 | `@argument()` | Add argument |
-| `@pass_context` | Pass Click context |
+| `@pass_context`, `@pass_obj` | Pass Click context |
+| `@version_option()`, `@help_option()` | Built-in options |
+| `@confirmation_option()`, `@password_option()` | Special options |
 
-### Available Types
+### Parameter Types
 
 | Type | Description |
 |------|-------------|
+| `STRING`, `INT`, `FLOAT`, `BOOL`, `UUID` | Basic types |
 | `Choice` | Enumerated choices |
-| `Path` | File/directory path |
-| `Context` | Click context object |
+| `Path`, `File` | File/directory paths |
+| `DateTime` | Date/time parsing |
+| `IntRange`, `FloatRange` | Numeric ranges |
+| `Tuple` | Multiple values |
+
+### Core Classes
+
+- `Context`, `Command`, `Group`, `Option`, `Argument`, `Parameter`
+- `HelpFormatter`, `CommandCollection`
+
+### Utility Functions
+
+- `click_echo()`, `secho()`, `style()`, `unstyle()`
+- `prompt()`, `confirm()`, `getchar()`, `clear()`
+- `progressbar()`, `open_file()`, `get_app_dir()`
+
+### Exceptions
+
+- `ClickException`, `UsageError`, `BadParameter`, `Abort`
+- `NoSuchOption`, `MissingParameter`, `FileError`
 
 ---
 
@@ -169,16 +192,28 @@ def process(name, path):
 
 ### Supported Languages
 
-| Language ID | Aliases | Features |
-|-------------|---------|----------|
-| `python` | `py` | Keywords, strings, comments, decorators |
-| `typescript` | `ts` | Keywords, strings, template literals |
-| `javascript` | `js` | Keywords, strings, comments |
-| `json` | - | Keys, strings, numbers, booleans, null |
-| `yaml` | `yml` | Keys, values, comments, lists |
-| `bash` | `sh`, `shell` | Commands, arguments, comments |
-| `markdown` | `md` | Headers, bold, links |
-| `log` | - | Status emojis, errors, warnings |
+| Category | Language ID | Aliases |
+|----------|-------------|---------|
+| **Programming** | `python` | `py` |
+| | `typescript` | `ts`, `tsx`, `jsx` |
+| | `javascript` | `js` |
+| | `go` | `golang` |
+| | `rust` | `rs` |
+| | `java` | `kotlin`, `kt`, `scala` |
+| | `c` | `cpp`, `c++`, `h`, `hpp`, `cxx` |
+| | `ruby` | `rb` |
+| | `php` | - |
+| **Data Formats** | `json` | - |
+| | `yaml` | `yml` |
+| | `toml` | `ini`, `cfg`, `conf` |
+| **Web** | `html` | `htm`, `xml`, `svg` |
+| | `css` | `scss`, `sass`, `less` |
+| **Shell** | `bash` | `sh`, `shell`, `zsh` |
+| | `dockerfile` | `docker` |
+| **Database** | `sql` | `mysql`, `postgresql`, `sqlite` |
+| **Other** | `markdown` | `md` |
+| | `log` | - |
+| | `diff` | `patch` |
 
 ### Log Highlighting
 
@@ -364,3 +399,84 @@ from clickmd import strip_ansi
 clean = strip_ansi("\x1b[31mred text\x1b[0m")
 print(clean)  # "red text"
 ```
+
+---
+
+## Markdown Help for Click
+
+Provides markdown rendering for Click help text.
+
+### `MarkdownCommand` / `MarkdownGroup`
+
+Command classes with markdown support.
+
+```python
+import clickmd
+
+@clickmd.command(cls=clickmd.MarkdownCommand)
+def mycli():
+    '''
+    # My CLI Tool
+
+    This tool does **amazing** things.
+
+    ```bash
+    mycli --help
+    ```
+    '''
+    pass
+```
+
+### `@markdown_help` decorator
+
+Enable markdown help for any command.
+
+```python
+@clickmd.command()
+@clickmd.markdown_help
+def mycli():
+    '''# My CLI with markdown help'''
+    pass
+```
+
+### Styled output helpers
+
+- `success(msg)` - Green success panel
+- `warning(msg)` - Yellow warning panel
+- `error(msg)` - Red error panel
+- `info(msg)` - Blue info panel
+- `echo_md(msg)` - Echo with markdown rendering
+
+---
+
+## Rich Backend (Optional)
+
+Requires `rich` package: `pip install clickmd[rich]`
+
+### `is_rich_available() -> bool`
+
+Check if Rich is installed.
+
+### `get_console()`
+
+Get Rich console instance.
+
+### `render_md(text)`
+
+Render markdown using Rich.
+
+### `render_panel(text, **kwargs)`
+
+Render panel using Rich.
+
+### `render_syntax(code, lang)`
+
+Render syntax-highlighted code using Rich.
+
+### `render_table(data, **kwargs)`
+
+Render table using Rich.
+
+### Constants
+
+- `RICH_AVAILABLE: bool` - Whether Rich is installed

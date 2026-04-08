@@ -1,6 +1,6 @@
-# code2llm/evolution | 183 func | 9f | 2026-03-27
+# code2llm/evolution | 186 func | 9f | 2026-04-08
 
-NEXT[4] (ranked by impact):
+NEXT[3] (ranked by impact):
   [1] !! SPLIT           src/clickmd/renderer.py
       WHY: 969L, 1 classes, max CC=11
       EFFORT: ~4h  IMPACT: 10659
@@ -13,10 +13,6 @@ NEXT[4] (ranked by impact):
       WHY: 521L, 0 classes, max CC=4
       EFFORT: ~4h  IMPACT: 2084
 
-  [4] !  SPLIT-FUNC      menu  CC=15  fan=13
-      WHY: CC=15 exceeds 15
-      EFFORT: ~1h  IMPACT: 195
-
 
 RISKS[3]:
   ⚠ Splitting src/clickmd/renderer.py may break 50 import paths
@@ -25,9 +21,9 @@ RISKS[3]:
 
 METRICS-TARGET:
   CC̄:          3.1 → ≤2.2
-  max-CC:      15 → ≤7
+  max-CC:      14 → ≤7
   god-modules: 4 → 0
-  high-CC(≥15): 1 → ≤0
+  high-CC(≥15): 0 → ≤0
   hub-types:   0 → ≤0
 
 PATTERNS (language parser shared logic):
@@ -55,4 +51,4 @@ PATTERNS (language parser shared logic):
     - Standardized FunctionInfo/ClassInfo models
 
 HISTORY:
-  prev CC̄=3.4 → now CC̄=3.1
+  prev CC̄=3.1 → now CC̄=3.1

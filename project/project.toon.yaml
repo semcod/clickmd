@@ -1,34 +1,36 @@
-# clickmd | 184 func | 10f | 5499L | python | 2026-03-27
+# clickmd | 187 func | 10f | 5515L | python | 2026-04-08
 
 HEALTH:
-  CC̄=3.1  critical=11 (limit:10)  dup=0  cycles=6
+  CC̄=3.1  critical=10 (limit:10)  dup=0  cycles=6
 
-ALERTS[12]:
+ALERTS[10]:
   !!  high_fan_out     _process_line = 17 (limit:10)
-  !   cc_exceeded      menu = 15 (limit:15)
   !   high_fan_out     render_table = 14 (limit:10)
   !   high_fan_out     bump_version = 13 (limit:10)
-  !   high_fan_out     menu = 13 (limit:10)
   !   high_fan_out     MarkdownRenderer.render_markdown_with_fences = 12 (limit:10)
-  !   high_fan_out     _process_table = 11 (limit:10)
   !   high_fan_out     countdown = 11 (limit:10)
+  !   high_fan_out     _process_table = 11 (limit:10)
   !   high_fan_out     _format_debug_value = 11 (limit:10)
   !   high_fan_out     inspect_obj = 11 (limit:10)
+  !   high_fan_out     tree = 11 (limit:10)
+  !   high_fan_out     render_panel = 10 (limit:10)
 
-MODULES[12] (top by size):
+MODULES[14] (top by size):
   M[src/clickmd/renderer.py] 969L C:1 F:50 CC↑11 D:6 (python)
   M[src/clickmd/devtools.py] 591L C:2 F:20 CC↑13 D:0 (python)
   M[src/clickmd/help.py] 521L C:0 F:9 CC↑4 D:0 (python)
   M[src/clickmd/progress.py] 514L C:4 F:30 CC↑10 D:0 (python)
   M[src/clickmd/themes.py] 482L C:1 F:14 CC↑8 D:0 (python)
-  M[src/clickmd/__init__.py] 443L C:0 F:4 CC↑15 D:2 (python)
+  M[src/clickmd/__init__.py] 457L C:0 F:7 CC↑12 D:2 (python)
   M[src/clickmd/rich_backend.py] 306L C:1 F:13 CC↑14 D:10 (python)
   M[src/clickmd/logger.py] 302L C:1 F:30 CC↑4 D:1 (python)
   M[src/clickmd/decorators.py] 286L C:0 F:0 CC↑0 D:0 (python)
   M[tools/md_to_html.py] 268L C:0 F:13 CC↑12 D:0 (python)
   M[scripts/bump_version.py] 77L C:0 F:1 CC↑9 D:0 (python)
   M[project.sh] 24L C:0 F:0 CC↑0 D:0 (shell)
-  LANGS: python:11/shell:1
+  M[devtools.py] 1L C:0 F:0 CC↑0 D:0 (python)
+  M[renderer.py] 1L C:0 F:0 CC↑0 D:0 (python)
+  LANGS: python:13/shell:1
 
 HOTSPOTS[10]:
   ★ _process_line fan=17  // Analysis pipeline, 17 stages
@@ -38,20 +40,21 @@ Args:
     headers: Column headers
     rows: Table row
   ★ bump_version fan=13  // Bump version in pyproject.toml
-  ★ menu fan=13  // Display a numbered markdown menu and prompt for selection.
+  ★ MarkdownRenderer.render_markdown_with_fences fan=12  // Orchestrates 12 calls
+  ★ countdown fan=11  // Display a countdown timer.
 
 Args:
-    title: Men
-  ★ MarkdownRenderer.render_markdown_with_fences fan=12  // Orchestrates 12 calls
+    seconds: Number of seconds to count down
+ 
 
-REFACTOR[9]:
+REFACTOR[8]:
   [1] H/H Split god module src/clickmd/devtools.py (591L, 2 classes)
   [2] H/H Split god module src/clickmd/renderer.py (969L, 1 classes)
   [3] H/H Split god module src/clickmd/progress.py (514L, 4 classes)
   [4] H/H Split god module src/clickmd/help.py (521L, 0 classes)
-  [5] M/L Split menu (CC=15 → target CC<10)
+  [5] M/L Break circular dependency: src.clickmd.rich_backend._FallbackConsole.print
 
 EVOLUTION:
   2026-03-05 CC̄=3.5 crit=13 5369L // Automated analysis
   2026-03-07 CC̄=3.5 crit=13 5369L // Automated analysis
-  2026-03-27 CC̄=3.1 crit=11 5499L // Automated analysis
+  2026-04-08 CC̄=3.1 crit=10 5515L // Automated analysis
