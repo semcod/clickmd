@@ -1,0 +1,388 @@
+// LESS format — define @variables here as needed
+
+app {
+  name: clickmd;
+  version: 1.1.14;
+  description: "Markdown rendering for CLI applications with syntax highlighting";
+  license: Apache-2.0;
+  authors: "Tom Sapletta <tom@sapletta.com>";
+  keywords: "cli, markdown, terminal, ansi, colors, syntax-highlighting";
+  homepage: https://github.com/wronai/clickmd;
+  repository: https://github.com/wronai/clickmd;
+}
+
+dependencies {
+  runtime: "goal>=2.1.218, costs>=0.1.20, pfix>=0.1.60";
+  click: "click>=8.0,<9.0";
+  rich: rich>=13.0;
+  dev: "pytest>=7.0, pytest-cov>=4.0, ruff>=0.1.0, mypy>=1.0, black>=23.0, build>=1.0, twine>=5.0, goal>=2.1.218, costs>=0.1.20, pfix>=0.1.60";
+  all: "clickmd[click,rich,dev]";
+}
+
+workflow[name="install"] {
+  trigger: manual;
+  step-1: run cmd=$(PIP) install -e .;
+}
+
+workflow[name="dev"] {
+  trigger: manual;
+  step-1: run cmd=$(PIP) install -e ".[dev,click]";
+}
+
+workflow[name="test"] {
+  trigger: manual;
+  step-1: run cmd=$(PYTEST) tests/ -v;
+}
+
+workflow[name="test-cov"] {
+  trigger: manual;
+  step-1: run cmd=$(PYTEST) tests/ -v --cov=. --cov-report=term-missing --cov-report=html;
+}
+
+workflow[name="lint"] {
+  trigger: manual;
+  step-1: run cmd=$(RUFF) check .;
+  step-2: run cmd=$(RUFF) format --check .;
+}
+
+workflow[name="format"] {
+  trigger: manual;
+  step-1: run cmd=$(RUFF) format .;
+  step-2: run cmd=$(RUFF) check --fix .;
+}
+
+workflow[name="type-check"] {
+  trigger: manual;
+  step-1: run cmd=$(MYPY) --ignore-missing-imports .;
+}
+
+workflow[name="check"] {
+  trigger: manual;
+  step-1: depend target=lint;
+  step-2: depend target=type-check;
+  step-3: depend target=test;
+}
+
+workflow[name="clean"] {
+  trigger: manual;
+  step-1: run cmd=rm -rf build/;
+  step-2: run cmd=rm -rf dist/;
+  step-3: run cmd=rm -rf *.egg-info/;
+  step-4: run cmd=rm -rf .pytest_cache/;
+  step-5: run cmd=rm -rf .mypy_cache/;
+  step-6: run cmd=rm -rf .ruff_cache/;
+  step-7: run cmd=rm -rf htmlcov/;
+  step-8: run cmd=rm -rf .coverage;
+  step-9: run cmd=find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true;
+  step-10: run cmd=find . -type f -name "*.pyc" -delete;
+}
+
+workflow[name="docs"] {
+  trigger: manual;
+  step-1: run cmd=echo "Documentation is in README.md and docs/";
+  step-2: run cmd=echo "For API docs, consider using pdoc or sphinx";
+}
+
+workflow[name="examples"] {
+  trigger: manual;
+  step-1: run cmd=echo "Running all clickmd examples...";
+  step-2: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/basic.py;
+  step-3: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/custom_renderer.py;
+  step-4: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/logging.py;
+  step-5: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/logger_usage.py;
+  step-6: run cmd=if PYTHONPATH=.. $(PYTHON) -c "import clickmd as c, sys; sys.exit(0 if getattr(c, 'CLICK_AVAILABLE', False) else 1)"; then \;
+  step-7: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/cli_app.py hello --name Alice; \;
+  step-8: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/cli_app.py status; \;
+  step-9: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/markdown_help.py --help; \;
+  step-10: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/markdown_help.py process --help; \;
+  step-11: run cmd=else \;
+  step-12: run cmd=echo "Skipping cli_app.py and markdown_help.py (click not installed). Install with: pip install clickmd[click]"; \;
+  step-13: run cmd=fi;
+}
+
+workflow[name="examples-md"] {
+  trigger: manual;
+  step-1: run cmd=echo "Generating markdown outputs for examples...";
+  step-2: run cmd=rm -rf $(EXAMPLES_OUT);
+  step-3: run cmd=mkdir -p $(EXAMPLES_OUT);
+  step-4: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/basic.py > $(EXAMPLES_OUT)/basic.md;
+  step-5: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/custom_renderer.py > $(EXAMPLES_OUT)/custom_renderer.md;
+  step-6: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/logging.py > $(EXAMPLES_OUT)/logging.md;
+  step-7: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/logger_usage.py > $(EXAMPLES_OUT)/logger_usage.md;
+  step-8: run cmd=if PYTHONPATH=.. $(PYTHON) -c "import clickmd as c, sys; sys.exit(0 if getattr(c, 'CLICK_AVAILABLE', False) else 1)"; then \;
+  step-9: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/cli_app.py hello --name Alice > $(EXAMPLES_OUT)/cli_app.md; \;
+  step-10: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/cli_app.py status >> $(EXAMPLES_OUT)/cli_app.md; \;
+  step-11: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/cli_app.py example python >> $(EXAMPLES_OUT)/cli_app.md; \;
+  step-12: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/markdown_help.py --help > $(EXAMPLES_OUT)/markdown_help.md; \;
+  step-13: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/markdown_help.py process --help >> $(EXAMPLES_OUT)/markdown_help.md; \;
+  step-14: run cmd=PYTHONPATH=.. $(PYTHON) $(EXAMPLES_DIR)/markdown_help.py config list >> $(EXAMPLES_OUT)/markdown_help.md; \;
+  step-15: run cmd=else \;
+  step-16: run cmd=echo "# cli_app.py" > $(EXAMPLES_OUT)/cli_app.md; \;
+  step-17: run cmd=echo "" >> $(EXAMPLES_OUT)/cli_app.md; \;
+  step-18: run cmd=echo "Click is not installed. Install with: pip install clickmd[click]" >> $(EXAMPLES_OUT)/cli_app.md; \;
+  step-19: run cmd=echo "# markdown_help.py" > $(EXAMPLES_OUT)/markdown_help.md; \;
+  step-20: run cmd=echo "" >> $(EXAMPLES_OUT)/markdown_help.md; \;
+  step-21: run cmd=echo "Click is not installed. Install with: pip install clickmd[click]" >> $(EXAMPLES_OUT)/markdown_help.md; \;
+  step-22: run cmd=fi;
+  step-23: run cmd=echo "Wrote markdown files to $(EXAMPLES_OUT)/";
+}
+
+workflow[name="examples-html"] {
+  trigger: manual;
+  step-1: run cmd=echo "Converting markdown to HTML...";
+  step-2: run cmd=$(PYTHON) tools/md_to_html.py $(EXAMPLES_OUT);
+  step-3: run cmd=echo "Opening HTML files in browser...";
+  step-4: run cmd=for html in $(EXAMPLES_OUT)/*.html; do xdg-open "$$html" >/dev/null 2>&1 || true; done;
+}
+
+workflow[name="build"] {
+  trigger: manual;
+  step-1: run cmd=rm -rf build/ dist/ *.egg-info;
+  step-2: run cmd=$(PYTHON) -m build;
+  step-3: run cmd=echo "✓ Build complete - check dist/";
+}
+
+workflow[name="publish-test"] {
+  trigger: manual;
+  step-1: run cmd=echo "🚀 Publishing to TestPyPI...";
+  step-2: run cmd=$(PYTHON) -m twine upload --repository testpypi dist/*;
+  step-3: run cmd=echo "✓ Published to TestPyPI";
+}
+
+workflow[name="bump-patch"] {
+  trigger: manual;
+  step-1: run cmd=echo "🔢 Bumping patch version...";
+  step-2: run cmd=$(PYTHON) scripts/bump_version.py patch 2>/dev/null || echo "Create scripts/bump_version.py or edit pyproject.toml manually";
+}
+
+workflow[name="bump-minor"] {
+  trigger: manual;
+  step-1: run cmd=echo "🔢 Bumping minor version...";
+  step-2: run cmd=$(PYTHON) scripts/bump_version.py minor 2>/dev/null || echo "Create scripts/bump_version.py or edit pyproject.toml manually";
+}
+
+workflow[name="bump-major"] {
+  trigger: manual;
+  step-1: run cmd=echo "🔢 Bumping major version...";
+  step-2: run cmd=$(PYTHON) scripts/bump_version.py major 2>/dev/null || echo "Create scripts/bump_version.py or edit pyproject.toml manually";
+}
+
+workflow[name="publish"] {
+  trigger: manual;
+  step-1: run cmd=echo "🚀 Publishing to PyPI...";
+  step-2: run cmd=$(PYTHON) -m twine upload --skip-existing dist/*;
+  step-3: run cmd=echo "✓ Published to PyPI";
+}
+
+workflow[name="publish-new"] {
+  trigger: manual;
+  step-1: run cmd=echo "🚀 Publishing new version to PyPI...";
+  step-2: run cmd=$(PYTHON) -m twine upload dist/*;
+  step-3: run cmd=echo "✓ Published to PyPI";
+}
+
+workflow[name="t"] {
+  trigger: manual;
+  step-1: depend target=test;
+}
+
+workflow[name="l"] {
+  trigger: manual;
+  step-1: depend target=lint;
+}
+
+workflow[name="f"] {
+  trigger: manual;
+  step-1: depend target=format;
+}
+
+workflow[name="c"] {
+  trigger: manual;
+  step-1: depend target=check;
+}
+
+workflow[name="tets"] {
+  trigger: manual;
+  step-1: depend target=test;
+}
+
+workflow[name="fmt"] {
+  trigger: manual;
+  step-1: run cmd=ruff format .;
+}
+
+workflow[name="help"] {
+  trigger: manual;
+  step-1: run cmd=echo "clickmd - Markdown rendering for CLI applications";
+  step-2: run cmd=echo "";
+  step-3: run cmd=echo "Usage: make <target>";
+  step-4: run cmd=echo "";
+  step-5: run cmd=echo "Development:";
+  step-6: run cmd=echo "  install      Install package in development mode";
+  step-7: run cmd=echo "  dev          Install with all development dependencies";
+  step-8: run cmd=echo "  test         Run tests with pytest";
+  step-9: run cmd=echo "  test-cov     Run tests with coverage report";
+  step-10: run cmd=echo "  lint         Run ruff linter";
+  step-11: run cmd=echo "  format       Format code with black and ruff";
+  step-12: run cmd=echo "  type-check   Run mypy type checker";
+  step-13: run cmd=echo "  check        Run all checks (lint, type-check, test)";
+  step-14: run cmd=echo "";
+  step-15: run cmd=echo "Build & Publish:";
+  step-16: run cmd=echo "  clean        Remove build artifacts";
+  step-17: run cmd=echo "  build        Build package (sdist and wheel)";
+  step-18: run cmd=echo "  publish-test Publish to TestPyPI";
+  step-19: run cmd=echo "  publish      Publish to PyPI";
+  step-20: run cmd=echo "";
+  step-21: run cmd=echo "Documentation:";
+  step-22: run cmd=echo "  docs         Generate documentation";
+  step-23: run cmd=echo "";
+  step-24: run cmd=echo "Examples:";
+  step-25: run cmd=echo "  examples     Run all examples sequentially";
+  step-26: run cmd=echo "  examples-md  Generate examples_output/*.md (no ANSI)";
+  step-27: run cmd=echo "  examples-html Generate examples_output/*.html and open in browser";
+}
+
+workflow[name="health"] {
+  trigger: manual;
+  step-1: run cmd=docker compose ps;
+  step-2: run cmd=docker compose exec app echo "Health check passed";
+}
+
+workflow[name="import-makefile-hint"] {
+  trigger: manual;
+  step-1: run cmd=echo 'Run: taskfile import Makefile to import existing targets.';
+}
+
+workflow[name="all"] {
+  trigger: manual;
+  step-1: run cmd=taskfile run install;
+  step-2: run cmd=taskfile run lint;
+  step-3: run cmd=taskfile run test;
+}
+
+workflow[name="sumd"] {
+  trigger: manual;
+  step-1: run cmd=echo "# $(basename $(pwd))" > SUMD.md
+echo "" >> SUMD.md
+echo "$(python3 -c "import tomllib; f=open('pyproject.toml','rb'); d=tomllib.load(f); print(d.get('project',{}).get('description','Project description'))" 2>/dev/null || echo 'Project description')" >> SUMD.md
+echo "" >> SUMD.md
+echo "## Contents" >> SUMD.md
+echo "" >> SUMD.md
+echo "- [Metadata](#metadata)" >> SUMD.md
+echo "- [Architecture](#architecture)" >> SUMD.md
+echo "- [Dependencies](#dependencies)" >> SUMD.md
+echo "- [Source Map](#source-map)" >> SUMD.md
+echo "- [Intent](#intent)" >> SUMD.md
+echo "" >> SUMD.md
+echo "## Metadata" >> SUMD.md
+echo "" >> SUMD.md
+echo "- **name**: \`$(basename $(pwd))\`" >> SUMD.md
+echo "- **version**: \`$(python3 -c "import tomllib; f=open('pyproject.toml','rb'); d=tomllib.load(f); print(d.get('project',{}).get('version','unknown'))" 2>/dev/null || echo 'unknown')\`" >> SUMD.md
+echo "- **python_requires**: \`>=$(python3 --version 2>/dev/null | cut -d' ' -f2 | cut -d. -f1,2)\`" >> SUMD.md
+echo "- **license**: $(python3 -c "import tomllib; f=open('pyproject.toml','rb'); d=tomllib.load(f); print(d.get('project',{}).get('license',{}).get('text','MIT'))" 2>/dev/null || echo 'MIT')" >> SUMD.md
+echo "- **ecosystem**: SUMD + DOQL + testql + taskfile" >> SUMD.md
+echo "- **generated_from**: pyproject.toml, Taskfile.yml, Makefile, src/" >> SUMD.md
+echo "" >> SUMD.md
+echo "## Architecture" >> SUMD.md
+echo "" >> SUMD.md
+echo '```' >> SUMD.md
+echo "SUMD (description) → DOQL/source (code) → taskfile (automation) → testql (verification)" >> SUMD.md
+echo '```' >> SUMD.md
+echo "" >> SUMD.md
+echo "## Source Map" >> SUMD.md
+echo "" >> SUMD.md
+find . -name '*.py' -not -path './.venv/*' -not -path './venv/*' -not -path './__pycache__/*' -not -path './.git/*' | head -50 | sed 's|^./||' | sed 's|^|- |' >> SUMD.md
+echo "Generated SUMD.md";
+  step-2: run cmd=python3 -c "
+import json, os, subprocess
+from pathlib import Path
+project_name = Path.cwd().name
+py_files = list(Path('.').rglob('*.py'))
+py_files = [f for f in py_files if not any(x in str(f) for x in ['.venv', 'venv', '__pycache__', '.git'])]
+data = {
+    'project_name': project_name,
+    'description': 'SUMD - Structured Unified Markdown Descriptor for AI-aware project refactorization',
+    'files': [{'path': str(f), 'type': 'python'} for f in py_files[:100]]
+}
+with open('sumd.json', 'w') as f:
+    json.dump(data, f, indent=2)
+print('Generated sumd.json')
+" 2>/dev/null || echo 'Python generation failed, using fallback';
+}
+
+workflow[name="sumr"] {
+  trigger: manual;
+  step-1: run cmd=echo "# $(basename $(pwd)) - Summary Report" > SUMR.md
+echo "" >> SUMR.md
+echo "SUMR - Summary Report for project analysis" >> SUMR.md
+echo "" >> SUMR.md
+echo "## Contents" >> SUMR.md
+echo "" >> SUMR.md
+echo "- [Metadata](#metadata)" >> SUMR.md
+echo "- [Quality Status](#quality-status)" >> SUMR.md
+echo "- [Metrics](#metrics)" >> SUMR.md
+echo "- [Refactoring Analysis](#refactoring-analysis)" >> SUMR.md
+echo "- [Intent](#intent)" >> SUMR.md
+echo "" >> SUMR.md
+echo "## Metadata" >> SUMR.md
+echo "" >> SUMR.md
+echo "- **name**: \`$(basename $(pwd))\`" >> SUMR.md
+echo "- **version**: \`$(python3 -c "import tomllib; f=open('pyproject.toml','rb'); d=tomllib.load(f); print(d.get('project',{}).get('version','unknown'))" 2>/dev/null || echo 'unknown')\`" >> SUMR.md
+echo "- **generated_at**: \`$(date -Iseconds)\`" >> SUMR.md
+echo "" >> SUMR.md
+echo "## Quality Status" >> SUMR.md
+echo "" >> SUMR.md
+if [ -f pyqual.yaml ]; then
+  echo "- **pyqual_config**: ✅ Present" >> SUMR.md
+  echo "- **last_run**: $(stat -c %y .pyqual/pipeline.db 2>/dev/null | cut -d' ' -f1 || echo 'N/A')" >> SUMR.md
+else
+  echo "- **pyqual_config**: ❌ Missing" >> SUMR.md
+fi
+echo "" >> SUMR.md
+echo "## Metrics" >> SUMR.md
+echo "" >> SUMR.md
+py_files=$(find . -name '*.py' -not -path './.venv/*' -not -path './venv/*' | wc -l)
+echo "- **python_files**: $py_files" >> SUMR.md
+lines=$(find . -name '*.py' -not -path './.venv/*' -not -path './venv/*' -exec cat {} \; 2>/dev/null | wc -l)
+echo "- **total_lines**: $lines" >> SUMR.md
+echo "" >> SUMR.md
+echo "## Refactoring Analysis" >> SUMR.md
+echo "" >> SUMR.md
+echo "Run \`code2llm ./ -f evolution\` for detailed refactoring queue." >> SUMR.md
+echo "Generated SUMR.md";
+  step-2: run cmd=python3 -c "
+import json, os, subprocess
+from pathlib import Path
+from datetime import datetime
+project_name = Path.cwd().name
+py_files = len([f for f in Path('.').rglob('*.py') if not any(x in str(f) for x in ['.venv', 'venv', '__pycache__', '.git'])])
+data = {
+    'project_name': project_name,
+    'report_type': 'SUMR',
+    'generated_at': datetime.now().isoformat(),
+    'metrics': {
+        'python_files': py_files,
+        'has_pyqual_config': Path('pyqual.yaml').exists()
+    }
+}
+with open('SUMR.json', 'w') as f:
+    json.dump(data, f, indent=2)
+print('Generated SUMR.json')
+" 2>/dev/null || echo 'Python generation failed, using fallback';
+}
+
+env_vars {
+  keys: OPENROUTER_API_KEY, LLM_MODEL, NO_COLOR, CLICKMD_NO_COLOR, COLORTERM, TERM, CLICKMD_THEME;
+}
+
+deploy {
+  target: makefile;
+}
+
+environment[name="local"] {
+  runtime: python;
+  env_file: .env;
+  python_version: >=3.10;
+  vars: LLM_MODEL, OPENROUTER_API_KEY;
+  runtime_llm: OPENROUTER_API_KEY;
+}
