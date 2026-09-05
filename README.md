@@ -430,3 +430,7 @@ _Last updated by [taskill](https://github.com/oqlos/taskill) at 2026-04-25 18:20
 > No changes since the last taskill run: there are no new commits and no changed files. TODO.md remains unchanged.
 
 <!-- taskill:status:end -->
+
+## Dependency maintenance
+
+See [dependency updates and Python tool groups](docs/dependencies.md) for locked tests, daily updates and freshness checks.
