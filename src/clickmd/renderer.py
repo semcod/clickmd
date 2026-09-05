@@ -300,8 +300,8 @@ class MarkdownRenderer:
 
     def _highlight_json(self, line: str) -> str:
         result = line
-        result = re.sub(r'"([^"]+)":', lambda m: f"{self._c('cyan', f'\"{m.group(1)}\"')}:" , result)
-        result = re.sub(r':\s*"([^"]*)"', lambda m: f": {self._c('green', f'\"{m.group(1)}\"')}" , result)
+        result = re.sub(r'"([^"]+)":', lambda m: self._c("cyan", m.group(0)[:-1]) + ":", result)
+        result = re.sub(r':\s*"([^"]*)"', lambda m: ": " + self._c("green", '"' + m.group(1) + '"'), result)
         result = re.sub(r":\s*(\d+)", lambda m: f": {self._c('magenta', m.group(1))}" , result)
         result = re.sub(r":\s*(true|false)", lambda m: f": {self._c('yellow', m.group(1))}" , result)
         result = re.sub(r":\s*null", f": {self._c('gray', 'null')}", result)

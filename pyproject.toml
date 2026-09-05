@@ -27,11 +27,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 requires-python = ">=3.10"
-dependencies = [
-    "goal>=2.1.218",
-    "costs>=0.1.20",
-    "pfix>=0.1.60",
-]
+dependencies = ["costs>=0.1.20", "pfix>=0.1.60"]
 
 [project.optional-dependencies]
 click = ["click>=8.0,<9.0"]
@@ -44,7 +40,6 @@ dev = [
     "black>=23.0",
     "build>=1.0",
     "twine>=5.0",
-    "goal>=2.1.218",
     "costs>=0.1.20",
     "pfix>=0.1.60",
 ]
@@ -124,3 +119,9 @@ max_commits = 500
 
 # Cost thresholds for badge colors (USD)
 badge_color_thresholds = { low = 1.0, medium = 5.0, high = 10.0, critical = 50.0 }
+
+[tool.uv.dependency-groups]
+automation = {requires-python = ">=3.12"}
+
+[dependency-groups]
+automation = ["goal>=2.2.0"]
