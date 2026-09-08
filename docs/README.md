@@ -353,3 +353,6 @@ pip install -e ".[dev]"
 | `mkdocs.yml` | MkDocs configuration | — |
 
 <!-- code2docs:end -->
+## Authored information
+
+- [Protected local verification](information/local-verification.md) — immutable documentation pin, local Python matrix and publication requirements.

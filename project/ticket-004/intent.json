@@ -1,0 +1,18 @@
+{
+  "schema": "new-project.intent/v3",
+  "ticket": "ticket-004",
+  "summary": "Adopt documentation metadata and specify protected local verification",
+  "workstream": "integration",
+  "allowedPaths": [
+    ".governance/docs.json",
+    "docs/README.md",
+    "docs/information/local-verification.md",
+    "project/ticket-004/**"
+  ],
+  "forbiddenPaths": [
+    "pyproject.toml",
+    "uv.lock"
+  ],
+  "dependsOn": [],
+  "conflictsWith": []
+}
