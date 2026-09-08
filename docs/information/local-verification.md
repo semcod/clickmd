@@ -3,20 +3,22 @@
   "schema": "wellmanifest.docs/document/v1",
   "id": "local-verification",
   "kind": "information",
-  "version": 1,
+  "version": 2,
   "title": "Protected local verification for Clickmd",
   "status": "proposed",
   "owner": "semcod/clickmd",
   "created": "2026-09-08",
   "updated": "2026-09-08",
   "review_after": "2026-09-15",
-  "source_revision": "b8720fb50d63103007e229872c92c190d7fa326e",
+  "source_revision": "97156f9d33ca8e36a617651ede1b464c4622b0a1",
   "affected_repositories": [
     "semcod/clickmd"
   ],
   "evidence": [
     "https://github.com/subactor/onedev-agent/pull/202",
-    "https://github.com/semcod/clickmd/issues/4"
+    "https://github.com/semcod/clickmd/issues/4",
+    "https://github.com/semcod/clickmd/issues/6",
+    "https://github.com/subactor/onedev-agent/issues/209"
   ]
 }
 ---
@@ -81,3 +83,21 @@ Publish after both hosted tests, the deployed local matrix and documentation
 gate pass. Preserve the exact head/base/merge evidence in the independent
 receipt. Future dependency changes must update the protected image through
 its own reviewed source, test and deployment process.
+
+
+## Shared protected Python boundary
+
+The protected repository wrapper delegates input validation and matrix execution
+to `locked-python-matrix.py`, loaded from its absolute sibling path in the
+executor image. Candidate paths cannot select the helper. Repository identity,
+approved dependency hashes and both exact Python versions remain specific to
+this project; a job for the other deployed repository is rejected before any
+candidate subprocess. Dependency environments and hosted requirements are
+unchanged.
+
+The common regression suite exercises both repository contracts, including
+modified/missing/symlinked inputs, failure propagation, cross-repository binding
+and a candidate-directory helper substitution. Runtime publication still
+requires `onedev/local-verify`, `test (3.10)` and `test (3.13)` through the
+independent Validator. This documentation change is the real deployment canary
+for the shared runner; record exact head, base and merge-tree evidence.
