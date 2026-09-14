@@ -27,7 +27,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 requires-python = ">=3.10"
-dependencies = ["costs>=0.1.20", "pfix>=0.1.60"]
+dependencies = ["costs>=0.1.20"]
 
 [project.optional-dependencies]
 click = ["click>=8.0,<9.0"]
@@ -41,7 +41,6 @@ dev = [
     "build>=1.0",
     "twine>=5.0",
     "costs>=0.1.20",
-    "pfix>=0.1.60",
 ]
 all = ["clickmd[click,rich,dev]"]
 
@@ -90,22 +89,6 @@ exclude_lines = [
     "if TYPE_CHECKING:",
     "raise NotImplementedError",
 ]
-
-[tool.pfix]
-# Self-healing Python configuration
-model = "openrouter/deep/deep-v4-pro"
-auto_apply = true
-auto_install_deps = true
-auto_restart = false
-max_retries = 3
-create_backups = false
-git_auto_commit = false
-
-[tool.pfix.runtime_todo]
-enabled = true
-todo_file = "TODO.md"
-min_severity = "low"
-deduplicate = true
 
 [tool.costs]
 # AI Cost tracking configuration
