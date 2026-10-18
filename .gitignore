@@ -110,3 +110,5 @@ htmlcov/
 /.subactor/receipts/
 /.subactor/cache/
 /.subactor/snapshots/
+.koru/
+.planfile/
